@@ -5,6 +5,20 @@
 [build.environment]
   NODE_VERSION = "24"
 
+# Site variables: set these in the Netlify dashboard (Site configuration →
+# Environment variables), not here. A value written in this file overrides the
+# dashboard, so they are listed as comments only. Every one is optional; the
+# site builds and deploys with none of them set.
+#
+#   PUBLIC_SITE_URL             Default: the Netlify address (https://<name>.netlify.app).
+#                               Set to the custom domain once there is one.
+#   PUBLIC_FORM_ACCESS_KEY      Default: none. The forms show "please call us" on submit.
+#                               Add the Web3Forms key to make them send email.
+#   PUBLIC_GA_MEASUREMENT_ID    Default: none. No analytics and no cookie banner.
+#   PUBLIC_SHOW_SAMPLE_CONTENT  Default: off. Leave unset on the live site.
+#
+# After adding or changing a variable: Deploys → Trigger deploy → Deploy site.
+
 # Security headers (NFR-30). The main Content Security Policy is a <meta> tag that
 # Astro writes into every page with hashes for its scripts and styles
 # (astro.config.mjs). The header below adds the parts a meta tag cannot set.

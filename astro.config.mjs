@@ -10,7 +10,10 @@ const env = loadEnv(process.env.NODE_ENV ?? 'production', process.cwd(), '');
 
 // Production URL: used for canonical tags, Open Graph URLs and the sitemap.
 // Set PUBLIC_SITE_URL in .env / Netlify once the domain is confirmed (SRS 2.5).
-const site = env.PUBLIC_SITE_URL || 'https://surreyframing.ca';
+// Until then, a Netlify build uses the site's own address (Netlify's built-in URL
+// variable, e.g. https://<name>.netlify.app) so links and share images still work.
+const netlifyUrl = env.NETLIFY === 'true' ? env.URL : '';
+const site = env.PUBLIC_SITE_URL || netlifyUrl || 'https://surreyframing.ca';
 
 // Pages that must never appear in the sitemap (NFR-13): the thank-you page and
 // placeholder projects, which stay noindex until real content replaces them.

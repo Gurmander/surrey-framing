@@ -77,8 +77,11 @@ The site is designed for Netlify (free tier). The build settings and security he
 are in `netlify.toml`.
 
 1. In Netlify, choose **Add new site → Import an existing project** and pick this GitHub
-   repository. The settings fill in from `netlify.toml`.
-2. In **Site configuration → Environment variables**, add the variables below.
+   repository. The settings fill in from `netlify.toml`. The site deploys to a free
+   `https://<name>.netlify.app` address with no further setup.
+2. When ready, add the variables below in **Site configuration → Environment
+   variables**, then **Deploys → Trigger deploy → Deploy site**. Set them in the
+   dashboard only: a value written in `netlify.toml` overrides the dashboard.
 3. In **Domain management**, add the custom domain (e.g. `surreyframing.ca`). HTTPS is
    automatic, and Netlify redirects `www` to the main domain.
 4. Every push to `main` deploys. Pull requests get a preview link.
@@ -86,17 +89,16 @@ are in `netlify.toml`.
 After the first deploy, submit `https://<domain>/sitemap-index.xml` in Google Search
 Console.
 
-| Variable                   | What it is                                               |
-| -------------------------- | -------------------------------------------------------- |
-| `PUBLIC_SITE_URL`          | The live address, e.g. `https://surreyframing.ca`        |
-| `PUBLIC_FORM_ACCESS_KEY`   | Web3Forms key: enter the business email on web3forms.com |
-| `PUBLIC_GA_MEASUREMENT_ID` | Google Analytics ID (`G-…`): Admin → Data streams → Web  |
+All variables are optional:
+
+| Variable                   | What it is                                               | If not set                        |
+| -------------------------- | -------------------------------------------------------- | --------------------------------- |
+| `PUBLIC_SITE_URL`          | The live address, e.g. `https://surreyframing.ca`        | The Netlify address is used       |
+| `PUBLIC_FORM_ACCESS_KEY`   | Web3Forms key: enter the business email on web3forms.com | Forms ask the visitor to call     |
+| `PUBLIC_GA_MEASUREMENT_ID` | Google Analytics ID (`G-…`): Admin → Data streams → Web  | No analytics and no cookie banner |
 
 For local work, copy `.env.example` to `.env` and fill in the same values. Never commit
-`.env`.
-
-Without the form key the forms cannot send. Without the GA ID there is no analytics and
-no cookie banner. Google Analytics loads only after a visitor clicks "Allow analytics".
+`.env`. Google Analytics loads only after a visitor clicks "Allow analytics".
 
 ## Development
 
