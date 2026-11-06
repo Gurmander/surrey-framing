@@ -127,24 +127,27 @@ const headingClass = 'font-display text-h3 font-semibold uppercase text-white';
             {t.nav.privacy}
           </a>
         </li>
+        {site.ga4Id && (
+          <li>
+            <button type="button" data-cookie-settings class={linkClass}>
+              {t.consent.settings}
+            </button>
+          </li>
+        )}
         <li>
           <span class="inline-flex items-center gap-2">
             {t.footer.siteBy}
             {!site.credit.url || isPlaceholder(site.credit.url) ? (
               <span class="credit-wordmark">
-                {creditLetters.map((letter, i) => (
-                  <span style={`--i: ${i}`} aria-hidden="true">
-                    {letter}
-                  </span>
+                {creditLetters.map((letter) => (
+                  <span aria-hidden="true">{letter}</span>
                 ))}
                 <span class="sr-only">{site.credit.name}</span>
               </span>
             ) : (
               <a href={site.credit.url} class="credit-wordmark" target="_blank" rel="noopener">
-                {creditLetters.map((letter, i) => (
-                  <span style={`--i: ${i}`} aria-hidden="true">
-                    {letter}
-                  </span>
+                {creditLetters.map((letter) => (
+                  <span aria-hidden="true">{letter}</span>
                 ))}
                 <span class="sr-only">
                   {site.credit.name} ({t.a11y.newTab})

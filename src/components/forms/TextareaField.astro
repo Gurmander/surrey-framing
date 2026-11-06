@@ -1,0 +1,52 @@
+---
+/** Labelled textarea with a live character counter (FR-30: max 2,000 characters). */
+import { fmt, useTranslations } from '@/i18n';
+
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  hint?: string;
+  required?: boolean;
+  maxlength?: number;
+  class?: string;
+}
+
+const { id, name, label, hint, required = false, maxlength = 2000, class: className } = Astro.props;
+const t = useTranslations();
+const max = maxlength.toLocaleString('en-CA');
+---
+
+<div class:list={['flex flex-col gap-2', className]} data-field>
+  <label for={id} class="font-semibold">
+    {label}
+    {!required && <span class="font-normal text-muted"> ({t.forms.optional})</span>}
+  </label>
+  <p id={`${id}-hint`} class="-mt-1 text-small text-muted">
+    {hint}
+    {hint && ' '}
+    {fmt(t.forms.maxChars, { max })}
+  </p>
+  <textarea
+    id={id}
+    name={name}
+    rows="5"
+    required={required}
+    maxlength={maxlength}
+    data-counter
+    aria-describedby={`${id}-hint ${id}-error`}
+    class="w-full rounded-btn border border-line bg-white px-4 py-3 text-ink transition-colors hover:border-slate aria-invalid:border-error"
+  ></textarea>
+  <div class="flex items-start justify-between gap-4">
+    <p id={`${id}-error`} class="text-small font-medium text-error" data-error hidden></p>
+    <p
+      class="ml-auto text-small text-muted tabular-nums"
+      data-counter-for={id}
+      data-template={t.forms.counter}
+      data-max={max}
+      aria-hidden="true"
+    >
+      {fmt(t.forms.counter, { count: 0, max })}
+    </p>
+  </div>
+</div>

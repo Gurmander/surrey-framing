@@ -60,6 +60,8 @@ export interface SiteConfig {
   };
   /** Web3Forms access key, read from the environment (FR-04, NFR-31). */
   formAccessKey: string;
+  /** Google Analytics 4 measurement ID (G-…); empty = no analytics, no banner. */
+  ga4Id: string;
   /** Footer "Site by" credit; `url` may be empty (no link). */
   credit: { name: string; url: string };
 }
@@ -112,6 +114,7 @@ export const site: SiteConfig = {
   },
 
   formAccessKey: import.meta.env.PUBLIC_FORM_ACCESS_KEY ?? '',
+  ga4Id: import.meta.env.PUBLIC_GA_MEASUREMENT_ID ?? '',
   // Temporary link until Ceebub has its own site (owner, 2026-11-05).
   credit: { name: 'Ceebub', url: 'https://github.com/Gurmander' },
 };

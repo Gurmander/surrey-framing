@@ -513,5 +513,87 @@
   },
   "legal": {
     "updated": "Last updated {date}"
+  },
+  "forms": {
+    "requiredNote": "All fields are required unless marked optional.",
+    "optional": "optional",
+    "errors": {
+      "required": "Please fill in this field.",
+      "choose": "Please choose an option.",
+      "email": "Please enter a valid email address, like name@example.com.",
+      "phone": "Please enter a 10-digit phone number, like (604) 555-0123.",
+      "short": "Please enter at least {min} characters.",
+      "long": "Please keep this under {max} characters.",
+      "consent": "Please tick this box so we can contact you about your request.",
+      "summary": "There are {count} problems with the form. Please check the highlighted fields.",
+      "summaryOne": "There is 1 problem with the form. Please check the highlighted field.",
+      "send": "Sorry, your request didn't go through. Please try again, or call us at {phone}."
+    },
+    "sending": "Sending…",
+    "counter": "{count} / {max}",
+    "maxChars": "Up to {max} characters.",
+    "attachments": {
+      "title": "Have drawings or photos?",
+      "text": "After you send this form, email them to {email} or send them to us on WhatsApp. We'll match them to your request."
+    },
+    "consent": "I agree to be contacted about my request.",
+    "privacy": "Privacy policy",
+    "devNoKey": "Developer note: PUBLIC_FORM_ACCESS_KEY is not set, so this form cannot send yet.",
+    "quote": {
+      "title": "Request a free quote",
+      "intro": "Tell us about your project and we'll reply within one business day.",
+      "submit": "Send my request",
+      "formType": "Quote request",
+      "subject": "New quote request: {Service} – {Project address or city}",
+      "fields": {
+        "name": "Full name",
+        "phone": "Phone",
+        "email": "Email",
+        "role": "I am a…",
+        "roles": ["Homeowner", "Builder or GC", "Developer", "Other"],
+        "service": "Service needed",
+        "servicePlaceholder": "Choose a service",
+        "address": "Project address or city",
+        "addressHint": "A street address or just the city is fine.",
+        "size": "Project size",
+        "sizes": [
+          "Under 500 sq ft",
+          "500–1,500 sq ft",
+          "1,500–3,000 sq ft",
+          "3,000+ sq ft",
+          "Multi-unit"
+        ],
+        "drawings": "Do you have drawings?",
+        "drawingsOptions": ["Yes, stamped", "Yes, draft", "Not yet"],
+        "start": "Desired start",
+        "starts": ["As soon as possible", "In 1–3 months", "In 3–6 months", "6+ months away"],
+        "details": "Project details",
+        "detailsHint": "Size, number of storeys, timeline or anything else we should know.",
+        "heard": "How did you hear about us?",
+        "heardOptions": ["Google", "Referral", "Job-site sign", "Social media", "Other"],
+        "choose": "Choose one"
+      }
+    },
+    "builder": {
+      "title": "Builder enquiry",
+      "intro": "Send the basics and we'll come back with questions and a bid.",
+      "submit": "Send enquiry",
+      "formType": "Builder enquiry",
+      "subject": "New builder enquiry: {Company} – {Project address or city}",
+      "fields": {
+        "company": "Company",
+        "contact": "Contact name",
+        "units": "Units and storeys",
+        "unitsHint": "For example: 6 units, 3 storeys.",
+        "start": "Target start date"
+      }
+    }
+  },
+  "consent": {
+    "label": "Cookie consent",
+    "text": "We use Google Analytics cookies to see how people use this site. They only load if you allow them.",
+    "accept": "Allow analytics",
+    "decline": "Decline",
+    "settings": "Cookie settings"
   }
 }

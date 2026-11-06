@@ -1,0 +1,45 @@
+---
+/** Radio buttons in a fieldset with a legend; options are 44 px tap targets (NFR-22). */
+import { useTranslations } from '@/i18n';
+
+interface Props {
+  id: string;
+  name: string;
+  legend: string;
+  options: string[];
+  required?: boolean;
+  class?: string;
+}
+
+const { id, name, legend, options, required = false, class: className } = Astro.props;
+const t = useTranslations();
+---
+
+<fieldset
+  class:list={['flex flex-col gap-3', className]}
+  data-field
+  data-radio-group
+  data-required={required ? 'true' : undefined}
+  aria-describedby={`${id}-error`}
+>
+  <legend class="mb-2 font-semibold">
+    {legend}
+    {!required && <span class="font-normal text-muted"> ({t.forms.optional})</span>}
+  </legend>
+  <div class="flex flex-wrap gap-2">
+    {options.map((option, i) => (
+      <label class="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-btn border border-line bg-white px-4 transition-colors hover:border-slate has-checked:border-ink has-checked:bg-paper has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-amber-dark">
+        <input
+          type="radio"
+          id={`${id}-${i}`}
+          name={name}
+          value={option}
+          required={required && i === 0}
+          class="size-4 accent-amber-dark focus-visible:outline-none"
+        />
+        {option}
+      </label>
+    ))}
+  </div>
+  <p id={`${id}-error`} class="text-small font-medium text-error" data-error hidden></p>
+</fieldset>

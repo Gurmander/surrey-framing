@@ -112,12 +112,13 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(copy.apply.ema
         title={copy.apply.title}
         intro={jobs.length > 0 ? copy.apply.text : `${copy.roles.none} ${copy.apply.text}`}
       />
-      <Button href={mailto} icon="lucide:mail">
+      <Button href={mailto} icon="lucide:mail" data-track="job_application">
         {copy.apply.button}
       </Button>
       <p class="text-muted">
         <a
           href={mailto}
+          data-track="job_application"
           class="font-semibold text-white underline decoration-amber decoration-2 underline-offset-4"
         >
           {site.email}

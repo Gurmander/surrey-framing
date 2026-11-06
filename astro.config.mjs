@@ -35,6 +35,28 @@ export default defineConfig({
     locales: ['en'],
     routing: { prefixDefaultLocale: false },
   },
+  // NFR-30: Content Security Policy as a <meta> tag with hashes for every script and
+  // style Astro emits. Only this site, the form service, Google Analytics (loaded
+  // after consent) and the Google Maps frame are allowed. `frame-ancestors` cannot be
+  // set in a meta tag, so it is sent as a header (netlify.toml).
+  security: {
+    csp: {
+      directives: [
+        "default-src 'self'",
+        "img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com",
+        "font-src 'self' data:",
+        "connect-src 'self' https://api.web3forms.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
+        'frame-src https://www.google.com',
+        "form-action 'self' https://api.web3forms.com",
+        "base-uri 'self'",
+        "object-src 'none'",
+        'upgrade-insecure-requests',
+      ],
+      scriptDirective: {
+        resources: ["'self'", 'https://www.googletagmanager.com'],
+      },
+    },
+  },
   integrations: [
     icon(),
     sitemap({

@@ -1,0 +1,67 @@
+---
+/** Labelled native <select> with an empty first option (SRS 4.4, NFR-23). */
+import { Icon } from 'astro-icon/components';
+import { useTranslations } from '@/i18n';
+
+interface Option {
+  label: string;
+  /** Submitted value; defaults to the label. */
+  value?: string;
+  /** Extra key used to pre-select from the URL, e.g. a service slug. */
+  key?: string;
+}
+
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  options: Option[];
+  placeholder: string;
+  required?: boolean;
+  /** Query-string parameter that pre-selects an option by `key` (FR-21). */
+  preselectParam?: string;
+  class?: string;
+}
+
+const {
+  id,
+  name,
+  label,
+  options,
+  placeholder,
+  required = false,
+  preselectParam,
+  class: className,
+} = Astro.props;
+const t = useTranslations();
+---
+
+<div class:list={['flex flex-col gap-2', className]} data-field>
+  <label for={id} class="font-semibold">
+    {label}
+    {!required && <span class="font-normal text-muted"> ({t.forms.optional})</span>}
+  </label>
+  <div class="relative">
+    <select
+      id={id}
+      name={name}
+      required={required}
+      data-preselect={preselectParam}
+      aria-describedby={`${id}-error`}
+      class="h-12 w-full appearance-none rounded-btn border border-line bg-white pr-11 pl-4 text-ink transition-colors hover:border-slate aria-invalid:border-error"
+    >
+      <option value="">{placeholder}</option>
+      {options.map((option) => (
+        <option value={option.value ?? option.label} data-key={option.key}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+    <Icon
+      name="lucide:chevron-down"
+      class="pointer-events-none absolute top-1/2 right-4 size-5 -translate-y-1/2 text-muted"
+      aria-hidden="true"
+    />
+  </div>
+  <p id={`${id}-error`} class="text-small font-medium text-error" data-error hidden></p>
+</div>

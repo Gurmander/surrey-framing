@@ -1,0 +1,381 @@
+---
+/**
+ * Shared form wrapper for the quote and builder forms (SRS FR-30 to FR-37):
+ * - Posts to Web3Forms. Without JS the browser validates the fields, the form posts
+ *   normally and Web3Forms redirects to /thank-you/ (FR-33).
+ * - With JS: inline errors linked to each field, a screen-reader summary and focus
+ *   on the first problem (FR-31); phone auto-format; ?service= pre-selection
+ *   (FR-21); fetch submit with a busy button; a dynamic email subject (FR-34); the
+ *   analytics event on success (FR-37); an error with the phone number on failure.
+ * - Spam: the Web3Forms honeypot field (FR-32).
+ * File uploads are not offered: they need a paid Web3Forms plan, so visitors are
+ * asked to email or WhatsApp their drawings instead (DECISIONS D-52).
+ */
+import { Icon } from 'astro-icon/components';
+import Button from '@/components/ui/Button.astro';
+import { routes } from '@/config/navigation';
+import { site, whatsappHref } from '@/config/site';
+import type { AnalyticsEvent } from '@/lib/analytics';
+import { fmt, useTranslations } from '@/i18n';
+
+interface Props {
+  id: string;
+  /** Shown in the email, e.g. "Quote request". */
+  formType: string;
+  /** Email subject; {Field name} slots are filled from the form. */
+  subject: string;
+  event: AnalyticsEvent;
+  /** Field whose value is sent with the analytics event (no personal data). */
+  trackField?: string;
+  trackParam?: string;
+  submitLabel: string;
+  /** Show the "email or WhatsApp your drawings" note. */
+  attachments?: boolean;
+}
+
+const {
+  id,
+  formType,
+  subject,
+  event,
+  trackField,
+  trackParam,
+  submitLabel,
+  attachments = false,
+} = Astro.props;
+const t = useTranslations();
+const errors = t.forms.errors;
+const thankYouUrl = new URL(routes.thankYou, site.url).href;
+const pageUrl = new URL(Astro.url.pathname, site.url).href;
+const missingKey = !site.formAccessKey;
+if (missingKey) console.warn(`[forms] PUBLIC_FORM_ACCESS_KEY is not set: ${id} cannot send.`);
+---
+
+<form
+  id={id}
+  action="https://api.web3forms.com/submit"
+  method="POST"
+  class="flex flex-col gap-6"
+  data-sf-form
+  data-subject={subject}
+  data-event={event}
+  data-track-field={trackField}
+  data-track-param={trackParam}
+  data-redirect={routes.thankYou}
+  data-msg-required={errors.required}
+  data-msg-choose={errors.choose}
+  data-msg-email={errors.email}
+  data-msg-phone={errors.phone}
+  data-msg-short={errors.short}
+  data-msg-long={errors.long}
+  data-msg-consent={errors.consent}
+  data-msg-summary={errors.summary}
+  data-msg-summary-one={errors.summaryOne}
+  data-msg-send={fmt(errors.send, { phone: site.phone.display })}
+  data-sending={t.forms.sending}
+>
+  <input type="hidden" name="access_key" value={site.formAccessKey} />
+  <input type="hidden" name="subject" value={formType} />
+  <input type="hidden" name="from_name" value={`${site.name} website`} />
+  <input type="hidden" name="Form" value={formType} />
+  <input type="hidden" name="Page" value={pageUrl} />
+  <input type="hidden" name="redirect" value={thankYouUrl} />
+  <!-- Honeypot: hidden from people; bots that tick it are discarded (FR-32). -->
+  <input
+    type="checkbox"
+    name="botcheck"
+    class="hidden"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+  />
+
+  <p class="text-small text-muted">{t.forms.requiredNote}</p>
+  {import.meta.env.DEV && missingKey && (
+    <p class="rounded-btn border border-error bg-white p-3 text-small font-medium text-error">
+      {t.forms.devNoKey}
+    </p>
+  )}
+
+  <slot />
+
+  {attachments && (
+    <div class="flex gap-4 rounded-card bg-paper p-5">
+      <Icon
+        name="lucide:file-up"
+        class="mt-0.5 size-6 flex-none text-amber-dark"
+        aria-hidden="true"
+      />
+      <div>
+        <p class="font-semibold">{t.forms.attachments.title}</p>
+        <p class="text-small text-muted">
+          {t.forms.attachments.text.split(/(\{email\}|WhatsApp)/).map((part) =>
+            part === '{email}' ? (
+              <a
+                href={`mailto:${site.email}`}
+                class="font-semibold text-ink underline decoration-amber decoration-2 underline-offset-4"
+              >
+                {site.email}
+              </a>
+            ) : part === 'WhatsApp' ? (
+              <a
+                href={whatsappHref(t.whatsapp.message)}
+                target="_blank"
+                rel="noopener"
+                class="font-semibold text-ink underline decoration-amber decoration-2 underline-offset-4"
+              >
+                WhatsApp
+              </a>
+            ) : (
+              part
+            ),
+          )}
+        </p>
+      </div>
+    </div>
+  )}
+
+  <div class="flex flex-col gap-2" data-field>
+    <label class="flex cursor-pointer items-start gap-3">
+      <input
+        type="checkbox"
+        name="Consent"
+        value="Yes"
+        required
+        aria-describedby={`${id}-consent-error`}
+        class="mt-1 size-5 flex-none accent-amber-dark"
+      />
+      <span>
+        {t.forms.consent}{' '}
+        <a
+          href={routes.privacy}
+          class="font-semibold underline decoration-amber decoration-2 underline-offset-4"
+        >
+          {t.forms.privacy}
+        </a>
+      </span>
+    </label>
+    <p id={`${id}-consent-error`} class="text-small font-medium text-error" data-error hidden></p>
+  </div>
+
+  <p class="sr-only" aria-live="assertive" data-form-live></p>
+  <p
+    role="alert"
+    class="rounded-btn border border-error bg-white p-4 text-small font-medium text-error"
+    data-form-status
+    hidden
+  ></p>
+
+  <div>
+    <Button type="submit" data-submit>
+      <Icon
+        name="lucide:loader-circle"
+        class="hidden size-5 animate-spin"
+        aria-hidden="true"
+        data-spinner
+      />
+      <span data-submit-label>{submitLabel}</span>
+    </Button>
+  </div>
+</form>
+
+<script>
+  import { trackThen, type AnalyticsEvent } from '@/lib/analytics';
+
+  type Control = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  /** Fill {slot} placeholders; slot names may contain spaces (field names). */
+  const fill = (template: string, values: Record<string, string | number>) =>
+    template.replace(/\{([^{}]+)\}/g, (match, key: string) =>
+      key in values ? String(values[key]) : match,
+    );
+
+  const digits = (value: string) => {
+    const d = value.replace(/\D/g, '');
+    // Canadian numbers never start with 1, so a leading 1 is the country code.
+    return (d.startsWith('1') ? d.slice(1) : d).slice(0, 10);
+  };
+
+  const formatPhone = (value: string) => {
+    const d = digits(value);
+    if (d.length < 4) return d;
+    if (d.length < 7) return `(${d.slice(0, 3)}) ${d.slice(3)}`;
+    return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
+  };
+
+  function fieldError(form: HTMLFormElement, field: HTMLElement): string {
+    const msg = form.dataset;
+    if (field.matches('[data-radio-group]')) {
+      const checked = field.querySelector('input:checked');
+      return field.dataset.required === 'true' && !checked ? (msg.msgChoose ?? '') : '';
+    }
+    const control = field.querySelector<Control>('input, select, textarea');
+    if (!control) return '';
+    if (control instanceof HTMLInputElement && control.type === 'checkbox') {
+      return control.required && !control.checked ? (msg.msgConsent ?? '') : '';
+    }
+    const value = control.value.trim();
+    if (!value) {
+      if (!control.required) return '';
+      return control instanceof HTMLSelectElement ? (msg.msgChoose ?? '') : (msg.msgRequired ?? '');
+    }
+    if (control.dataset.validate === 'phone' && digits(value).length !== 10)
+      return msg.msgPhone ?? '';
+    if (control instanceof HTMLInputElement && control.type === 'email' && !EMAIL.test(value)) {
+      return msg.msgEmail ?? '';
+    }
+    if (!(control instanceof HTMLSelectElement)) {
+      if (control.minLength > 0 && value.length < control.minLength) {
+        return fill(msg.msgShort ?? '', { min: control.minLength });
+      }
+      if (control.maxLength > 0 && value.length > control.maxLength) {
+        return fill(msg.msgLong ?? '', { max: control.maxLength });
+      }
+    }
+    return '';
+  }
+
+  function showError(field: HTMLElement, message: string) {
+    const error = field.querySelector<HTMLElement>('[data-error]');
+    const controls = field.querySelectorAll<Control>('input, select, textarea');
+    if (error) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+    controls.forEach((c) =>
+      message ? c.setAttribute('aria-invalid', 'true') : c.removeAttribute('aria-invalid'),
+    );
+  }
+
+  function setBusy(form: HTMLFormElement, busy: boolean) {
+    const button = form.querySelector<HTMLButtonElement>('[data-submit]');
+    const label = form.querySelector<HTMLElement>('[data-submit-label]');
+    const spinner = form.querySelector<HTMLElement>('[data-spinner]');
+    if (!button || !label) return;
+    if (!label.dataset.idle) label.dataset.idle = label.textContent ?? '';
+    button.disabled = busy;
+    button.setAttribute('aria-busy', String(busy));
+    label.textContent = busy ? (form.dataset.sending ?? '') : label.dataset.idle;
+    spinner?.classList.toggle('hidden', !busy);
+  }
+
+  document.querySelectorAll<HTMLFormElement>('form[data-sf-form]').forEach((form) => {
+    // JS is running: use our own messages instead of the browser's.
+    form.noValidate = true;
+    const fields = Array.from(form.querySelectorAll<HTMLElement>('[data-field]'));
+    const live = form.querySelector<HTMLElement>('[data-form-live]');
+    const status = form.querySelector<HTMLElement>('[data-form-status]');
+
+    // Pre-select from the URL, e.g. /contact/?service=roof-framing (FR-21).
+    const params = new URLSearchParams(window.location.search);
+    form.querySelectorAll<HTMLSelectElement>('select[data-preselect]').forEach((select) => {
+      const key = params.get(select.dataset.preselect ?? '');
+      const option = key
+        ? select.querySelector<HTMLOptionElement>(`option[data-key="${CSS.escape(key)}"]`)
+        : null;
+      if (option) select.value = option.value;
+    });
+
+    // Phone auto-format (FR-30).
+    form.querySelectorAll<HTMLInputElement>('input[data-validate="phone"]').forEach((input) => {
+      input.addEventListener('input', (event) => {
+        if (!(event as InputEvent).inputType?.startsWith('delete'))
+          input.value = formatPhone(input.value);
+      });
+      input.addEventListener('blur', () => {
+        if (digits(input.value).length === 10) input.value = formatPhone(input.value);
+      });
+    });
+
+    // Live character counters.
+    form.querySelectorAll<HTMLTextAreaElement>('textarea[data-counter]').forEach((textarea) => {
+      const counter = form.querySelector<HTMLElement>(`[data-counter-for="${textarea.id}"]`);
+      const update = () => {
+        if (counter) {
+          counter.textContent = fill(counter.dataset.template ?? '', {
+            count: textarea.value.length.toLocaleString('en-CA'),
+            max: counter.dataset.max ?? '',
+          });
+        }
+      };
+      textarea.addEventListener('input', update);
+      update();
+    });
+
+    // Re-check a field when it changes after it has shown an error or after a submit attempt.
+    fields.forEach((field) => {
+      const recheck = () => {
+        if (form.dataset.submitted || field.querySelector('[aria-invalid]')) {
+          showError(field, fieldError(form, field));
+        }
+      };
+      field.addEventListener('change', recheck);
+      field.addEventListener('focusout', recheck);
+      field.addEventListener('input', () => {
+        if (field.querySelector('[aria-invalid]') && !fieldError(form, field)) showError(field, '');
+      });
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      form.dataset.submitted = 'true';
+      if (status) status.hidden = true;
+
+      const invalid = fields.filter((field) => {
+        const message = fieldError(form, field);
+        showError(field, message);
+        return Boolean(message);
+      });
+      if (invalid.length > 0) {
+        if (live) {
+          live.textContent =
+            invalid.length === 1
+              ? (form.dataset.msgSummaryOne ?? '')
+              : fill(form.dataset.msgSummary ?? '', { count: invalid.length });
+        }
+        invalid[0].querySelector<Control>('input, select, textarea')?.focus();
+        return;
+      }
+      if (live) live.textContent = '';
+
+      const redirect = form.dataset.redirect ?? '/';
+      const honeypot = form.querySelector<HTMLInputElement>('input[name="botcheck"]');
+      if (honeypot?.checked) {
+        window.location.assign(redirect);
+        return;
+      }
+
+      const data = new FormData(form);
+      const values = Object.fromEntries(
+        Array.from(data.entries()).map(([key, value]) => [key, String(value).trim() || '—']),
+      );
+      data.set('subject', fill(form.dataset.subject ?? '', values));
+      data.set('Page', window.location.href);
+
+      setBusy(form, true);
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { Accept: 'application/json' },
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || !result.success) throw new Error(result.message ?? response.statusText);
+
+        const field = form.dataset.trackField;
+        const param = form.dataset.trackParam;
+        const params = field && param ? { [param]: String(data.get(field) ?? '') } : {};
+        trackThen(form.dataset.event as AnalyticsEvent, params, () =>
+          window.location.assign(redirect),
+        );
+      } catch {
+        if (status) {
+          status.textContent = form.dataset.msgSend ?? '';
+          status.hidden = false;
+        }
+        setBusy(form, false);
+      }
+    });
+  });
+</script>

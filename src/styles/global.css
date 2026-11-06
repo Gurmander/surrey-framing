@@ -179,14 +179,28 @@
 
 /* ---------- Surfaces (DS-03: paper → white → ink rhythm) ---------- */
 
+/*
+ * Light surfaces reset the colour variables too, so a light card nested inside a
+ * dark section (e.g. the builder form) never inherits dark-surface text colours.
+ */
+@utility on-light {
+  color: var(--color-ink);
+  --accent-text: var(--color-amber-dark);
+  --eyebrow-text: var(--color-ink);
+  --muted-text: var(--color-slate);
+  --focus-color: var(--color-amber-dark);
+  --fill-strong: var(--color-ink);
+  --fill-strong-text: var(--color-white);
+}
+
 @utility surface-paper {
   background-color: var(--color-paper);
-  color: var(--color-ink);
+  @apply on-light;
 }
 
 @utility surface-white {
   background-color: var(--color-white);
-  color: var(--color-ink);
+  @apply on-light;
 }
 
 @utility surface-ink {
@@ -365,7 +379,34 @@
   @media (prefers-reduced-motion: no-preference) {
     &:hover > span {
       animation: credit-wave 600ms ease-in-out both;
-      animation-delay: calc(var(--i) * 60ms);
+    }
+    /* Stagger per letter with selectors, not inline styles (CSP-safe). */
+    &:hover > span:nth-child(2) {
+      animation-delay: 60ms;
+    }
+    &:hover > span:nth-child(3) {
+      animation-delay: 120ms;
+    }
+    &:hover > span:nth-child(4) {
+      animation-delay: 180ms;
+    }
+    &:hover > span:nth-child(5) {
+      animation-delay: 240ms;
+    }
+    &:hover > span:nth-child(6) {
+      animation-delay: 300ms;
+    }
+    &:hover > span:nth-child(7) {
+      animation-delay: 360ms;
+    }
+    &:hover > span:nth-child(8) {
+      animation-delay: 420ms;
+    }
+    &:hover > span:nth-child(9) {
+      animation-delay: 480ms;
+    }
+    &:hover > span:nth-child(10) {
+      animation-delay: 540ms;
     }
   }
 }

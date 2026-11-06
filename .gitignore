@@ -9,11 +9,30 @@ originals/
 .env
 .env.*
 !.env.example
-# AI assistant local settings and notes
+# Credentials and tokens (.npmrc / .netrc can hold login tokens)
+.npmrc
+.netrc
+*.pem
+*.key
+*.p12
+*.crt
+# Local-only overrides
+*.local
+*.local.*
+# AI assistant files: root CLAUDE.md only points to doc/AGENTS.md (local)
 .claude/
 CLAUDE.md
 CLAUDE.local.md
 AGENTS.md
+# Scratch, temp and backup files
+tmp/
+temp/
+scratch/
+.history/
+*.tmp
+*.bak
+*.orig
+*.rej
 
 # ---------------------------------------------------------------
 # Heavy / generated: rebuilt from source

@@ -1,16 +1,16 @@
 ---
 title: Privacy policy
-description: How Surrey Framing collects, uses and protects the information you send through our quote, builder and job application forms, and how to request deletion.
-updated: 2026-11-05
+description: How Surrey Framing collects, uses and protects the information you send through our website forms, email and WhatsApp, and how to ask for its deletion.
+updated: 2026-11-06
 ---
 
 This policy explains what information Surrey Framing Ltd. ("we", "us") collects through this website, why we collect it and what you can do about it. We follow British Columbia's _Personal Information Protection Act_ (PIPA).
 
 ## What we collect
 
-- **Information you send us.** When you fill in a quote, builder enquiry or job application form, we collect what you enter: your name, phone number, email, project address or city, project details and any files you upload, such as drawings, photos or a resume.
+- **Information you send us.** When you fill in our quote or builder enquiry form, we collect what you enter: your name, phone number, email, project address or city and project details. If you email or WhatsApp us drawings, photos or a resume, we receive those files too.
 - **Messages.** If you call, email or message us on WhatsApp, we receive your phone number or email address and whatever you send us.
-- **Basic site statistics.** We may use privacy-friendly analytics that count page visits without cookies and without building a profile of you. We do not use advertising or tracking cookies.
+- **Site analytics, only if you allow it.** With your permission, we use Google Analytics to understand how visitors use the site, such as pages viewed, the type of device and approximate location. Google Analytics sets cookies only after you click **Allow analytics**. You can change your choice at any time with **Cookie settings** at the bottom of every page. We do not use advertising cookies.
 
 ## Why we collect it
 
@@ -18,7 +18,8 @@ We use your information to answer your enquiry, prepare an estimate, plan and ca
 
 ## Who else handles it
 
-- **Form service.** Website forms are delivered to us by a third-party form service, which emails your submission and any attached files to us.
+- **Form service.** Website forms are delivered to us by Web3Forms, which emails your submission to us.
+- **Google Analytics.** If you allow analytics, Google processes information about your visit under its own privacy policy.
 - **WhatsApp.** If you message us on WhatsApp, your messages are also handled by WhatsApp (Meta) under its own privacy policy.
 - **Website hosting.** Our hosting provider keeps standard server logs, such as IP addresses and pages requested, for security and reliability.
 

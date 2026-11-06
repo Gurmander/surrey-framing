@@ -1,0 +1,89 @@
+---
+/** Builder enquiry form, SRS 5.6 / FR-36: same engine as the quote form, builder fields. */
+import FormShell from './FormShell.astro';
+import TextField from './TextField.astro';
+import TextareaField from './TextareaField.astro';
+import { site } from '@/config/site';
+import { useTranslations } from '@/i18n';
+
+const t = useTranslations();
+const b = t.forms.builder;
+const q = t.forms.quote.fields;
+---
+
+<FormShell
+  id="builder-form"
+  formType={b.formType}
+  subject={b.subject}
+  event="builder_enquiry"
+  submitLabel={b.submit}
+  attachments
+>
+  <div class="grid gap-6 sm:grid-cols-2">
+    <TextField
+      id="b-company"
+      name="Company"
+      label={b.fields.company}
+      required
+      autocomplete="organization"
+      maxlength={120}
+    />
+    <TextField
+      id="b-contact"
+      name="Contact name"
+      label={b.fields.contact}
+      required
+      autocomplete="name"
+      minlength={2}
+      maxlength={80}
+    />
+  </div>
+  <div class="grid gap-6 sm:grid-cols-2">
+    <TextField
+      id="b-phone"
+      name="Phone"
+      label={q.phone}
+      type="tel"
+      required
+      autocomplete="tel"
+      validate="phone"
+    />
+    <TextField
+      id="b-email"
+      name="email"
+      label={q.email}
+      type="email"
+      required
+      autocomplete="email"
+    />
+  </div>
+  <TextField
+    id="b-address"
+    name="Project address or city"
+    label={q.address}
+    hint={q.addressHint}
+    required
+    autocomplete="street-address"
+    list="b-cities"
+  />
+  <datalist id="b-cities">
+    {site.serviceAreas.map((area) => (
+      <option value={area.name} />
+    ))}
+  </datalist>
+  <TextField
+    id="b-units"
+    name="Units and storeys"
+    label={b.fields.units}
+    hint={b.fields.unitsHint}
+    maxlength={120}
+  />
+  <TextField
+    id="b-start"
+    name="Target start date"
+    label={b.fields.start}
+    type="date"
+    class="sm:max-w-xs"
+  />
+  <TextareaField id="b-details" name="Project details" label={q.details} hint={q.detailsHint} />
+</FormShell>

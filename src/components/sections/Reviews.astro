@@ -34,7 +34,7 @@ const cardClass = 'w-72 flex-none sm:w-80';
     />
     <div
       class="review-marquee mt-7 py-3 lg:mt-11"
-      style={`--marquee-duration: ${duration}`}
+      data-duration={duration}
       role="region"
       aria-label={t.home.reviews.carousel}
       tabindex="0"
@@ -52,3 +52,11 @@ const cardClass = 'w-72 flex-none sm:w-80';
     </div>
   </Section>
 )}
+
+<script>
+  // Strip speed scales with the number of reviews. Set through CSSOM rather than
+  // an inline style attribute so the Content Security Policy stays strict.
+  document.querySelectorAll<HTMLElement>('.review-marquee[data-duration]').forEach((strip) => {
+    strip.style.setProperty('--marquee-duration', strip.dataset.duration ?? '60s');
+  });
+</script>

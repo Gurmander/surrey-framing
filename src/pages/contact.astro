@@ -1,8 +1,7 @@
 ---
 /**
- * Contact / Get a Quote, SRS 5.9: contact options on the left (the quote form
- * from FR-30 replaces this block in Milestone 5), contact card and "what happens
- * next" on the right, then the full FAQ with FAQPage JSON-LD. No CTA banner and
+ * Contact / Get a Quote, SRS 5.9: the quote form (FR-30) on the left, contact card
+ * and "what happens next" on the right, then the full FAQ with FAQPage JSON-LD. No CTA banner and
  * no mobile call bar on this page.
  */
 import { Icon } from 'astro-icon/components';
@@ -11,7 +10,7 @@ import PageHero from '@/components/sections/PageHero.astro';
 import FAQ from '@/components/sections/FAQ.astro';
 import Section from '@/components/ui/Section.astro';
 import SectionHeading from '@/components/ui/SectionHeading.astro';
-import ContactOptions from '@/components/ui/ContactOptions.astro';
+import QuoteForm from '@/components/forms/QuoteForm.astro';
 import { site, whatsappHref } from '@/config/site';
 import { getFaqs } from '@/lib/content';
 import { faqPageSchema } from '@/lib/schema';
@@ -52,14 +51,14 @@ const details = [
 
   <Section tone="white" labelledby="quote-title">
     <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
-      <div id="quote" class="flex flex-col items-start gap-6 rounded-card bg-paper p-6 lg:p-10">
+      <div id="quote" class="flex scroll-mt-28 flex-col gap-8 rounded-card bg-paper p-6 lg:p-10">
         <SectionHeading
           id="quote-title"
           eyebrow={copy.options.eyebrow}
-          title={copy.options.title}
-          intro={copy.options.text}
+          title={t.forms.quote.title}
+          intro={t.forms.quote.intro}
         />
-        <ContactOptions emailSubject={copy.options.emailSubject} />
+        <QuoteForm />
       </div>
 
       <div class="flex flex-col gap-8">

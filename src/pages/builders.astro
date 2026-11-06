@@ -2,7 +2,7 @@
 /**
  * For Builders, SRS 5.6: capabilities, project types, how we work with GCs,
  * safety/insurance documents, builder enquiry and selected multi-family projects.
- * The builder enquiry form arrives in Milestone 5; until then, call/WhatsApp/email.
+ * The builder enquiry form (FR-36) sits beside call/WhatsApp/email options.
  */
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -13,7 +13,7 @@ import Section from '@/components/ui/Section.astro';
 import SectionHeading from '@/components/ui/SectionHeading.astro';
 import CheckList from '@/components/ui/CheckList.astro';
 import ContactOptions from '@/components/ui/ContactOptions.astro';
-import Img from '@/components/ui/Img.astro';
+import BuilderForm from '@/components/forms/BuilderForm.astro';
 import { routes } from '@/config/navigation';
 import { getProjects } from '@/lib/content';
 import { useTranslations } from '@/i18n';
@@ -67,8 +67,8 @@ const multiFamily = (await getProjects()).filter((p) => p.data.type === 'Multi-F
   </Section>
 
   <Section tone="ink" id="enquiry" labelledby="enquiry-title">
-    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-      <div class="flex flex-col items-start gap-6">
+    <div class="grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
+      <div class="flex flex-col items-start gap-6 lg:sticky lg:top-28 lg:self-start">
         <SectionHeading
           id="enquiry-title"
           eyebrow={copy.enquiry.eyebrow}
@@ -77,13 +77,8 @@ const multiFamily = (await getProjects()).filter((p) => p.data.type === 'Multi-F
         />
         <ContactOptions emailSubject={copy.enquiry.emailSubject} />
       </div>
-      <div class="aspect-[4/3] overflow-hidden rounded-card" data-reveal>
-        <Img
-          id="drawings"
-          sizes="(min-width: 1024px) 520px, 100vw"
-          widths={[480, 800, 1040]}
-          class="size-full object-cover"
-        />
+      <div class="surface-white rounded-card p-6 lg:p-10">
+        <BuilderForm />
       </div>
     </div>
   </Section>
