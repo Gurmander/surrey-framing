@@ -1,20 +1,62 @@
-# build output
-dist/
-.astro/
-
-# dependencies
-node_modules/
-
-# environment (NFR-31: never commit secrets)
+# ---------------------------------------------------------------
+# Private / personal: never commit
+# ---------------------------------------------------------------
+# Spec, agent instructions and decision log (kept locally only)
+doc/
+# Source photos kept for reference (e.g. the owner's original photo)
+originals/
+# Secrets (NFR-31). .env.example is the only env file that is committed.
 .env
 .env.*
 !.env.example
+# AI assistant local settings and notes
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
 
-# hosting CLIs
+# ---------------------------------------------------------------
+# Heavy / generated: rebuilt from source
+# ---------------------------------------------------------------
+node_modules/
+dist/
+.astro/
+.cache/
+coverage/
+*.tsbuildinfo
+.eslintcache
+.lighthouseci/
+# Hosting CLIs
 .netlify/
 .vercel/
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+# Archives, videos and design/raw source files (keep web-ready images only)
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+*.mov
+*.mp4
+*.heic
+*.raw
+*.psd
+*.ai
+*.sketch
 
+# ---------------------------------------------------------------
 # OS / editor
+# ---------------------------------------------------------------
 .DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
 .vscode/*
 !.vscode/extensions.json

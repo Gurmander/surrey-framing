@@ -6,16 +6,17 @@
 import { Icon } from 'astro-icon/components';
 import Logo from '@/components/ui/Logo.astro';
 import Badge from '@/components/ui/Badge.astro';
-import { companyNav, routes, serviceLinks } from '@/config/navigation';
-import { activeSocials, isPlaceholder, site } from '@/config/site';
+import { companyNav, routes } from '@/config/navigation';
+import { getServices } from '@/lib/content';
+import { isPlaceholder, site, whatsappHref } from '@/config/site';
 import { fmt, getLangFromUrl, useTranslations } from '@/i18n';
 
 const t = useTranslations(getLangFromUrl(Astro.url));
+const services = await getServices();
 const year = new Date().getFullYear();
+// Each letter of the credit is its own span so it can wave on hover (credit-wordmark).
+const creditLetters = [...site.credit.name];
 const { address } = site;
-const socials = activeSocials();
-const socialLabel = (network: string) =>
-  fmt(t.a11y.social, { network: network.charAt(0).toUpperCase() + network.slice(1) });
 
 const linkClass = 'inline-flex min-h-11 items-center py-1 transition-colors hover:text-amber';
 const headingClass = 'font-display text-h3 font-semibold uppercase text-white';
@@ -37,23 +38,6 @@ const headingClass = 'font-display text-h3 font-semibold uppercase text-white';
           <Badge tone="dark">{t.trust.estimates}</Badge>
         </li>
       </ul>
-      {socials.length > 0 && (
-        <ul class="flex gap-1">
-          {socials.map(({ network, url }) => (
-            <li>
-              <a
-                href={url}
-                target="_blank"
-                rel="noopener"
-                class="inline-flex size-11 items-center justify-center rounded-btn transition-colors hover:text-amber"
-              >
-                <Icon name={`lucide:${network}`} class="size-5" aria-hidden="true" />
-                <span class="sr-only">{socialLabel(network)}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
 
     <nav aria-labelledby="footer-services">
@@ -61,10 +45,10 @@ const headingClass = 'font-display text-h3 font-semibold uppercase text-white';
         {t.footer.services}
       </h2>
       <ul class="mt-4 text-small text-muted">
-        {serviceLinks.map((service) => (
+        {services.map((service) => (
           <li>
-            <a href={routes.service(service.slug)} class={linkClass}>
-              {service.title}
+            <a href={routes.service(service.id)} class={linkClass}>
+              {service.data.title}
             </a>
           </li>
         ))}
@@ -96,6 +80,18 @@ const headingClass = 'font-display text-h3 font-semibold uppercase text-white';
           </a>
         </li>
         <li>
+          <a
+            href={whatsappHref(t.whatsapp.message)}
+            target="_blank"
+            rel="noopener"
+            class:list={[linkClass, 'gap-3']}
+          >
+            <Icon name="whatsapp" class="size-5 flex-none text-amber" aria-hidden="true" />
+            {t.whatsapp.label}
+            <span class="sr-only"> ({t.a11y.newTab})</span>
+          </a>
+        </li>
+        <li>
           <a href={`mailto:${site.email}`} class:list={[linkClass, 'gap-3 break-all']}>
             <Icon name="lucide:mail" class="size-5 flex-none text-amber" aria-hidden="true" />
             {site.email}
@@ -117,35 +113,45 @@ const headingClass = 'font-display text-h3 font-semibold uppercase text-white';
             <span>{site.serviceAreaLabel}</span>
           )}
         </li>
-        <li class="flex gap-3 py-2">
-          <Icon name="lucide:clock" class="mt-0.5 size-5 flex-none text-amber" aria-hidden="true" />
-          <span>
-            <span class="sr-only">{t.footer.hours}: </span>
-            {site.hours.display.map((line, i) => (i > 0 ? [<br />, line] : line))}
-          </span>
-        </li>
       </ul>
     </div>
   </div>
 
   <div class="border-t border-steel">
     <div class="container-site flex flex-col gap-2 py-6 text-small text-muted sm:flex-row sm:items-center sm:justify-between">
-      <p>{fmt(t.footer.copyright, { year, name: site.name })}</p>
-      <ul class="flex flex-wrap items-center gap-x-6">
+      <p>{fmt(t.footer.copyright, { year, name: site.legalName })}</p>
+      <!-- Right padding keeps these links clear of the round WhatsApp button. -->
+      <ul class="flex flex-wrap items-center gap-x-6 sm:pr-20">
         <li>
           <a href={routes.privacy} class={linkClass}>
             {t.nav.privacy}
           </a>
         </li>
         <li>
-          {t.footer.siteBy}{' '}
-          {isPlaceholder(site.credit.url) ? (
-            site.credit.name
-          ) : (
-            <a href={site.credit.url} class={linkClass} rel="noopener">
-              {site.credit.name}
-            </a>
-          )}
+          <span class="inline-flex items-center gap-2">
+            {t.footer.siteBy}
+            {!site.credit.url || isPlaceholder(site.credit.url) ? (
+              <span class="credit-wordmark">
+                {creditLetters.map((letter, i) => (
+                  <span style={`--i: ${i}`} aria-hidden="true">
+                    {letter}
+                  </span>
+                ))}
+                <span class="sr-only">{site.credit.name}</span>
+              </span>
+            ) : (
+              <a href={site.credit.url} class="credit-wordmark" target="_blank" rel="noopener">
+                {creditLetters.map((letter, i) => (
+                  <span style={`--i: ${i}`} aria-hidden="true">
+                    {letter}
+                  </span>
+                ))}
+                <span class="sr-only">
+                  {site.credit.name} ({t.a11y.newTab})
+                </span>
+              </a>
+            )}
+          </span>
         </li>
       </ul>
     </div>

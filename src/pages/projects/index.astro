@@ -1,13 +1,111 @@
 ---
+/**
+ * Projects index, SRS FR-25 / FR-45: filter chips that filter cards client-side
+ * without a reload and update ?type=. Chips have aria-pressed and the result count
+ * is announced. Without JS the chips stay hidden and every project shows.
+ */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/sections/PageHero.astro';
-import PageStub from '@/components/sections/PageStub.astro';
-import { useTranslations } from '@/i18n';
+import Section from '@/components/ui/Section.astro';
+import ProjectCard from '@/components/ui/ProjectCard.astro';
+import { PROJECT_TYPES } from '@/content.config';
+import { getProjects, typeKey } from '@/lib/content';
+import { fmt, useTranslations } from '@/i18n';
 
-const page = useTranslations().pages.projects;
+const t = useTranslations();
+const page = t.pages.projects;
+const copy = t.projectsPage;
+const projects = await getProjects();
+const filters = [
+  { key: 'all', label: copy.all },
+  ...PROJECT_TYPES.map((type) => ({ key: typeKey(type), label: type })),
+];
 ---
 
 <BaseLayout title={page.metaTitle} description={page.metaDescription}>
-  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} />
-  <PageStub milestone={4} />
+  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} image="proj-02" />
+
+  <Section tone="paper" labelledby="projects-list-title">
+    <h2 id="projects-list-title" class="sr-only">
+      {page.heading}
+    </h2>
+    <div
+      data-filters
+      role="group"
+      aria-label={copy.filterLabel}
+      class="flex flex-wrap gap-2"
+      hidden
+    >
+      {filters.map((filter) => (
+        <button
+          type="button"
+          data-filter={filter.key}
+          aria-pressed={filter.key === 'all' ? 'true' : 'false'}
+          class="inline-flex h-11 items-center rounded-btn border border-line bg-white px-4 font-medium transition-colors hover:border-ink aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-white"
+        >
+          {filter.label}
+        </button>
+      ))}
+    </div>
+    <p
+      data-filter-count
+      data-one={copy.countOne}
+      data-many={copy.count}
+      class="mt-6 text-small text-muted"
+      aria-live="polite"
+    >
+      {fmt(copy.count, { count: projects.length })}
+    </p>
+    <ul class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8" data-project-list>
+      {projects.map((project) => (
+        <ProjectCard project={project} filterKey={typeKey(project.data.type)} />
+      ))}
+    </ul>
+    <p data-filter-empty class="mt-6 font-medium" hidden>
+      {copy.empty}
+    </p>
+  </Section>
 </BaseLayout>
+
+<script>
+  const group = document.querySelector<HTMLElement>('[data-filters]');
+  const list = document.querySelector<HTMLElement>('[data-project-list]');
+  const count = document.querySelector<HTMLElement>('[data-filter-count]');
+  const empty = document.querySelector<HTMLElement>('[data-filter-empty]');
+
+  if (group && list && count && empty) {
+    const buttons = Array.from(group.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+    const cards = Array.from(list.querySelectorAll<HTMLElement>('[data-type]'));
+    const valid = new Set(buttons.map((b) => b.dataset.filter));
+
+    const apply = (key: string, updateUrl: boolean) => {
+      let shown = 0;
+      for (const card of cards) {
+        const match = key === 'all' || card.dataset.type === key;
+        card.hidden = !match;
+        if (match) shown += 1;
+      }
+      for (const button of buttons) {
+        button.setAttribute('aria-pressed', String(button.dataset.filter === key));
+      }
+      const template = shown === 1 ? count.dataset.one : count.dataset.many;
+      count.textContent = (template ?? '').replace('{count}', String(shown));
+      empty.hidden = shown > 0;
+
+      if (updateUrl) {
+        const url = new URL(window.location.href);
+        if (key === 'all') url.searchParams.delete('type');
+        else url.searchParams.set('type', key);
+        history.replaceState(null, '', url);
+      }
+    };
+
+    group.hidden = false;
+    buttons.forEach((button) =>
+      button.addEventListener('click', () => apply(button.dataset.filter ?? 'all', true)),
+    );
+
+    const initial = new URLSearchParams(window.location.search).get('type');
+    if (initial && valid.has(initial)) apply(initial, false);
+  }
+</script>

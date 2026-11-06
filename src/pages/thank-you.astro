@@ -1,13 +1,29 @@
 ---
+/** FR-15: confirmation, reply time, phone for urgent jobs, link to projects. noindex. */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/sections/PageHero.astro';
-import PageStub from '@/components/sections/PageStub.astro';
-import { useTranslations } from '@/i18n';
+import Section from '@/components/ui/Section.astro';
+import Button from '@/components/ui/Button.astro';
+import TextLink from '@/components/ui/TextLink.astro';
+import { routes } from '@/config/navigation';
+import { site } from '@/config/site';
+import { fmt, useTranslations } from '@/i18n';
 
-const page = useTranslations().pages.thankYou;
+const t = useTranslations();
+const page = t.pages.thankYou;
+const copy = t.thankYouPage;
 ---
 
 <BaseLayout title={page.metaTitle} description={page.metaDescription} noindex callBar={false}>
-  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} />
-  <PageStub milestone={5} />
+  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={copy.text} />
+  <Section tone="white">
+    <div class="flex max-w-2xl flex-col items-start gap-6">
+      <p class="font-semibold">{copy.urgent}</p>
+      <Button href={site.phone.href} icon="lucide:phone" arrow={false}>
+        {fmt(t.cta.callNumber, { phone: site.phone.display })}
+      </Button>
+      <p class="mt-4 text-muted">{copy.browse}</p>
+      <TextLink href={routes.projects}>{t.cta.allProjects}</TextLink>
+    </div>
+  </Section>
 </BaseLayout>

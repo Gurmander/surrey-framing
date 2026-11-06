@@ -1,0 +1,25 @@
+---
+/**
+ * Page section with a surface tone and standard padding (DS-03, DS-07).
+ * Tones must alternate paper → white → ink; never two ink sections in a row.
+ */
+interface Props {
+  tone?: 'paper' | 'white' | 'ink';
+  id?: string;
+  /** id of the section's heading, makes the section a labelled region. */
+  labelledby?: string;
+  class?: string;
+  containerClass?: string;
+}
+
+const { tone = 'paper', id, labelledby, class: className, containerClass } = Astro.props;
+
+// Literal class names so Tailwind generates them.
+const tones = { paper: 'surface-paper', white: 'surface-white', ink: 'surface-ink' } as const;
+---
+
+<section id={id} aria-labelledby={labelledby} class:list={[tones[tone], 'section-y', className]}>
+  <div class:list={['container-site', containerClass]}>
+    <slot />
+  </div>
+</section>

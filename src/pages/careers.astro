@@ -1,13 +1,128 @@
 ---
+/**
+ * Careers, SRS 5.8 / FR-65 / FR-66. Applications are by email only (owner,
+ * 2026-11-05): no phone, WhatsApp or application form on this page. Open roles and
+ * JobPosting JSON-LD appear only when a job in src/content/jobs/ has `open: true`.
+ */
+import { render } from 'astro:content';
+import { Icon } from 'astro-icon/components';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/sections/PageHero.astro';
-import PageStub from '@/components/sections/PageStub.astro';
+import FeatureGrid from '@/components/sections/FeatureGrid.astro';
+import Section from '@/components/ui/Section.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import CheckList from '@/components/ui/CheckList.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Button from '@/components/ui/Button.astro';
+import Img from '@/components/ui/Img.astro';
+import { site } from '@/config/site';
+import { getOpenJobs } from '@/lib/content';
+import { jobPostingSchema } from '@/lib/schema';
 import { useTranslations } from '@/i18n';
 
-const page = useTranslations().pages.careers;
+const t = useTranslations();
+const page = t.pages.careers;
+const copy = t.careers;
+const jobs = await Promise.all(
+  (await getOpenJobs()).map(async (job) => ({ job, ...(await render(job)) })),
+);
+const schema = jobs.map(({ job }) =>
+  jobPostingSchema({
+    title: job.data.title,
+    description: job.body ?? job.data.title,
+    datePosted: job.data.datePosted,
+    type: job.data.type,
+  }),
+);
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent(copy.apply.emailSubject)}`;
 ---
 
-<BaseLayout title={page.metaTitle} description={page.metaDescription}>
-  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} />
-  <PageStub milestone={4} />
+<!-- No quote CTA banner: this page is for job applicants, who apply by email. -->
+<BaseLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  schema={schema}
+  ctaBanner={false}
+>
+  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} image="careers" />
+
+  <Section tone="white" labelledby="careers-intro-title">
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+      <div class="flex flex-col gap-6">
+        <SectionHeading
+          id="careers-intro-title"
+          eyebrow={copy.intro.eyebrow}
+          title={copy.intro.title}
+        />
+        {copy.intro.paragraphs.map((p) => (
+          <p class="max-w-prose">{p}</p>
+        ))}
+      </div>
+      <div class="aspect-[4/3] overflow-hidden rounded-card shadow-card" data-reveal>
+        <Img
+          id="builders"
+          sizes="(min-width: 1024px) 520px, 100vw"
+          widths={[480, 800, 1040]}
+          class="size-full object-cover"
+        />
+      </div>
+    </div>
+  </Section>
+
+  <FeatureGrid
+    id="benefits"
+    tone="paper"
+    items={copy.benefits.items}
+    eyebrow={copy.benefits.eyebrow}
+    title={copy.benefits.title}
+  />
+
+  {jobs.length > 0 && (
+    <Section tone="white" id="roles" labelledby="roles-title">
+      <SectionHeading id="roles-title" eyebrow={copy.roles.eyebrow} title={copy.roles.title} />
+      <ul class="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-2" data-reveal>
+        {jobs.map(({ job, Content }) => (
+          <li class="flex flex-col gap-5 rounded-card border border-line p-6 lg:p-8">
+            <div class="flex flex-wrap items-center gap-3">
+              <Badge>{job.data.type}</Badge>
+              <span class="inline-flex items-center gap-1.5 text-small text-muted">
+                <Icon name="lucide:map-pin" class="size-4" aria-hidden="true" />
+                {job.data.location}
+              </span>
+            </div>
+            <h3 class="heading-3">{job.data.title}</h3>
+            <div class="prose-content text-muted">
+              <Content />
+            </div>
+            <div>
+              <h4 class="mb-3 font-semibold">{copy.roles.requirements}</h4>
+              <CheckList items={job.data.requirements} />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </Section>
+  )}
+
+  <Section tone="ink" id="apply" labelledby="apply-title">
+    <div class="flex max-w-3xl flex-col items-start gap-6">
+      <SectionHeading
+        id="apply-title"
+        eyebrow={copy.apply.eyebrow}
+        title={copy.apply.title}
+        intro={jobs.length > 0 ? copy.apply.text : `${copy.roles.none} ${copy.apply.text}`}
+      />
+      <Button href={mailto} icon="lucide:mail">
+        {copy.apply.button}
+      </Button>
+      <p class="text-muted">
+        <a
+          href={mailto}
+          class="font-semibold text-white underline decoration-amber decoration-2 underline-offset-4"
+        >
+          {site.email}
+        </a>
+      </p>
+    </div>
+  </Section>
 </BaseLayout>

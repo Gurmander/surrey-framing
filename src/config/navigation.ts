@@ -49,22 +49,6 @@ export const companyNav: NavLink[] = [
 ];
 
 /**
- * TEMPORARY (Milestone 1): the 8 services from SRS FR-22, used for the footer and
- * the service detail stubs. Milestone 2 replaces this with the `services`
- * content collection so titles live in one place.
- */
-export const serviceLinks: { title: string; slug: string }[] = [
-  { title: 'New Home Framing', slug: 'new-home-framing' },
-  { title: 'Multi-Family & Townhouse Framing', slug: 'multi-family-framing' },
-  { title: 'Laneway Homes & Garden Suites', slug: 'laneway-garden-suites' },
-  { title: 'Additions & Renovations', slug: 'additions-renovations' },
-  { title: 'Basement Framing', slug: 'basement-framing' },
-  { title: 'Roof Framing & Trusses', slug: 'roof-framing' },
-  { title: 'Decks, Garages & Outbuildings', slug: 'decks-garages' },
-  { title: 'Sheathing, Blocking & Framing Repairs', slug: 'sheathing-repairs' },
-];
-
-/**
  * Nav state for a link. `page` = this exact page, `section` = a page inside it
  * (e.g. a service detail page under Services).
  */

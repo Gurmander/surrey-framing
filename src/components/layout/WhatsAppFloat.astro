@@ -1,0 +1,36 @@
+---
+/**
+ * Always-visible WhatsApp chat button (FR-42, owner request 2026-11-05): a small
+ * round WhatsApp icon fixed at bottom-right. On phones it sits above the mobile
+ * call bar when that bar is shown. Opens a chat with a pre-filled message.
+ */
+import { Icon } from 'astro-icon/components';
+import { whatsappHref } from '@/config/site';
+import { getLangFromUrl, useTranslations } from '@/i18n';
+
+interface Props {
+  /** True when the mobile call bar is on this page (button must clear it). */
+  aboveCallBar?: boolean;
+}
+
+const { aboveCallBar = true } = Astro.props;
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<a
+  href={whatsappHref(t.whatsapp.message)}
+  target="_blank"
+  rel="noopener"
+  title={t.whatsapp.float}
+  class:list={[
+    'fixed right-4 z-30 inline-flex size-14 items-center justify-center rounded-full bg-whatsapp text-white shadow-card-hover ring-2 ring-white transition-transform duration-200 hover:scale-110 focus-visible:ring-4 focus-visible:outline-ink md:right-6 md:bottom-6',
+    aboveCallBar
+      ? 'bottom-[calc(4.5rem+env(safe-area-inset-bottom))]'
+      : 'bottom-[calc(1rem+env(safe-area-inset-bottom))]',
+  ]}
+>
+  <Icon name="whatsapp" class="size-8" aria-hidden="true" />
+  <span class="sr-only">
+    {t.whatsapp.float} ({t.a11y.newTab})
+  </span>
+</a>

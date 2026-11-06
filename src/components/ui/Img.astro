@@ -1,0 +1,56 @@
+---
+/**
+ * Responsive image by manifest id (CT-04, NFR-07, FR-47): AVIF + WebP sources,
+ * width/height always set (NFR-08), lazy by default. Pass `priority` for the one
+ * above-the-fold image per page (eager + fetchpriority="high").
+ */
+import { Picture } from 'astro:assets';
+import { resolveImage, type ImageRef } from '@/lib/images';
+
+interface Props {
+  id: ImageRef;
+  /** Rendered width hint, e.g. "(min-width: 1024px) 33vw, 100vw". */
+  sizes: string;
+  widths?: number[];
+  /** Classes for the <img>. */
+  class?: string;
+  /** Classes for the <picture> wrapper. */
+  pictureClass?: string;
+  priority?: boolean;
+  /** Override the manifest alt text, e.g. for context. */
+  alt?: string;
+  /** Purely decorative: empty alt (CT-06). */
+  decorative?: boolean;
+  /** Encoder quality 1–100 (default: sharp's, ~50 for AVIF). Lower for images under dark overlays. */
+  quality?: number;
+}
+
+const {
+  id,
+  sizes,
+  widths = [400, 640, 960, 1280, 1600, 2000],
+  class: className,
+  pictureClass,
+  priority = false,
+  alt,
+  decorative = false,
+  quality,
+} = Astro.props;
+
+const image = await resolveImage(id);
+const usable = widths.filter((w) => w <= image.src.width);
+---
+
+<Picture
+  src={image.src}
+  alt={decorative ? '' : (alt ?? image.alt)}
+  formats={['avif', 'webp']}
+  widths={usable.length ? usable : [image.src.width]}
+  sizes={sizes}
+  class={className}
+  pictureAttributes={{ class: pictureClass }}
+  loading={priority ? 'eager' : 'lazy'}
+  decoding={priority ? 'sync' : 'async'}
+  fetchpriority={priority ? 'high' : undefined}
+  quality={quality}
+/>

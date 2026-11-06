@@ -4,10 +4,11 @@
  * Amber, not ink: the footer is ink and DS-03 forbids two ink sections in a row.
  * Defaults come from the UI strings; pages may override the copy.
  */
+import { Icon } from 'astro-icon/components';
 import Button from '@/components/ui/Button.astro';
 import SectionHeading from '@/components/ui/SectionHeading.astro';
 import { routes } from '@/config/navigation';
-import { site } from '@/config/site';
+import { site, whatsappHref } from '@/config/site';
 import { fmt, getLangFromUrl, useTranslations } from '@/i18n';
 
 interface Props {
@@ -39,6 +40,15 @@ const {
           {fmt(t.cta.callNumber, { phone: site.phone.display })}
         </Button>
       </div>
+      <a
+        href={whatsappHref(t.whatsapp.message)}
+        target="_blank"
+        rel="noopener"
+        class="inline-flex min-h-11 items-center gap-2 font-semibold underline decoration-2 underline-offset-[6px]"
+      >
+        <Icon name="whatsapp" class="size-5" aria-hidden="true" />
+        {t.whatsapp.or}
+      </a>
     </SectionHeading>
   </div>
 </section>

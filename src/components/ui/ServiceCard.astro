@@ -1,0 +1,50 @@
+---
+/**
+ * Service card, SRS 4.4: 4:3 image, title, 2-line summary, "Learn more →".
+ * The title link is stretched so the whole card is clickable; lifts 4 px and zooms
+ * the image to 1.05 on hover.
+ */
+import Card from './Card.astro';
+import Img from './Img.astro';
+import { routes } from '@/config/navigation';
+import type { Service } from '@/lib/content';
+import { useTranslations } from '@/i18n';
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+const { data } = service;
+const t = useTranslations();
+---
+
+<Card as="li" interactive class="h-full">
+  <div class="aspect-[4/3] overflow-hidden">
+    <Img
+      id={data.image}
+      sizes="(min-width: 1280px) 400px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+      widths={[400, 640, 800, 1000]}
+      class="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+    />
+  </div>
+  <div class="flex flex-1 flex-col gap-3 p-6">
+    <h3 class="heading-3">
+      <a href={routes.service(service.id)} class="link-stretched">
+        {data.title}
+      </a>
+    </h3>
+    <p class="line-clamp-2 text-muted">{data.summary}</p>
+    <span
+      class="mt-auto inline-flex items-center gap-2 pt-2 font-semibold underline decoration-amber decoration-2 underline-offset-[6px]"
+      aria-hidden="true"
+    >
+      {t.cta.learnMore}
+      <Icon
+        name="lucide:arrow-right"
+        class="size-4.5 transition-transform duration-200 group-hover:translate-x-1"
+      />
+    </span>
+  </div>
+</Card>

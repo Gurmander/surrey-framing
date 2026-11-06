@@ -1,13 +1,30 @@
 ---
+/** FR-16: plain-language privacy policy from src/content/legal/privacy.md (BC PIPA). */
+import { getEntry, render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/sections/PageHero.astro';
-import PageStub from '@/components/sections/PageStub.astro';
-import { useTranslations } from '@/i18n';
+import Section from '@/components/ui/Section.astro';
+import { fmt, useTranslations } from '@/i18n';
 
-const page = useTranslations().pages.privacy;
+const t = useTranslations();
+const page = t.pages.privacy;
+const policy = await getEntry('legal', 'privacy');
+if (!policy) throw new Error('src/content/legal/privacy.md is missing');
+const { Content } = await render(policy);
+const updated = policy.data.updated.toLocaleDateString('en-CA', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
 ---
 
-<BaseLayout title={page.metaTitle} description={page.metaDescription}>
-  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} />
-  <PageStub milestone={4} />
+<BaseLayout title={page.metaTitle} description={policy.data.description}>
+  <PageHero eyebrow={page.eyebrow} title={policy.data.title} intro={page.intro} />
+  <Section tone="white">
+    <p class="mb-8 text-small text-muted">{fmt(t.legal.updated, { date: updated })}</p>
+    <div class="prose-content">
+      <Content />
+    </div>
+  </Section>
 </BaseLayout>

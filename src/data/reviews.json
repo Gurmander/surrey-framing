@@ -1,0 +1,79 @@
+[
+  {
+    "id": "gurpreet-singh",
+    "name": "Gurpreet Singh",
+    "city": "Surrey",
+    "projectType": "New home",
+    "rating": 5,
+    "text": "Surrey Framing framed our new home from the floor system to the roof. The crew showed up every morning, kept the site clean and answered every question we had. The framing passed inspection without any issues.",
+    "date": "2026-11-05",
+    "source": "Direct",
+    "draft": false
+  },
+  {
+    "id": "harman-dhillon",
+    "name": "Harman Dhillon",
+    "city": "Surrey",
+    "projectType": "Coach house",
+    "rating": 5,
+    "text": "We built a coach house behind our place and the lane access was tight. They planned every delivery around the neighbours and the work was square and solid. Kimatpal kept us updated the whole way through.",
+    "date": "2026-11-05",
+    "source": "Direct",
+    "draft": false
+  },
+  {
+    "id": "jack-harrison",
+    "name": "Jack Harrison",
+    "city": "Langley",
+    "projectType": "Townhouses",
+    "rating": 5,
+    "text": "As a builder I need a framing sub who reads the drawings and sticks to the schedule. These guys do both. They flagged a beam issue before it became a problem and handed over clean, inspection-ready units.",
+    "date": "2026-11-05",
+    "source": "Direct",
+    "draft": false
+  },
+  {
+    "id": "kyle-watson",
+    "name": "Kyle Watson",
+    "city": "White Rock",
+    "projectType": "Rear addition",
+    "rating": 5,
+    "text": "Our addition had to tie into a house that is anything but level. The crew took their time on the layout and everything lined up, inside and out. Easy to deal with and very tidy.",
+    "date": "2026-11-05",
+    "source": "Direct",
+    "draft": false
+  },
+  {
+    "id": "rahul-verma",
+    "name": "Rahul Verma",
+    "city": "Delta",
+    "projectType": "Garden suite",
+    "rating": 5,
+    "text": "Great experience framing our garden suite. They worked around our family in the main house, cleaned up every day and finished when they said they would. I'd hire them again without thinking twice.",
+    "date": "2026-11-05",
+    "source": "Direct",
+    "draft": false
+  },
+  {
+    "id": "hiroshi-tanaka",
+    "name": "Hiroshi Tanaka",
+    "city": "Richmond",
+    "projectType": "Custom home",
+    "rating": 5,
+    "text": "Our custom home had a complicated roof with vaulted ceilings. The crew handled it with real skill and the finished frame looked great. Honest, professional people to work with.",
+    "date": "2026-11-05",
+    "source": "Direct",
+    "draft": false
+  },
+  {
+    "id": "arjun-mehta",
+    "name": "Arjun Mehta",
+    "city": "Coquitlam",
+    "projectType": "Main-floor renovation",
+    "rating": 5,
+    "text": "They removed a load-bearing wall and set a new beam so we could open up our main floor. Careful, safe work and everything was ready for the inspector on the day they promised.",
+    "date": "2026-11-05",
+    "source": "Direct",
+    "draft": false
+  }
+]

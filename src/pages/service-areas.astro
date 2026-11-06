@@ -1,13 +1,120 @@
 ---
+/**
+ * Service areas, SRS 5.7: H1, a map that loads only when asked (NFR-09), and one
+ * anchored block per city with unique text and links to projects in that city.
+ */
+import { Icon } from 'astro-icon/components';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/sections/PageHero.astro';
-import PageStub from '@/components/sections/PageStub.astro';
-import { useTranslations } from '@/i18n';
+import Section from '@/components/ui/Section.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import TextLink from '@/components/ui/TextLink.astro';
+import { routes } from '@/config/navigation';
+import { site } from '@/config/site';
+import { getProjects } from '@/lib/content';
+import { fmt, useTranslations } from '@/i18n';
 
-const page = useTranslations().pages.serviceAreas;
+const t = useTranslations();
+const page = t.pages.serviceAreas;
+const copy = t.areas;
+const projects = await getProjects();
+const cities = site.serviceAreas.map((area) => ({
+  ...area,
+  text: copy.cities[area.slug as keyof typeof copy.cities],
+  projects: projects.filter((p) => p.data.area === area.slug),
+}));
+const mapSrc = 'https://www.google.com/maps?q=Surrey,+BC&z=9&output=embed';
 ---
 
 <BaseLayout title={page.metaTitle} description={page.metaDescription}>
-  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} />
-  <PageStub milestone={4} />
+  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} image="areas-hero" />
+
+  <Section tone="white" labelledby="areas-index-title">
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <div class="flex flex-col gap-8">
+        <SectionHeading
+          id="areas-index-title"
+          eyebrow={t.home.areas.eyebrow}
+          title={t.home.areas.title}
+          intro={t.home.areas.intro}
+        />
+        <ul class="flex flex-wrap gap-3">
+          {site.serviceAreas.map((area) => (
+            <li>
+              <a
+                href={`#${area.slug}`}
+                class="inline-flex h-11 items-center gap-2 rounded-btn border border-line px-4 font-medium transition-colors hover:border-ink hover:bg-ink hover:text-white"
+              >
+                <Icon name="lucide:map-pin" class="size-4 text-amber-dark" aria-hidden="true" />
+                {area.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div
+        data-map
+        data-src={mapSrc}
+        data-title={copy.mapTitle}
+        class="surface-ink relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-card"
+      >
+        <button
+          type="button"
+          data-map-button
+          class="flex flex-col items-center gap-3 rounded-card p-6 text-center"
+        >
+          <span class="inline-flex size-14 items-center justify-center rounded-full bg-amber text-ink">
+            <Icon name="lucide:map" class="size-7" aria-hidden="true" />
+          </span>
+          <span class="heading-3">{copy.mapButton}</span>
+          <span class="text-small text-muted">{copy.mapNote}</span>
+        </button>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="paper" labelledby="cities-title">
+    <SectionHeading id="cities-title" eyebrow={page.eyebrow} title={copy.listTitle} />
+    <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:mt-14">
+      {cities.map((city) => (
+        <li
+          id={city.slug}
+          class="flex scroll-mt-28 flex-col gap-4 rounded-card bg-white p-6 shadow-card lg:p-8"
+        >
+          <h3 class="flex items-center gap-3 heading-3">
+            <Icon
+              name="lucide:map-pin"
+              class="size-6 flex-none text-amber-dark"
+              aria-hidden="true"
+            />
+            {city.name}
+          </h3>
+          <p class="text-muted">{city.text}</p>
+          <div class="mt-auto flex flex-col items-start gap-1">
+            {city.projects.map((project) => (
+              <TextLink href={routes.project(project.id)}>{project.data.title}</TextLink>
+            ))}
+            {city.projects.length === 0 && (
+              <TextLink href={routes.quote()}>{fmt(copy.quoteLink, { city: city.name })}</TextLink>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  </Section>
 </BaseLayout>
+
+<script>
+  // NFR-09: Google Maps loads only when the visitor asks for it.
+  const holder = document.querySelector<HTMLElement>('[data-map]');
+  holder?.querySelector('[data-map-button]')?.addEventListener('click', () => {
+    const iframe = document.createElement('iframe');
+    iframe.src = holder.dataset.src ?? '';
+    iframe.title = holder.dataset.title ?? 'Map';
+    iframe.loading = 'lazy';
+    iframe.referrerPolicy = 'no-referrer-when-downgrade';
+    iframe.className = 'absolute inset-0 size-full border-0';
+    holder.replaceChildren(iframe);
+    iframe.focus();
+  });
+</script>

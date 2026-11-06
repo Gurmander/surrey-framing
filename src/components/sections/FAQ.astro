@@ -1,0 +1,45 @@
+---
+/**
+ * FAQ accordion, SRS 4.4 / FR-55: native <details>/<summary> with a plus/minus
+ * icon, so it works without JavaScript. Used on Home (preview), service pages
+ * (3 service FAQs) and Contact (full list).
+ */
+import { Icon } from 'astro-icon/components';
+import Section from '@/components/ui/Section.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import TextLink from '@/components/ui/TextLink.astro';
+
+interface Props {
+  items: { q: string; a: string }[];
+  tone?: 'paper' | 'white';
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  link?: { label: string; href: string };
+}
+
+const { items, tone = 'paper', id = 'faq', eyebrow, title, link } = Astro.props;
+---
+
+<Section tone={tone} id={id} labelledby={`${id}-title`}>
+  <div class="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-20">
+    <div class="flex flex-col items-start gap-6">
+      <SectionHeading id={`${id}-title`} eyebrow={eyebrow} title={title} />
+      {link && <TextLink href={link.href}>{link.label}</TextLink>}
+    </div>
+    <div class="border-t border-line" data-reveal>
+      {items.map((item) => (
+        <details class="group border-b border-line">
+          <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 py-5 font-semibold [&::-webkit-details-marker]:hidden">
+            {item.q}
+            <span class="inline-flex size-8 flex-none items-center justify-center rounded-full border border-line transition-colors group-hover:border-ink">
+              <Icon name="lucide:plus" class="size-4 group-open:hidden" aria-hidden="true" />
+              <Icon name="lucide:minus" class="hidden size-4 group-open:block" aria-hidden="true" />
+            </span>
+          </summary>
+          <p class="max-w-prose pb-6 text-muted">{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</Section>

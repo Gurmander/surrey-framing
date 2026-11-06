@@ -1,0 +1,50 @@
+---
+/** Review card, SRS 4.4: stars, quote (≤ 300 chars), name, project type and city. */
+import { Icon } from 'astro-icon/components';
+import Card from './Card.astro';
+import { showSamples, type Review } from '@/lib/content';
+import { fmt, useTranslations } from '@/i18n';
+
+interface Props {
+  review: Review;
+  class?: string;
+}
+
+const { review, class: className } = Astro.props;
+const { data } = review;
+const t = useTranslations();
+---
+
+<Card as="li" class:list={['h-full p-6 lg:p-8', className]}>
+  <figure class="flex h-full flex-col gap-5">
+    <div class="flex items-center justify-between gap-3">
+      <p
+        class="flex gap-0.5 text-amber"
+        role="img"
+        aria-label={fmt(t.home.reviews.rated, { rating: data.rating })}
+      >
+        {Array.from({ length: 5 }, (_, i) => (
+          <Icon
+            name="star"
+            class:list={['size-5', i >= data.rating && 'text-line']}
+            aria-hidden="true"
+          />
+        ))}
+      </p>
+      {showSamples && (data.placeholder || data.draft) && (
+        <span class="rounded-btn bg-paper px-2 py-1 text-badge font-semibold whitespace-nowrap uppercase">
+          {data.placeholder ? t.sample.review : t.sample.draft}
+        </span>
+      )}
+    </div>
+    <blockquote class="flex-1">
+      <p>“{data.text}”</p>
+    </blockquote>
+    <figcaption class="border-t border-line pt-4">
+      <span class="block font-semibold">{data.name}</span>
+      <span class="block text-small text-muted">
+        {data.projectType} · {data.city}
+      </span>
+    </figcaption>
+  </figure>
+</Card>

@@ -1,0 +1,29 @@
+---
+/**
+ * Inline "Learn more →" style link. Text stays in the surface's text colour with an
+ * amber underline: amber text itself fails contrast at body size (DECISIONS D-04).
+ */
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  href: string;
+  class?: string;
+}
+
+const { href, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    'group inline-flex min-h-11 items-center gap-2 font-semibold underline decoration-amber decoration-2 underline-offset-[6px] transition-colors hover:decoration-current',
+    className,
+  ]}
+>
+  <slot />
+  <Icon
+    name="lucide:arrow-right"
+    class="size-4.5 flex-none transition-transform duration-200 group-hover:translate-x-1"
+    aria-hidden="true"
+  />
+</a>

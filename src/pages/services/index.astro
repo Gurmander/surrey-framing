@@ -1,13 +1,29 @@
 ---
+/** Services index, SRS FR-20: short photo hero, intro, grid of all services, CTA. */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/sections/PageHero.astro';
-import PageStub from '@/components/sections/PageStub.astro';
+import ServicesGrid from '@/components/sections/ServicesGrid.astro';
+import ProcessSteps from '@/components/sections/ProcessSteps.astro';
+import { getServices } from '@/lib/content';
 import { useTranslations } from '@/i18n';
 
-const page = useTranslations().pages.services;
+const t = useTranslations();
+const page = t.pages.services;
+const services = await getServices();
 ---
 
 <BaseLayout title={page.metaTitle} description={page.metaDescription}>
-  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} />
-  <PageStub milestone={4} />
+  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} image="svc-new-home" />
+  <ServicesGrid
+    services={services}
+    eyebrow={t.servicesPage.eyebrow}
+    title={t.servicesPage.title}
+    intro={t.servicesPage.intro}
+  />
+  <ProcessSteps
+    tone="paper"
+    eyebrow={t.home.process.eyebrow}
+    title={t.home.process.title}
+    intro={t.home.process.intro}
+  />
 </BaseLayout>

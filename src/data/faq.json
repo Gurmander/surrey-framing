@@ -1,0 +1,89 @@
+[
+  {
+    "id": "cost-per-square-foot",
+    "q": "How much does framing cost per square foot?",
+    "a": "It depends on the design, the roof, the number of storeys and whether we supply materials. Rather than guess a per-square-foot number, we price from your drawings so the quote matches the real job. Send your plans and we'll come back with a free estimate.",
+    "category": "Pricing",
+    "showOnHome": true,
+    "needsReview": true
+  },
+  {
+    "id": "materials-or-labour",
+    "q": "Do you supply materials or labour only?",
+    "a": "Either. We can quote labour only, using lumber you or your builder order, or labour and materials together. Tell us which you prefer when you ask for a quote.",
+    "category": "Pricing",
+    "showOnHome": true,
+    "needsReview": true
+  },
+  {
+    "id": "how-long-to-frame",
+    "q": "How long does it take to frame a house?",
+    "a": "It depends on size, design and weather. A simple single-family home goes up much faster than a custom build with a complex roof. You get a realistic schedule with your quote, and we keep you posted if anything changes on site.",
+    "category": "Process",
+    "showOnHome": true
+  },
+  {
+    "id": "engineered-drawings",
+    "q": "Do you work from engineered drawings?",
+    "a": "Yes. We frame to your architectural and structural drawings, including engineered beams, joists and trusses. If something on site doesn't match the plans, we flag it before we build, not after.",
+    "category": "Process",
+    "showOnHome": true
+  },
+  {
+    "id": "worksafebc-insured",
+    "q": "Are you WorkSafeBC covered and insured?",
+    "a": "Yes. Our crew is covered by WorkSafeBC and we're fully insured. Proof of coverage is available on request.",
+    "category": "General",
+    "showOnHome": true
+  },
+  {
+    "id": "laneway-garden-suites",
+    "q": "Do you frame laneway homes and garden suites?",
+    "a": "Yes. We frame laneway homes and garden suites across Surrey and the Lower Mainland. Small lots and lane access take planning, so we sort out deliveries and staging before the first wall goes up.",
+    "category": "General",
+    "showOnHome": false
+  },
+  {
+    "id": "service-areas",
+    "q": "What areas do you serve?",
+    "a": "We're based in Surrey and work across Metro Vancouver and the Fraser Valley, including Langley, Delta, White Rock, Abbotsford, Coquitlam, Burnaby, New Westminster, Maple Ridge and Richmond. If your site is outside these areas, ask anyway.",
+    "category": "General",
+    "showOnHome": false
+  },
+  {
+    "id": "inspection-corrections",
+    "q": "Do you handle framing inspection corrections?",
+    "a": "Yes. If the inspector notes anything on our framing, we come back and fix it so you can move on to the next stage. Our aim is frames that pass the first time.",
+    "category": "Process",
+    "showOnHome": false,
+    "needsReview": true
+  },
+  {
+    "id": "short-notice",
+    "q": "Can you start on short notice?",
+    "a": "Sometimes. It depends on our schedule and the size of your job. Call us with your start date and we'll tell you straight away whether we can make it work.",
+    "category": "Process",
+    "showOnHome": false
+  },
+  {
+    "id": "renovations-or-new-builds",
+    "q": "Do you do renovations or only new builds?",
+    "a": "Both. Along with new homes and multi-family buildings, we frame additions, second storeys, basements and structural changes inside existing homes.",
+    "category": "General",
+    "showOnHome": false
+  },
+  {
+    "id": "subcontract-for-gcs",
+    "q": "Do you work as a framing subcontractor for general contractors?",
+    "a": "Yes. We bid from your drawings, work to your schedule and coordinate with your site super and the other trades. Safety and insurance documents are available on request.",
+    "category": "Builders",
+    "showOnHome": false
+  },
+  {
+    "id": "what-you-need-for-a-quote",
+    "q": "What do you need from me to give a quote?",
+    "a": "Drawings are best: architectural plans, plus structural and truss drawings if you have them. No plans yet? Send photos, rough sizes and the address, and we'll talk through next steps.",
+    "category": "Process",
+    "showOnHome": false
+  }
+]

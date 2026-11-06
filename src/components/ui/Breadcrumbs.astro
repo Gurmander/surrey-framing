@@ -1,0 +1,38 @@
+---
+/** Visible breadcrumb trail for detail pages; the last item is the current page. */
+import { Icon } from 'astro-icon/components';
+import type { Crumb } from '@/lib/schema';
+import { useTranslations } from '@/i18n';
+
+interface Props {
+  items: Crumb[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+const t = useTranslations();
+---
+
+<nav aria-label={t.a11y.breadcrumb} class={className}>
+  <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-small text-muted">
+    {items.map((item, i) => {
+      const last = i === items.length - 1;
+      return (
+        <li class="flex items-center gap-2">
+          {last ? (
+            <span aria-current="page" class="text-white">
+              {item.label}
+            </span>
+          ) : (
+            <>
+              <a href={item.href} class="underline-offset-4 hover:text-white hover:underline">
+                {item.label}
+              </a>
+              <Icon name="lucide:chevron-right" class="size-4 flex-none" aria-hidden="true" />
+            </>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>

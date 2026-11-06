@@ -1,0 +1,37 @@
+---
+/**
+ * "For builders" teaser, SRS 5.2 §8: ink split, image left and text right, three
+ * bullets and a "Builder enquiries" button.
+ */
+import Img from '@/components/ui/Img.astro';
+import Section from '@/components/ui/Section.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import CheckList from '@/components/ui/CheckList.astro';
+import Button from '@/components/ui/Button.astro';
+import { routes } from '@/config/navigation';
+import { useTranslations } from '@/i18n';
+
+const t = useTranslations();
+const copy = t.home.builders;
+---
+
+<Section tone="ink" labelledby="builders-title">
+  <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-20" data-reveal>
+    <div class="aspect-[4/3] overflow-hidden rounded-card">
+      <Img
+        id="builders"
+        sizes="(min-width: 1280px) 560px, (min-width: 1024px) 45vw, 100vw"
+        widths={[480, 800, 1120]}
+        class="size-full object-cover"
+      />
+    </div>
+    <div class="flex flex-col items-start gap-6">
+      <SectionHeading id="builders-title" eyebrow={copy.eyebrow} title={copy.title} />
+      <p class="max-w-prose text-muted">{copy.text}</p>
+      <CheckList items={copy.points} />
+      <Button href={routes.builders} class="mt-2">
+        {t.cta.builderEnquiries}
+      </Button>
+    </div>
+  </div>
+</Section>

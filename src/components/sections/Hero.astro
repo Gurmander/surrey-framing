@@ -1,0 +1,54 @@
+---
+/**
+ * Home hero, SRS 5.2 §1: full viewport height on desktop, 85% on mobile, framed
+ * house photo with the DS-13 overlay (ink 70% → 20%, left to right). On small
+ * screens the text spans the full width, so the overlay is uniform there to keep
+ * white text readable over bright sky.
+ */
+import Img from '@/components/ui/Img.astro';
+import Button from '@/components/ui/Button.astro';
+import { routes } from '@/config/navigation';
+import { site } from '@/config/site';
+import { fmt, useTranslations } from '@/i18n';
+
+const t = useTranslations();
+const page = t.pages.home;
+const highlight = 'on schedule.';
+const [before] = page.heading.split(highlight);
+---
+
+<section class="surface-ink relative isolate flex min-h-[85svh] items-center overflow-hidden pt-header lg:min-h-svh lg:pt-header-lg">
+  <Img
+    id="hero-home"
+    sizes="100vw"
+    widths={[640, 828, 1080, 1280, 1600, 1920, 2400]}
+    priority
+    quality={45}
+    pictureClass="absolute inset-0 -z-20"
+    class="size-full object-cover object-[60%_center]"
+  />
+  <div
+    class="absolute inset-0 -z-10 bg-ink/65 lg:bg-transparent lg:bg-linear-to-r lg:from-ink/80 lg:via-ink/55 lg:to-ink/20"
+    aria-hidden="true"
+  ></div>
+
+  <div class="container-site py-12 lg:pt-16 lg:pb-32">
+    <div class="flex max-w-3xl flex-col items-start gap-6">
+      <p class="eyebrow">{page.eyebrow}</p>
+      <h1 class="heading-display">
+        {before}
+        <span class="text-accent">{highlight}</span>
+      </h1>
+      <p class="max-w-xl text-white">{page.intro}</p>
+      <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+        <Button href={routes.quote()}>{t.cta.getFreeQuote}</Button>
+        <Button href={site.phone.href} variant="secondary" icon="lucide:phone">
+          {fmt(t.cta.callNumber, { phone: site.phone.display })}
+        </Button>
+      </div>
+      <p class="text-small text-line">
+        {t.trust.worksafe} · {t.trust.insured} · {t.trust.estimates}
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,27 +1,66 @@
 ---
+/**
+ * Home, SRS 5.2. Sections in order; surfaces alternate per DS-03:
+ * hero (photo) → trust (white) → intro (paper) → services (white) → stats (ink)
+ * → projects (paper) → process (white) → builders (ink) → reviews (paper)
+ * → areas (white) → FAQ (paper) → CTA (amber) → footer (ink).
+ */
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PageHero from '@/components/sections/PageHero.astro';
-import PageStub from '@/components/sections/PageStub.astro';
-import Button from '@/components/ui/Button.astro';
+import Hero from '@/components/sections/Hero.astro';
+import TrustBar from '@/components/sections/TrustBar.astro';
+import IntroSplit from '@/components/sections/IntroSplit.astro';
+import ServicesGrid from '@/components/sections/ServicesGrid.astro';
+import Stats from '@/components/sections/Stats.astro';
+import ProjectGrid from '@/components/sections/ProjectGrid.astro';
+import ProcessSteps from '@/components/sections/ProcessSteps.astro';
+import BuildersTeaser from '@/components/sections/BuildersTeaser.astro';
+import Reviews from '@/components/sections/Reviews.astro';
+import ServiceAreaList from '@/components/sections/ServiceAreaList.astro';
+import FAQ from '@/components/sections/FAQ.astro';
 import { routes } from '@/config/navigation';
-import { site } from '@/config/site';
-import { fmt, useTranslations } from '@/i18n';
+import { getFaqs, getFeaturedProjects, getServices } from '@/lib/content';
+import { useTranslations } from '@/i18n';
 
 const t = useTranslations();
 const page = t.pages.home;
+const home = t.home;
+
+const services = (await getServices()).slice(0, 6);
+const projects = await getFeaturedProjects(6);
+const faqs = (await getFaqs((faq) => faq.data.showOnHome)).slice(0, 5);
 ---
 
 <BaseLayout title={page.metaTitle} description={page.metaDescription}>
-  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} highlight="on schedule">
-    <div class="mt-4 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-      <Button href={routes.quote()}>{t.cta.getFreeQuote}</Button>
-      <Button href={site.phone.href} variant="secondary" icon="lucide:phone">
-        {fmt(t.cta.callNumber, { phone: site.phone.display })}
-      </Button>
-    </div>
-    <p class="text-small text-muted">
-      {t.trust.worksafe} · {t.trust.insured} · {t.trust.estimates}
-    </p>
-  </PageHero>
-  <PageStub milestone={3} />
+  <Hero />
+  <TrustBar />
+  <IntroSplit />
+  <ServicesGrid
+    services={services}
+    eyebrow={home.services.eyebrow}
+    title={home.services.title}
+    intro={home.services.intro}
+    cta={{ label: t.cta.allServices, href: routes.services }}
+  />
+  <Stats />
+  <ProjectGrid
+    projects={projects}
+    eyebrow={home.projects.eyebrow}
+    title={home.projects.title}
+    intro={home.projects.intro}
+    cta={{ label: t.cta.allProjects, href: routes.projects }}
+  />
+  <ProcessSteps
+    eyebrow={home.process.eyebrow}
+    title={home.process.title}
+    intro={home.process.intro}
+  />
+  <BuildersTeaser />
+  <Reviews />
+  <ServiceAreaList />
+  <FAQ
+    items={faqs.map((faq) => faq.data)}
+    eyebrow={home.faq.eyebrow}
+    title={home.faq.title}
+    link={{ label: t.cta.allQuestions, href: `${routes.contact}#faq` }}
+  />
 </BaseLayout>

@@ -1,21 +1,144 @@
 ---
 /**
- * Project detail stub. No projects exist until Milestone 2 seeds the `projects`
- * content collection (FR-27), so no pages are generated yet. Milestone 4 builds
- * the FR-26 layout (cover, facts panel, gallery + lightbox).
+ * Project detail, SRS FR-26: full-width cover, facts panel, description, gallery
+ * with lightbox, next/previous links and a CTA. Placeholder projects are noindex
+ * until real content replaces them (NFR-13).
  */
 import type { GetStaticPaths } from 'astro';
+import { getEntry, render } from 'astro:content';
+import { Icon } from 'astro-icon/components';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/sections/PageHero.astro';
-import PageStub from '@/components/sections/PageStub.astro';
+import ProjectGallery from '@/components/sections/ProjectGallery.astro';
+import Section from '@/components/ui/Section.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { routes } from '@/config/navigation';
+import { site } from '@/config/site';
+import { getProjects, type Project } from '@/lib/content';
+import { breadcrumbSchema } from '@/lib/schema';
+import { fmt, useTranslations } from '@/i18n';
 
-export const getStaticPaths = (() =>
-  [] as { params: { slug: string }; props: { title: string } }[]) satisfies GetStaticPaths;
+export const getStaticPaths = (async () => {
+  const projects = await getProjects();
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: {
+      project,
+      previous: projects[(i - 1 + projects.length) % projects.length],
+      next: projects[(i + 1) % projects.length],
+    },
+  }));
+}) satisfies GetStaticPaths;
 
-const { title } = Astro.props;
+const { project, previous, next } = Astro.props as {
+  project: Project;
+  previous: Project;
+  next: Project;
+};
+const { data } = project;
+const { Content } = await render(project);
+const service = await getEntry(data.serviceSlug);
+const t = useTranslations();
+const copy = t.projectDetail;
+
+const facts = [
+  { label: copy.location, value: data.city },
+  { label: copy.type, value: data.type },
+  { label: copy.size, value: fmt(copy.sizeValue, { size: data.sizeSqFt.toLocaleString('en-CA') }) },
+  { label: copy.duration, value: data.duration },
+  { label: copy.year, value: String(data.year) },
+  { label: copy.scope, value: data.scope },
+];
+
+const crumbs = [
+  { label: t.nav.home, href: routes.home },
+  { label: t.nav.projects, href: routes.projects },
+  { label: data.title, href: routes.project(project.id) },
+];
 ---
 
-<BaseLayout title={title} description="">
-  <PageHero title={title} />
-  <PageStub milestone={4} />
+<BaseLayout
+  title={`${data.title} | ${site.name}`}
+  description={data.seoDescription}
+  noindex={data.placeholder}
+  schema={breadcrumbSchema(crumbs)}
+>
+  <PageHero
+    eyebrow={`${data.type} · ${data.city}`}
+    title={data.title}
+    intro={data.summary}
+    image={data.cover.id}
+    breadcrumbs={crumbs}
+  />
+
+  <Section tone="white" labelledby="about-project-title">
+    <div class="grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
+      <div class="flex flex-col gap-6">
+        <SectionHeading id="about-project-title" title={copy.aboutTitle} />
+        <div class="prose-content">
+          <Content />
+        </div>
+        {service && (
+          <p>
+            {copy.service}:{' '}
+            <a
+              href={routes.service(service.id)}
+              class="font-semibold underline decoration-amber decoration-2 underline-offset-4"
+            >
+              {service.data.title}
+            </a>
+          </p>
+        )}
+      </div>
+      <aside class="self-start rounded-card bg-paper p-6 lg:p-8">
+        <h2 class="mb-4 heading-3">{copy.facts}</h2>
+        <dl class="divide-y divide-line">
+          {facts.map((fact) => (
+            <div class="grid grid-cols-[7.5rem_1fr] gap-4 py-3">
+              <dt class="text-small font-semibold text-muted">{fact.label}</dt>
+              <dd>{fact.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </aside>
+    </div>
+  </Section>
+
+  <Section tone="paper" labelledby="gallery-title">
+    <SectionHeading id="gallery-title" title={copy.galleryTitle} class="mb-10 lg:mb-14" />
+    <ProjectGallery images={[data.cover, ...data.gallery]} />
+  </Section>
+
+  <nav aria-label={copy.allProjects} class="surface-white border-t border-line">
+    <div class="container-site grid gap-4 py-8 sm:grid-cols-2">
+      <a
+        href={routes.project(previous.id)}
+        class="group flex min-h-11 items-center gap-3 rounded-card p-3 transition-colors hover:bg-paper"
+      >
+        <Icon
+          name="lucide:arrow-left"
+          class="size-5 flex-none transition-transform group-hover:-translate-x-1"
+          aria-hidden="true"
+        />
+        <span>
+          <span class="block text-small text-muted">{copy.previous}</span>
+          <span class="block font-semibold">{previous.data.title}</span>
+        </span>
+      </a>
+      <a
+        href={routes.project(next.id)}
+        class="group flex min-h-11 items-center justify-end gap-3 rounded-card p-3 text-right transition-colors hover:bg-paper"
+      >
+        <span>
+          <span class="block text-small text-muted">{copy.next}</span>
+          <span class="block font-semibold">{next.data.title}</span>
+        </span>
+        <Icon
+          name="lucide:arrow-right"
+          class="size-5 flex-none transition-transform group-hover:translate-x-1"
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+  </nav>
 </BaseLayout>

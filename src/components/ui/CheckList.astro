@@ -1,0 +1,22 @@
+---
+/** Bulleted list with amber check marks; adapts to light and dark surfaces. */
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  items: string[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+<ul class:list={['flex flex-col gap-3', className]}>
+  {items.map((item) => (
+    <li class="flex items-start gap-3">
+      <span class="mt-0.5 inline-flex size-6 flex-none items-center justify-center rounded-full bg-amber text-ink">
+        <Icon name="lucide:check" class="size-4" aria-hidden="true" />
+      </span>
+      <span class="font-medium">{item}</span>
+    </li>
+  ))}
+</ul>

@@ -6,8 +6,8 @@
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "homeLink": "Surrey Framing home",
-    "footerNav": "Footer",
-    "social": "{network} (opens in a new tab)"
+    "newTab": "opens in a new tab",
+    "breadcrumb": "Breadcrumb"
   },
   "nav": {
     "home": "Home",
@@ -26,12 +26,20 @@
     "freeQuote": "Free Quote",
     "call": "Call",
     "callNumber": "Call {phone}",
-    "learnMore": "Learn more"
+    "learnMore": "Learn more",
+    "quoteFor": "Get a quote for {service}",
+    "allServices": "All services",
+    "allProjects": "View all projects",
+    "aboutUs": "About us",
+    "builderEnquiries": "Builder enquiries",
+    "allQuestions": "See all questions",
+    "whatsapp": "WhatsApp us",
+    "emailUs": "Email us"
   },
   "trust": {
     "worksafe": "WorkSafeBC covered",
     "insured": "Fully insured",
-    "years": "{years}+ years",
+    "years": "{years} years in business",
     "estimates": "Free estimates"
   },
   "ctaBanner": {
@@ -42,12 +50,8 @@
     "services": "Services",
     "company": "Company",
     "contact": "Contact",
-    "hours": "Hours",
-    "copyright": "© {year} {name}. All rights reserved.",
+    "copyright": "© {year} {name}",
     "siteBy": "Site by"
-  },
-  "stub": {
-    "text": "This page is a placeholder. Its full content is built in milestone {milestone} of the SRS."
   },
   "pages": {
     "home": {
@@ -65,8 +69,6 @@
       "intro": "From a single garden suite to a townhouse complex, we frame to your drawings and your schedule."
     },
     "service": {
-      "metaTitle": "{service} in Surrey, BC | Surrey Framing",
-      "metaDescription": "{service} by Surrey Framing in Surrey and the Lower Mainland. We work from engineered drawings and frame to your schedule. Free quotes.",
       "eyebrow": "Framing services"
     },
     "projects": {
@@ -132,5 +134,384 @@
       "heading": "This wall isn't framed yet",
       "intro": "The page you were looking for doesn't exist or has moved. Try one of these instead:"
     }
+  },
+  "sample": {
+    "review": "Sample review",
+    "draft": "Awaiting approval"
+  },
+  "home": {
+    "trust": {
+      "label": "Why homeowners and builders choose us"
+    },
+    "intro": {
+      "eyebrow": "Who we are",
+      "title": "Surrey's framing crew for builders and homeowners",
+      "highlight": "Surrey's",
+      "p1": "We're a Surrey framing contractor with 20 years in business and more than 200 projects framed across the Lower Mainland: new homes, laneway houses, additions and multi-family buildings. Homeowners hire us directly, and general contractors bring us in as their framing sub.",
+      "p2": "Either way, the job is the same: read the drawings carefully, build it square and plumb, keep the site clean and hand over a frame that's ready for inspection.",
+      "points": [
+        "Covered by WorkSafeBC and fully insured",
+        "We frame to engineered drawings",
+        "Clean, safe and organized job sites",
+        "Inspection-ready handover on every job"
+      ]
+    },
+    "services": {
+      "eyebrow": "Services",
+      "title": "What we frame",
+      "intro": "From a single garden suite to a townhouse complex, framed to your drawings and your schedule."
+    },
+    "stats": {
+      "title": "Surrey Framing by the numbers"
+    },
+    "projects": {
+      "eyebrow": "Our work",
+      "title": "Recent projects",
+      "intro": "New homes, multi-family buildings, laneway houses and additions across the Lower Mainland."
+    },
+    "process": {
+      "eyebrow": "Process",
+      "title": "How we work",
+      "intro": "Four steps from your drawings to an inspection-ready frame."
+    },
+    "builders": {
+      "eyebrow": "For builders",
+      "title": "Framing sub for GCs and developers",
+      "text": "We bid from your drawings, work to your schedule and coordinate with your site super and the other trades.",
+      "points": [
+        "A crew of 8–10 for single homes through multi-unit builds",
+        "Multi-family experience: townhouses, rowhouses and multiplexes",
+        "Works to engineered drawings and your site safety rules"
+      ]
+    },
+    "reviews": {
+      "eyebrow": "Reviews",
+      "title": "What clients say",
+      "rated": "Rated {rating} out of 5",
+      "carousel": "Client reviews"
+    },
+    "areas": {
+      "eyebrow": "Service areas",
+      "title": "Where we work",
+      "intro": "Based in Surrey, framing across Metro Vancouver and the Fraser Valley."
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Common questions"
+    }
+  },
+  "whatsapp": {
+    "label": "Chat on WhatsApp",
+    "message": "Hi Surrey Framing, I'd like to ask about a framing project.",
+    "or": "Prefer to text? Message us on WhatsApp",
+    "float": "Chat on WhatsApp"
+  },
+  "servicesPage": {
+    "eyebrow": "All services",
+    "title": "Framing for every stage of the build",
+    "intro": "Floors, walls, roofs and everything in between, for new homes, multi-family buildings, suites and renovations."
+  },
+  "serviceDetail": {
+    "overviewEyebrow": "Overview",
+    "includes": "What's included",
+    "idealFor": "Ideal for",
+    "galleryEyebrow": "On site",
+    "galleryTitle": "Framing work like this",
+    "processTitle": "How the job runs",
+    "faqEyebrow": "Questions",
+    "faqTitle": "Common questions",
+    "relatedEyebrow": "Projects",
+    "relatedTitle": "Related projects"
+  },
+  "projectsPage": {
+    "filterLabel": "Filter projects by type",
+    "all": "All",
+    "count": "Showing {count} projects",
+    "countOne": "Showing 1 project",
+    "empty": "No projects of this type yet. Call us to talk about yours."
+  },
+  "projectDetail": {
+    "facts": "Project facts",
+    "location": "Location",
+    "type": "Type",
+    "service": "Service",
+    "size": "Size",
+    "sizeValue": "{size} sq ft",
+    "duration": "Framing time",
+    "year": "Year",
+    "scope": "Scope",
+    "aboutTitle": "About the project",
+    "galleryTitle": "Photos",
+    "openImage": "Open photo {n} of {total}",
+    "stages": {
+      "before": "Before",
+      "during": "During",
+      "after": "After"
+    },
+    "previous": "Previous project",
+    "next": "Next project",
+    "allProjects": "All projects"
+  },
+  "about": {
+    "story": {
+      "eyebrow": "Our story",
+      "title": "20 years of framing in the Lower Mainland",
+      "paragraphs": [
+        "Surrey Framing has been framing homes across Surrey and the Lower Mainland for 20 years. In that time we have framed more than 200 projects: single-family homes, laneway houses and garden suites, additions and multi-family buildings.",
+        "We're a framing company and nothing else. That focus means our crew of 8–10 framers, labourers and apprentices spends every day on the same work: reading drawings, laying out, framing floors, walls and roofs, and getting frames ready for inspection.",
+        "The goal hasn't changed in 20 years: frames that are square, plumb and built to the drawings, finished on the schedule we agreed, on a site we're proud to hand over to the next trade."
+      ]
+    },
+    "owner": {
+      "eyebrow": "Meet the owner",
+      "role": "Owner, Surrey Framing",
+      "experience": "15+ years of framing experience",
+      "paragraphs": [
+        "Kimatpal Shergill owns and runs Surrey Framing. He brings more than 15 years of hands-on framing experience on new homes, additions and multi-family buildings across the Lower Mainland.",
+        "His experience covers every part of the job: reading engineered drawings, laying out walls, setting trusses and running a crew on a busy site. That is why the company works the way it does: plan carefully, check the drawings before building, and never leave a problem for the next trade to find.",
+        "Homeowners and builders who work with Surrey Framing deal with an owner who knows framing inside out and stands behind every frame the crew puts up."
+      ]
+    },
+    "values": {
+      "eyebrow": "What we stand for",
+      "title": "How we run every job",
+      "items": [
+        {
+          "icon": "hard-hat",
+          "title": "Safety",
+          "text": "WorkSafeBC coverage, fall protection and a tidy site, so everyone goes home safe at the end of the day."
+        },
+        {
+          "icon": "ruler",
+          "title": "Precision",
+          "text": "Square, plumb and built to the drawings, because every trade after us depends on it."
+        },
+        {
+          "icon": "calendar-check",
+          "title": "On time",
+          "text": "We agree on a schedule up front and tell you early if weather or deliveries change it."
+        },
+        {
+          "icon": "sparkles",
+          "title": "Clean sites",
+          "text": "Offcuts stacked, nails picked up and the site left ready for the next crew."
+        }
+      ]
+    },
+    "team": {
+      "eyebrow": "The team",
+      "title": "The people behind the frames",
+      "crewTitle": "Our crew",
+      "crewText": "A crew of 8–10 framers, labourers and apprentices who frame homes, suites, additions and multi-family buildings every day."
+    },
+    "credentials": {
+      "eyebrow": "Credentials",
+      "title": "Covered, insured and working to the drawings",
+      "items": [
+        {
+          "icon": "hard-hat",
+          "title": "WorkSafeBC covered",
+          "text": "Our crew is covered by WorkSafeBC."
+        },
+        {
+          "icon": "shield-check",
+          "title": "Fully insured",
+          "text": "We carry liability insurance. Proof of coverage is available on request."
+        },
+        {
+          "icon": "file-text",
+          "title": "Engineered drawings",
+          "text": "We frame to your architectural, structural and truss drawings."
+        },
+        {
+          "icon": "award",
+          "title": "20 years in business",
+          "text": "More than 200 projects framed across the Lower Mainland."
+        }
+      ]
+    }
+  },
+  "builders": {
+    "capabilities": {
+      "eyebrow": "Capabilities",
+      "title": "A framing crew you can schedule around",
+      "items": [
+        {
+          "label": "Project size",
+          "value": "Single-family homes through multi-unit buildings"
+        },
+        {
+          "label": "Crew",
+          "value": "8–10 framers, labourers and apprentices"
+        },
+        {
+          "label": "Schedule",
+          "value": "Start date and framing time agreed when we bid"
+        },
+        {
+          "label": "Coverage",
+          "value": "WorkSafeBC covered and fully insured"
+        }
+      ]
+    },
+    "types": {
+      "eyebrow": "Project types",
+      "title": "What we frame for builders",
+      "items": [
+        "Townhouses and rowhouses",
+        "Duplexes, fourplexes and multiplexes",
+        "Single-family spec and custom homes",
+        "Laneway homes and garden suites",
+        "Additions and structural renovations",
+        "Light commercial wood-frame buildings"
+      ]
+    },
+    "how": {
+      "eyebrow": "Working with GCs",
+      "title": "How we work with your team",
+      "steps": [
+        {
+          "icon": "file-text",
+          "title": "Bid from your drawings",
+          "text": "Send architectural, structural and truss drawings. We review them, raise questions early and send a clear bid with a schedule."
+        },
+        {
+          "icon": "users",
+          "title": "Coordinate on site",
+          "text": "We work through your site super, follow your site rules and plan our sequence so the other trades can follow without waiting on us."
+        },
+        {
+          "icon": "badge-check",
+          "title": "Inspection-ready handover",
+          "text": "We walk the frame with your team, fix deficiencies and hand over ready for the framing inspection."
+        }
+      ]
+    },
+    "docs": {
+      "title": "Safety and insurance documents",
+      "text": "We are covered by WorkSafeBC and fully insured. Proof of coverage and our safety documents are available on request before we start."
+    },
+    "enquiry": {
+      "eyebrow": "Builder enquiries",
+      "title": "Tell us about your next project",
+      "text": "Send your drawings, unit count, number of storeys and target start date. We will come back with questions and a bid.",
+      "emailSubject": "Builder enquiry"
+    },
+    "projects": {
+      "eyebrow": "Our work",
+      "title": "Selected multi-family projects"
+    }
+  },
+  "areas": {
+    "mapButton": "Show map",
+    "mapTitle": "Map of Surrey and the Lower Mainland",
+    "mapNote": "Loads Google Maps",
+    "listTitle": "Cities we work in",
+    "quoteLink": "Get a quote in {city}",
+    "cities": {
+      "surrey": "Surrey is home base. We frame across Fleetwood, Cloverdale, Newton, Guildford and South Surrey, from new single-family homes to coach houses on established lots and townhouse projects for local builders.",
+      "langley": "Langley's growth means a steady stream of new homes and townhouses, especially in Willoughby and Walnut Grove. We frame for builders on new subdivisions and for families adding suites and additions to older homes.",
+      "delta": "From Ladner and Tsawwassen to North Delta, we frame garden suites, additions and new homes. Many Delta lots have room for a backyard suite, and we plan each job so it doesn’t take over your yard.",
+      "white-rock": "White Rock's sloped lots and ocean views bring custom homes with tall walls, big windows and complex roofs. We frame to the engineered drawings and plan deliveries around tight streets and steep driveways.",
+      "abbotsford": "In Abbotsford we frame on new subdivisions and on larger rural and acreage lots, including family homes, detached shops and light commercial buildings.",
+      "coquitlam": "Coquitlam has new neighbourhoods on Burke Mountain alongside older homes ready for renovation. We frame new houses on sloped lots and open up main floors with new beams in existing homes.",
+      "burnaby": "Burnaby's single-family lots are turning into duplexes, fourplexes and multiplexes. We frame these small multi-unit buildings for builders and owners who need a crew that can keep pace.",
+      "new-westminster": "New Westminster has some of the region's oldest homes. Additions, second storeys and structural renovations in older houses need careful tie-ins to the existing frame, and that is the kind of work we do here.",
+      "maple-ridge": "Maple Ridge's newer areas, like Silver Valley, bring new homes on larger and sloped lots. We frame houses, garages and suites, often with vaulted ceilings and big roof spans.",
+      "richmond": "Richmond's flat lots see a steady mix of new homes, duplexes and townhouses. We frame to the engineered drawings and coordinate closely with builders on busy, tightly scheduled sites."
+    }
+  },
+  "careers": {
+    "intro": {
+      "eyebrow": "Work with us",
+      "title": "Steady work with a crew that plans ahead",
+      "paragraphs": [
+        "Surrey Framing has been framing homes in the Lower Mainland for 20 years. Our crew of 8–10 works on new homes, laneway houses, additions and multi-family buildings, mostly in Surrey and nearby cities.",
+        "We look for people who take pride in square, plumb work and look out for the people around them. Experienced framers get steady work and a well-run site. New people get real training from framers who know the trade."
+      ]
+    },
+    "benefits": {
+      "eyebrow": "Why join us",
+      "title": "What you get",
+      "items": [
+        {
+          "icon": "calendar-check",
+          "title": "Steady work",
+          "text": "Residential and multi-family jobs across Surrey and the Lower Mainland."
+        },
+        {
+          "icon": "hard-hat",
+          "title": "Safe sites",
+          "text": "WorkSafeBC coverage, fall protection and a crew that takes safety seriously."
+        },
+        {
+          "icon": "graduation-cap",
+          "title": "Real training",
+          "text": "Learn layout, framing and reading drawings from experienced framers."
+        },
+        {
+          "icon": "trending-up",
+          "title": "Room to grow",
+          "text": "Start as a labourer or apprentice and grow into a framer."
+        }
+      ]
+    },
+    "roles": {
+      "eyebrow": "Open roles",
+      "title": "Current openings",
+      "requirements": "What we look for",
+      "none": "We're always looking for good framers."
+    },
+    "apply": {
+      "eyebrow": "Apply",
+      "title": "Apply by email",
+      "text": "Email your resume and tell us the kind of work you're looking for, your years of framing experience and whether you have your own tools and truck. We'll be in touch when a spot opens up.",
+      "button": "Email your application",
+      "emailSubject": "Job application"
+    }
+  },
+  "contactPage": {
+    "options": {
+      "eyebrow": "Get a quote",
+      "title": "Send us your project",
+      "text": "Call, WhatsApp or email us with the address, the type of project and your drawings or photos. Plans help us give you an accurate estimate.",
+      "emailSubject": "Quote request"
+    },
+    "card": {
+      "title": "Contact details",
+      "phone": "Phone",
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "area": "Service area"
+    },
+    "next": {
+      "title": "What happens next",
+      "steps": [
+        {
+          "title": "We review your request",
+          "text": "We look at your details and drawings and get back to you within one business day."
+        },
+        {
+          "title": "Site visit or call",
+          "text": "We check the site, access and staging, or talk it through by phone for smaller jobs."
+        },
+        {
+          "title": "Your written estimate",
+          "text": "You get a clear estimate and a realistic schedule. The estimate is free."
+        }
+      ]
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Frequently asked questions"
+    }
+  },
+  "thankYouPage": {
+    "text": "One of our team will review your request and get back to you within one business day.",
+    "urgent": "Urgent job? Call us now.",
+    "browse": "While you wait, have a look at some of our work."
+  },
+  "legal": {
+    "updated": "Last updated {date}"
   }
 }

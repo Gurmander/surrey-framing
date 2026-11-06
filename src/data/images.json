@@ -1,0 +1,478 @@
+[
+  {
+    "id": "hero-home",
+    "file": "placeholder/hero-framed-house-scaffolding.jpg",
+    "alt": "Two-storey wood-framed house with roof on and scaffolding, against a blue sky",
+    "source": "https://unsplash.com/photos/AMvfmsLllto",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/"]
+  },
+  {
+    "id": "about-1",
+    "file": "placeholder/framer-hammering-studs-sky.jpg",
+    "alt": "Framer in a hard hat nailing a top plate onto a stud wall",
+    "source": "https://unsplash.com/photos/EWoU3snzadU",
+    "credit": "Josh Olalde",
+    "placeholder": true,
+    "usedOn": ["/", "/about/"]
+  },
+  {
+    "id": "about-2",
+    "file": "placeholder/framer-checking-level.jpg",
+    "alt": "Framer holding a long level against a newly framed wall",
+    "source": "https://unsplash.com/photos/4qM4YbWe0JI",
+    "credit": "PJ Wallace",
+    "placeholder": true,
+    "usedOn": ["/", "/about/"]
+  },
+  {
+    "id": "svc-new-home",
+    "file": "placeholder/two-storey-frame-scaffolding.jpg",
+    "alt": "Two-storey house frame wrapped in scaffolding during construction",
+    "source": "https://unsplash.com/photos/p7xziuUi0vA",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/", "/services/", "/services/new-home-framing/"]
+  },
+  {
+    "id": "svc-multi-family",
+    "file": "placeholder/two-storey-frames-street.jpg",
+    "alt": "Row of two-storey wood frames going up side by side on a new street",
+    "source": "https://unsplash.com/photos/YkBh2hujkGE",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/", "/services/", "/services/multi-family-framing/"]
+  },
+  {
+    "id": "svc-laneway",
+    "file": "placeholder/small-house-frame-sheathing.jpg",
+    "alt": "Small single-storey house frame with sheathing and roof trusses",
+    "source": "https://unsplash.com/photos/Ll9JCsrSC4U",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/", "/services/", "/services/laneway-garden-suites/"]
+  },
+  {
+    "id": "svc-additions",
+    "file": "placeholder/renovation-exposed-walls.jpg",
+    "alt": "Room under renovation with walls opened up to the framing and insulation",
+    "source": "https://unsplash.com/photos/XaBNnChxDCg",
+    "credit": "Olek Buzunov",
+    "placeholder": true,
+    "usedOn": ["/", "/services/", "/services/additions-renovations/"]
+  },
+  {
+    "id": "svc-basement",
+    "file": "placeholder/interior-stud-walls.jpg",
+    "alt": "Interior room framed with wood studs before drywall",
+    "source": "https://unsplash.com/photos/eZtWDby4HJ0",
+    "credit": "Taylor Heery",
+    "placeholder": true,
+    "usedOn": ["/", "/services/", "/services/basement-framing/"]
+  },
+  {
+    "id": "svc-roof",
+    "file": "placeholder/roof-trusses-blue-sky.jpg",
+    "alt": "Rows of timber roof trusses installed against a clear blue sky",
+    "source": "https://unsplash.com/photos/w6g9DqZUNkI",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/", "/services/", "/services/roof-framing/"]
+  },
+  {
+    "id": "svc-decks",
+    "file": "placeholder/single-storey-frame-trusses.jpg",
+    "alt": "Single-storey wood frame with roof trusses on a cleared building lot",
+    "source": "https://unsplash.com/photos/HZwmePT_nlY",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/services/", "/services/decks-garages/"]
+  },
+  {
+    "id": "svc-sheathing",
+    "file": "placeholder/wall-framing-close-up.jpg",
+    "alt": "Close-up of wood stud walls and headers in a house under construction",
+    "source": "https://unsplash.com/photos/dUYELbt-H-E",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/services/", "/services/sheathing-repairs/"]
+  },
+  {
+    "id": "stats-bg",
+    "file": "placeholder/lumber-stack.jpg",
+    "alt": "Stacks of dimensional lumber",
+    "source": "https://unsplash.com/photos/6j3laFTi8wg",
+    "credit": "Georg Eiermann",
+    "placeholder": true,
+    "usedOn": ["/", "/about/"]
+  },
+  {
+    "id": "builders",
+    "file": "placeholder/framer-on-wall-frame.jpg",
+    "alt": "Framer working on top of a tall wood wall frame against the sky",
+    "source": "https://unsplash.com/photos/X1P1_EDNnok",
+    "credit": "Josh Olalde",
+    "placeholder": true,
+    "usedOn": ["/", "/builders/"]
+  },
+  {
+    "id": "drawings",
+    "file": "placeholder/construction-drawings.jpg",
+    "alt": "Printed construction drawings and floor plans spread on a table",
+    "source": "https://unsplash.com/photos/fNxmdlYHRm8",
+    "credit": "Marina Zvada",
+    "placeholder": true,
+    "usedOn": ["/builders/", "/contact/"]
+  },
+  {
+    "id": "careers",
+    "file": "placeholder/hard-hats-safety-vests.jpg",
+    "alt": "Orange hard hats and high-visibility safety vests hanging on hooks",
+    "source": "https://unsplash.com/photos/wjHdeYmI-XU",
+    "credit": "Tanya Paquet",
+    "placeholder": true,
+    "usedOn": ["/careers/", "/about/"]
+  },
+  {
+    "id": "team-owner",
+    "file": "team/kimatpal-shergill.jpg",
+    "alt": "Kimatpal Shergill, owner of Surrey Framing",
+    "credit": "Surrey Framing",
+    "placeholder": false,
+    "usedOn": ["/about/"]
+  },
+  {
+    "id": "areas-hero",
+    "file": "placeholder/two-storey-frames-street.jpg",
+    "alt": "Row of two-storey wood frames going up side by side on a new street",
+    "source": "https://unsplash.com/photos/YkBh2hujkGE",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/service-areas/"]
+  },
+  {
+    "id": "proj-01",
+    "file": "placeholder/roof-trusses-on-walls.jpg",
+    "alt": "Roof trusses set on top of framed exterior walls",
+    "source": "https://unsplash.com/photos/brPKGeqvVKI",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/", "/projects/fleetwood-two-storey-home/"]
+  },
+  {
+    "id": "proj-01-a",
+    "file": "placeholder/hero-framed-house-scaffolding.jpg",
+    "alt": "Two-storey wood-framed house with roof on and scaffolding, against a blue sky",
+    "source": "https://unsplash.com/photos/AMvfmsLllto",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/fleetwood-two-storey-home/"]
+  },
+  {
+    "id": "proj-01-b",
+    "file": "placeholder/wall-framing-close-up.jpg",
+    "alt": "Close-up of wood stud walls and headers in a house under construction",
+    "source": "https://unsplash.com/photos/dUYELbt-H-E",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/fleetwood-two-storey-home/"]
+  },
+  {
+    "id": "proj-01-c",
+    "file": "placeholder/roof-trusses-blue-sky.jpg",
+    "alt": "Rows of timber roof trusses installed against a clear blue sky",
+    "source": "https://unsplash.com/photos/w6g9DqZUNkI",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/fleetwood-two-storey-home/"]
+  },
+  {
+    "id": "proj-02",
+    "file": "placeholder/building-scaffolding-windows.jpg",
+    "alt": "Multi-storey wood-frame building with windows installed behind scaffolding",
+    "source": "https://unsplash.com/photos/McPfYQCpYfw",
+    "credit": "Jessy Smith",
+    "placeholder": true,
+    "usedOn": ["/projects/", "/projects/langley-townhouse-complex/"]
+  },
+  {
+    "id": "proj-02-a",
+    "file": "placeholder/two-storey-frames-street.jpg",
+    "alt": "Row of two-storey wood frames going up side by side on a new street",
+    "source": "https://unsplash.com/photos/YkBh2hujkGE",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/langley-townhouse-complex/"]
+  },
+  {
+    "id": "proj-02-b",
+    "file": "placeholder/timber-frame-corridor.jpg",
+    "alt": "Corridor inside a wood-framed building with stud walls on both sides",
+    "source": "https://unsplash.com/photos/TtTOzMj75kE",
+    "credit": "rawkkim",
+    "placeholder": true,
+    "usedOn": ["/projects/langley-townhouse-complex/"]
+  },
+  {
+    "id": "proj-02-c",
+    "file": "placeholder/two-storey-frame-scaffolding.jpg",
+    "alt": "Two-storey house frame wrapped in scaffolding during construction",
+    "source": "https://unsplash.com/photos/p7xziuUi0vA",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/langley-townhouse-complex/"]
+  },
+  {
+    "id": "proj-03",
+    "file": "placeholder/single-storey-frame-trusses.jpg",
+    "alt": "Single-storey wood frame with roof trusses on a cleared building lot",
+    "source": "https://unsplash.com/photos/HZwmePT_nlY",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/", "/projects/white-rock-laneway-house/"]
+  },
+  {
+    "id": "proj-03-a",
+    "file": "placeholder/small-house-frame-sheathing.jpg",
+    "alt": "Small single-storey house frame with sheathing and roof trusses",
+    "source": "https://unsplash.com/photos/Ll9JCsrSC4U",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/white-rock-laneway-house/"]
+  },
+  {
+    "id": "proj-03-b",
+    "file": "placeholder/interior-stud-walls.jpg",
+    "alt": "Interior room framed with wood studs before drywall",
+    "source": "https://unsplash.com/photos/eZtWDby4HJ0",
+    "credit": "Taylor Heery",
+    "placeholder": true,
+    "usedOn": ["/projects/white-rock-laneway-house/"]
+  },
+  {
+    "id": "proj-03-c",
+    "file": "placeholder/roof-trusses-on-walls.jpg",
+    "alt": "Roof trusses set on top of framed exterior walls",
+    "source": "https://unsplash.com/photos/brPKGeqvVKI",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/white-rock-laneway-house/"]
+  },
+  {
+    "id": "proj-04",
+    "file": "placeholder/interior-framing-ceiling-joists.jpg",
+    "alt": "Interior of a framed home with exposed ceiling joists and stud walls",
+    "source": "https://unsplash.com/photos/17nDFVkBYK0",
+    "credit": "Samuel Cruz",
+    "placeholder": true,
+    "usedOn": ["/projects/", "/projects/south-surrey-rear-addition/"]
+  },
+  {
+    "id": "proj-04-a",
+    "file": "placeholder/renovation-exposed-walls.jpg",
+    "alt": "Room under renovation with walls opened up to the framing and insulation",
+    "source": "https://unsplash.com/photos/XaBNnChxDCg",
+    "credit": "Olek Buzunov",
+    "placeholder": true,
+    "usedOn": ["/projects/south-surrey-rear-addition/"]
+  },
+  {
+    "id": "proj-04-b",
+    "file": "placeholder/interior-stud-walls.jpg",
+    "alt": "Interior room framed with wood studs before drywall",
+    "source": "https://unsplash.com/photos/eZtWDby4HJ0",
+    "credit": "Taylor Heery",
+    "placeholder": true,
+    "usedOn": ["/projects/south-surrey-rear-addition/"]
+  },
+  {
+    "id": "proj-04-c",
+    "file": "placeholder/framer-checking-level.jpg",
+    "alt": "Framer holding a long level against a newly framed wall",
+    "source": "https://unsplash.com/photos/4qM4YbWe0JI",
+    "credit": "PJ Wallace",
+    "placeholder": true,
+    "usedOn": ["/projects/south-surrey-rear-addition/"]
+  },
+  {
+    "id": "proj-05",
+    "file": "placeholder/timber-frame-corridor.jpg",
+    "alt": "Corridor inside a wood-framed building with stud walls on both sides",
+    "source": "https://unsplash.com/photos/TtTOzMj75kE",
+    "credit": "rawkkim",
+    "placeholder": true,
+    "usedOn": ["/projects/", "/projects/burnaby-rowhouse-fourplex/"]
+  },
+  {
+    "id": "proj-05-a",
+    "file": "placeholder/building-scaffolding-windows.jpg",
+    "alt": "Multi-storey wood-frame building with windows installed behind scaffolding",
+    "source": "https://unsplash.com/photos/McPfYQCpYfw",
+    "credit": "Jessy Smith",
+    "placeholder": true,
+    "usedOn": ["/projects/burnaby-rowhouse-fourplex/"]
+  },
+  {
+    "id": "proj-05-b",
+    "file": "placeholder/two-storey-frames-street.jpg",
+    "alt": "Row of two-storey wood frames going up side by side on a new street",
+    "source": "https://unsplash.com/photos/YkBh2hujkGE",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/burnaby-rowhouse-fourplex/"]
+  },
+  {
+    "id": "proj-05-c",
+    "file": "placeholder/framer-on-wall-frame.jpg",
+    "alt": "Framer working on top of a tall wood wall frame against the sky",
+    "source": "https://unsplash.com/photos/X1P1_EDNnok",
+    "credit": "Josh Olalde",
+    "placeholder": true,
+    "usedOn": ["/projects/burnaby-rowhouse-fourplex/"]
+  },
+  {
+    "id": "proj-06",
+    "file": "placeholder/wall-framing-close-up.jpg",
+    "alt": "Close-up of wood stud walls and headers in a house under construction",
+    "source": "https://unsplash.com/photos/dUYELbt-H-E",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/", "/projects/cloverdale-custom-home/"]
+  },
+  {
+    "id": "proj-06-a",
+    "file": "placeholder/hero-framed-house-scaffolding.jpg",
+    "alt": "Two-storey wood-framed house with roof on and scaffolding, against a blue sky",
+    "source": "https://unsplash.com/photos/AMvfmsLllto",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/cloverdale-custom-home/"]
+  },
+  {
+    "id": "proj-06-b",
+    "file": "placeholder/roof-trusses-blue-sky.jpg",
+    "alt": "Rows of timber roof trusses installed against a clear blue sky",
+    "source": "https://unsplash.com/photos/w6g9DqZUNkI",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/cloverdale-custom-home/"]
+  },
+  {
+    "id": "proj-06-c",
+    "file": "placeholder/framer-hammering-studs-sky.jpg",
+    "alt": "Framer in a hard hat nailing a top plate onto a stud wall",
+    "source": "https://unsplash.com/photos/EWoU3snzadU",
+    "credit": "Josh Olalde",
+    "placeholder": true,
+    "usedOn": ["/projects/cloverdale-custom-home/"]
+  },
+  {
+    "id": "proj-07",
+    "file": "placeholder/small-house-frame-sheathing.jpg",
+    "alt": "Small single-storey house frame with sheathing and roof trusses",
+    "source": "https://unsplash.com/photos/Ll9JCsrSC4U",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/", "/projects/delta-garden-suite/"]
+  },
+  {
+    "id": "proj-07-a",
+    "file": "placeholder/single-storey-frame-trusses.jpg",
+    "alt": "Single-storey wood frame with roof trusses on a cleared building lot",
+    "source": "https://unsplash.com/photos/HZwmePT_nlY",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/delta-garden-suite/"]
+  },
+  {
+    "id": "proj-07-b",
+    "file": "placeholder/interior-stud-walls.jpg",
+    "alt": "Interior room framed with wood studs before drywall",
+    "source": "https://unsplash.com/photos/eZtWDby4HJ0",
+    "credit": "Taylor Heery",
+    "placeholder": true,
+    "usedOn": ["/projects/delta-garden-suite/"]
+  },
+  {
+    "id": "proj-07-c",
+    "file": "placeholder/roof-trusses-blue-sky.jpg",
+    "alt": "Rows of timber roof trusses installed against a clear blue sky",
+    "source": "https://unsplash.com/photos/w6g9DqZUNkI",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/delta-garden-suite/"]
+  },
+  {
+    "id": "proj-08",
+    "file": "placeholder/roof-trusses-blue-sky.jpg",
+    "alt": "Rows of timber roof trusses installed against a clear blue sky",
+    "source": "https://unsplash.com/photos/w6g9DqZUNkI",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/", "/projects/abbotsford-commercial-building/"]
+  },
+  {
+    "id": "proj-08-a",
+    "file": "placeholder/roof-trusses-on-walls.jpg",
+    "alt": "Roof trusses set on top of framed exterior walls",
+    "source": "https://unsplash.com/photos/brPKGeqvVKI",
+    "credit": "Troy Mortier",
+    "placeholder": true,
+    "usedOn": ["/projects/abbotsford-commercial-building/"]
+  },
+  {
+    "id": "proj-08-b",
+    "file": "placeholder/framer-on-wall-frame.jpg",
+    "alt": "Framer working on top of a tall wood wall frame against the sky",
+    "source": "https://unsplash.com/photos/X1P1_EDNnok",
+    "credit": "Josh Olalde",
+    "placeholder": true,
+    "usedOn": ["/projects/abbotsford-commercial-building/"]
+  },
+  {
+    "id": "proj-08-c",
+    "file": "placeholder/lumber-stack.jpg",
+    "alt": "Stacks of dimensional lumber",
+    "source": "https://unsplash.com/photos/6j3laFTi8wg",
+    "credit": "Georg Eiermann",
+    "placeholder": true,
+    "usedOn": ["/projects/abbotsford-commercial-building/"]
+  },
+  {
+    "id": "proj-09",
+    "file": "placeholder/renovation-exposed-walls.jpg",
+    "alt": "Room under renovation with walls opened up to the framing and insulation",
+    "source": "https://unsplash.com/photos/XaBNnChxDCg",
+    "credit": "Olek Buzunov",
+    "placeholder": true,
+    "usedOn": ["/projects/", "/projects/coquitlam-main-floor-renovation/"]
+  },
+  {
+    "id": "proj-09-a",
+    "file": "placeholder/interior-framing-ceiling-joists.jpg",
+    "alt": "Interior of a framed home with exposed ceiling joists and stud walls",
+    "source": "https://unsplash.com/photos/17nDFVkBYK0",
+    "credit": "Samuel Cruz",
+    "placeholder": true,
+    "usedOn": ["/projects/coquitlam-main-floor-renovation/"]
+  },
+  {
+    "id": "proj-09-b",
+    "file": "placeholder/timber-frame-corridor.jpg",
+    "alt": "Corridor inside a wood-framed building with stud walls on both sides",
+    "source": "https://unsplash.com/photos/TtTOzMj75kE",
+    "credit": "rawkkim",
+    "placeholder": true,
+    "usedOn": ["/projects/coquitlam-main-floor-renovation/"]
+  },
+  {
+    "id": "proj-09-c",
+    "file": "placeholder/hammer-and-nails.jpg",
+    "alt": "Framing hammer and loose nails on a wooden board",
+    "source": "https://unsplash.com/photos/yYRAvcPrWms",
+    "credit": "Anne Nygard",
+    "placeholder": true,
+    "usedOn": ["/projects/coquitlam-main-floor-renovation/"]
+  }
+]

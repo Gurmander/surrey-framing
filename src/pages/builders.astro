@@ -1,13 +1,99 @@
 ---
+/**
+ * For Builders, SRS 5.6: capabilities, project types, how we work with GCs,
+ * safety/insurance documents, builder enquiry and selected multi-family projects.
+ * The builder enquiry form arrives in Milestone 5; until then, call/WhatsApp/email.
+ */
+import { Icon } from 'astro-icon/components';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/sections/PageHero.astro';
-import PageStub from '@/components/sections/PageStub.astro';
+import FeatureGrid from '@/components/sections/FeatureGrid.astro';
+import ProjectGrid from '@/components/sections/ProjectGrid.astro';
+import Section from '@/components/ui/Section.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import CheckList from '@/components/ui/CheckList.astro';
+import ContactOptions from '@/components/ui/ContactOptions.astro';
+import Img from '@/components/ui/Img.astro';
+import { routes } from '@/config/navigation';
+import { getProjects } from '@/lib/content';
 import { useTranslations } from '@/i18n';
 
-const page = useTranslations().pages.builders;
+const t = useTranslations();
+const page = t.pages.builders;
+const copy = t.builders;
+const multiFamily = (await getProjects()).filter((p) => p.data.type === 'Multi-Family').slice(0, 3);
 ---
 
 <BaseLayout title={page.metaTitle} description={page.metaDescription}>
-  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} />
-  <PageStub milestone={4} />
+  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} image="builders" />
+
+  <Section tone="white" labelledby="capabilities-title">
+    <SectionHeading
+      id="capabilities-title"
+      eyebrow={copy.capabilities.eyebrow}
+      title={copy.capabilities.title}
+    />
+    <dl class="mt-10 grid gap-6 sm:grid-cols-2 lg:mt-14 lg:grid-cols-4" data-reveal>
+      {copy.capabilities.items.map((item) => (
+        <div class="flex flex-col-reverse gap-2 rounded-card bg-paper p-6">
+          <dd class="heading-3">{item.value}</dd>
+          <dt class="eyebrow">{item.label}</dt>
+        </div>
+      ))}
+    </dl>
+  </Section>
+
+  <FeatureGrid
+    id="how"
+    tone="paper"
+    items={copy.how.steps}
+    eyebrow={copy.how.eyebrow}
+    title={copy.how.title}
+    numbered
+  />
+
+  <Section tone="white" labelledby="types-title">
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-20">
+      <div class="flex flex-col gap-8">
+        <SectionHeading id="types-title" eyebrow={copy.types.eyebrow} title={copy.types.title} />
+        <CheckList items={copy.types.items} />
+      </div>
+      <aside class="flex flex-col gap-4 self-start rounded-card border-2 border-amber p-6 lg:p-8">
+        <Icon name="lucide:shield-check" class="size-10 text-amber-dark" aria-hidden="true" />
+        <h2 class="heading-3">{copy.docs.title}</h2>
+        <p class="text-muted">{copy.docs.text}</p>
+      </aside>
+    </div>
+  </Section>
+
+  <Section tone="ink" id="enquiry" labelledby="enquiry-title">
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+      <div class="flex flex-col items-start gap-6">
+        <SectionHeading
+          id="enquiry-title"
+          eyebrow={copy.enquiry.eyebrow}
+          title={copy.enquiry.title}
+          intro={copy.enquiry.text}
+        />
+        <ContactOptions emailSubject={copy.enquiry.emailSubject} />
+      </div>
+      <div class="aspect-[4/3] overflow-hidden rounded-card" data-reveal>
+        <Img
+          id="drawings"
+          sizes="(min-width: 1024px) 520px, 100vw"
+          widths={[480, 800, 1040]}
+          class="size-full object-cover"
+        />
+      </div>
+    </div>
+  </Section>
+
+  {multiFamily.length > 0 && (
+    <ProjectGrid
+      projects={multiFamily}
+      eyebrow={copy.projects.eyebrow}
+      title={copy.projects.title}
+      cta={{ label: t.cta.allProjects, href: `${routes.projects}?type=multi-family` }}
+    />
+  )}
 </BaseLayout>

@@ -1,0 +1,36 @@
+---
+/** Call / WhatsApp / Email buttons. Adapts to light and dark surfaces. */
+import Button from './Button.astro';
+import { site, whatsappHref } from '@/config/site';
+import { fmt, useTranslations } from '@/i18n';
+
+interface Props {
+  /** Subject line for the email button, e.g. "Builder enquiry". */
+  emailSubject: string;
+  /** Pre-filled WhatsApp message; defaults to the general one. */
+  whatsappMessage?: string;
+  class?: string;
+}
+
+const t = useTranslations();
+const { emailSubject, whatsappMessage = t.whatsapp.message, class: className } = Astro.props;
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent(emailSubject)}`;
+---
+
+<div class:list={['flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap', className]}>
+  <Button href={site.phone.href} icon="lucide:phone" arrow={false}>
+    {fmt(t.cta.callNumber, { phone: site.phone.display })}
+  </Button>
+  <Button
+    href={whatsappHref(whatsappMessage)}
+    variant="secondary"
+    icon="whatsapp"
+    target="_blank"
+    rel="noopener"
+  >
+    {t.cta.whatsapp}
+  </Button>
+  <Button href={mailto} variant="secondary" icon="lucide:mail">
+    {t.cta.emailUs}
+  </Button>
+</div>

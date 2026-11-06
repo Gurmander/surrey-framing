@@ -1,0 +1,38 @@
+---
+/** City chips linking to each city's block on /service-areas/ (SRS 5.2 §10). */
+import { Icon } from 'astro-icon/components';
+import Section from '@/components/ui/Section.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { routes } from '@/config/navigation';
+import { site } from '@/config/site';
+import { useTranslations } from '@/i18n';
+
+interface Props {
+  tone?: 'paper' | 'white';
+}
+
+const { tone = 'white' } = Astro.props;
+const t = useTranslations();
+---
+
+<Section tone={tone} labelledby="areas-title">
+  <SectionHeading
+    id="areas-title"
+    eyebrow={t.home.areas.eyebrow}
+    title={t.home.areas.title}
+    intro={t.home.areas.intro}
+  />
+  <ul class="mt-8 flex flex-wrap gap-3 lg:mt-10" data-reveal>
+    {site.serviceAreas.map((area) => (
+      <li>
+        <a
+          href={routes.serviceArea(area.slug)}
+          class="inline-flex h-11 items-center gap-2 rounded-btn border border-line bg-white px-4 font-medium transition-colors hover:border-ink hover:bg-ink hover:text-white"
+        >
+          <Icon name="lucide:map-pin" class="size-4 text-amber-dark" aria-hidden="true" />
+          {area.name}
+        </a>
+      </li>
+    ))}
+  </ul>
+</Section>

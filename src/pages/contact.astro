@@ -1,10 +1,44 @@
 ---
+/**
+ * Contact / Get a Quote, SRS 5.9: contact options on the left (the quote form
+ * from FR-30 replaces this block in Milestone 5), contact card and "what happens
+ * next" on the right, then the full FAQ with FAQPage JSON-LD. No CTA banner and
+ * no mobile call bar on this page.
+ */
+import { Icon } from 'astro-icon/components';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/sections/PageHero.astro';
-import PageStub from '@/components/sections/PageStub.astro';
+import FAQ from '@/components/sections/FAQ.astro';
+import Section from '@/components/ui/Section.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import ContactOptions from '@/components/ui/ContactOptions.astro';
+import { site, whatsappHref } from '@/config/site';
+import { getFaqs } from '@/lib/content';
+import { faqPageSchema } from '@/lib/schema';
 import { useTranslations } from '@/i18n';
 
-const page = useTranslations().pages.contact;
+const t = useTranslations();
+const page = t.pages.contact;
+const copy = t.contactPage;
+const faqs = (await getFaqs()).map((faq) => faq.data);
+
+const details = [
+  {
+    icon: 'lucide:phone',
+    label: copy.card.phone,
+    value: site.phone.display,
+    href: site.phone.href,
+  },
+  {
+    icon: 'whatsapp',
+    label: copy.card.whatsapp,
+    value: t.whatsapp.label,
+    href: whatsappHref(t.whatsapp.message),
+    external: true,
+  },
+  { icon: 'lucide:mail', label: copy.card.email, value: site.email, href: `mailto:${site.email}` },
+  { icon: 'lucide:map-pin', label: copy.card.area, value: site.serviceAreaLabel },
+];
 ---
 
 <BaseLayout
@@ -12,7 +46,74 @@ const page = useTranslations().pages.contact;
   description={page.metaDescription}
   callBar={false}
   ctaBanner={false}
+  schema={faqPageSchema(faqs)}
 >
   <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} />
-  <PageStub milestone={5} />
+
+  <Section tone="white" labelledby="quote-title">
+    <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
+      <div id="quote" class="flex flex-col items-start gap-6 rounded-card bg-paper p-6 lg:p-10">
+        <SectionHeading
+          id="quote-title"
+          eyebrow={copy.options.eyebrow}
+          title={copy.options.title}
+          intro={copy.options.text}
+        />
+        <ContactOptions emailSubject={copy.options.emailSubject} />
+      </div>
+
+      <div class="flex flex-col gap-8">
+        <div class="rounded-card border border-line p-6 lg:p-8">
+          <h2 class="mb-4 heading-3">{copy.card.title}</h2>
+          <ul class="flex flex-col gap-4">
+            {details.map((item) => (
+              <li class="flex gap-4">
+                <Icon
+                  name={item.icon}
+                  class="mt-0.5 size-6 flex-none text-amber-dark"
+                  aria-hidden="true"
+                />
+                <div>
+                  <span class="block text-small text-muted">{item.label}</span>
+                  <span class="block font-semibold break-words">
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        class="underline decoration-amber decoration-2 underline-offset-4"
+                        target={item.external ? '_blank' : undefined}
+                        rel={item.external ? 'noopener' : undefined}
+                      >
+                        {item.value}
+                      </a>
+                    ) : (
+                      item.value
+                    )}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="mb-5 heading-3">{copy.next.title}</h2>
+          <ol class="flex flex-col gap-5">
+            {copy.next.steps.map((step, i) => (
+              <li class="flex gap-4">
+                <span class="inline-flex size-10 flex-none items-center justify-center rounded-full bg-amber font-display text-h3 font-bold text-ink">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 class="font-semibold">{step.title}</h3>
+                  <p class="text-muted">{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <FAQ items={faqs} eyebrow={copy.faq.eyebrow} title={copy.faq.title} id="faq" />
 </BaseLayout>

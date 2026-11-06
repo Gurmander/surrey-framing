@@ -1,13 +1,109 @@
 ---
+/**
+ * About, SRS 5.5: hero, company story, owner and crew, values grid, credentials,
+ * stats band and CTA. The owner photo slot (`team-owner` in images.json) shows a
+ * neutral silhouette until the real photo is supplied.
+ */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/sections/PageHero.astro';
-import PageStub from '@/components/sections/PageStub.astro';
+import FeatureGrid from '@/components/sections/FeatureGrid.astro';
+import Stats from '@/components/sections/Stats.astro';
+import Section from '@/components/ui/Section.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Img from '@/components/ui/Img.astro';
+import { site } from '@/config/site';
 import { useTranslations } from '@/i18n';
 
-const page = useTranslations().pages.about;
+const t = useTranslations();
+const page = t.pages.about;
+const copy = t.about;
 ---
 
 <BaseLayout title={page.metaTitle} description={page.metaDescription}>
-  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} />
-  <PageStub milestone={4} />
+  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} image="about-1" />
+
+  <Section tone="white" labelledby="story-title">
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+      <div class="flex flex-col gap-6">
+        <SectionHeading id="story-title" eyebrow={copy.story.eyebrow} title={copy.story.title} />
+        {copy.story.paragraphs.map((p) => (
+          <p class="max-w-prose">{p}</p>
+        ))}
+      </div>
+      <div class="aspect-[4/5] overflow-hidden rounded-card shadow-card" data-reveal>
+        <Img
+          id="about-2"
+          sizes="(min-width: 1024px) 520px, 100vw"
+          widths={[400, 640, 800, 1040]}
+          class="size-full object-cover"
+        />
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="paper" labelledby="team-title">
+    <SectionHeading id="team-title" eyebrow={copy.team.eyebrow} title={copy.team.title} />
+    <div class="mt-10 grid gap-8 lg:mt-14 lg:grid-cols-[2fr_1fr]" data-reveal>
+      <article
+        class="grid gap-8 rounded-card bg-white p-6 shadow-card sm:grid-cols-[12rem_1fr] lg:p-10"
+        aria-labelledby="owner-name"
+      >
+        <!-- Head-and-shoulders crop; the baby in the original photo stays off the site. -->
+        <div class="aspect-square w-48 overflow-hidden rounded-card bg-steel sm:w-full">
+          <Img
+            id="team-owner"
+            sizes="192px"
+            widths={[192, 384, 576]}
+            class="size-full object-cover"
+          />
+        </div>
+        <div class="flex flex-col items-start gap-4">
+          <p class="eyebrow">{copy.owner.eyebrow}</p>
+          <h3 id="owner-name" class="heading-2">
+            {site.facts.ownerName}
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            <Badge>{copy.owner.role}</Badge>
+            <Badge>{copy.owner.experience}</Badge>
+          </div>
+          {copy.owner.paragraphs.map((p) => (
+            <p class="max-w-prose">{p}</p>
+          ))}
+        </div>
+      </article>
+      <article class="flex flex-col overflow-hidden rounded-card bg-white shadow-card">
+        <div class="aspect-[4/3] overflow-hidden">
+          <Img
+            id="careers"
+            sizes="(min-width: 1024px) 380px, 100vw"
+            widths={[400, 640, 800]}
+            decorative
+            class="size-full object-cover"
+          />
+        </div>
+        <div class="flex flex-col gap-3 p-6 lg:p-8">
+          <h3 class="heading-3">{copy.team.crewTitle}</h3>
+          <p class="text-muted">{copy.team.crewText}</p>
+        </div>
+      </article>
+    </div>
+  </Section>
+
+  <FeatureGrid
+    id="values"
+    items={copy.values.items}
+    eyebrow={copy.values.eyebrow}
+    title={copy.values.title}
+  />
+
+  <FeatureGrid
+    id="credentials"
+    tone="paper"
+    items={copy.credentials.items}
+    eyebrow={copy.credentials.eyebrow}
+    title={copy.credentials.title}
+  />
+
+  <Stats />
 </BaseLayout>

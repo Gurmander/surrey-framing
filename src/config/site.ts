@@ -29,12 +29,15 @@ export interface SiteConfig {
   pitch: string;
   url: string;
   phone: { display: string; href: string };
+  /** WhatsApp number in international format, digits only (FR-42). */
+  whatsapp: string;
   email: string;
   address: {
-    street: string;
+    /** Only needed if `showStreet` is true. */
+    street?: string;
     city: string;
     region: string;
-    postalCode: string;
+    postalCode?: string;
     country: string;
     /**
      * false = service-area business: the footer shows `serviceAreaLabel`
@@ -43,63 +46,48 @@ export interface SiteConfig {
     showStreet: boolean;
   };
   serviceAreaLabel: string;
-  geo: { lat: number | Placeholder; lng: number | Placeholder };
-  hours: {
-    /** Human-readable lines for the footer and contact card. */
-    display: string[];
-    /** schema.org openingHours values, e.g. "Mo-Fr 07:00-17:00". */
-    schema: string[];
-  };
   serviceAreas: ServiceArea[];
-  /** Only real https:// URLs are rendered; placeholders are skipped. */
-  socials: Partial<Record<'facebook' | 'instagram' | 'linkedin' | 'youtube', string>>;
-  licences: {
-    worksafebc: { covered: boolean; accountNumber: string };
-    insurance: { liabilityAmount: string };
-  };
+  /** Coverage is stated on the site; account numbers and amounts are not published. */
+  licences: { worksafebc: boolean; insured: boolean };
   facts: {
-    yearsInBusiness: string;
-    projectCount: string;
+    yearsInBusiness: number;
+    /** Shown as "200+". */
+    projectCount: number;
     crewSize: string;
     ownerName: string;
+    /** Shown as "more than 15 years". */
+    ownerExperienceYears: number;
   };
-  googleReviewUrl: string;
   /** Web3Forms access key, read from the environment (FR-04, NFR-31). */
   formAccessKey: string;
+  /** Footer "Site by" credit; `url` may be empty (no link). */
   credit: { name: string; url: string };
 }
 
 export const site: SiteConfig = {
   name: 'Surrey Framing',
-  legalName: '{{LEGAL_NAME}}',
+  legalName: 'Surrey Framing Ltd.',
   tagline: 'Built square. Built on schedule.',
   pitch:
     'Residential and multi-family framing across Surrey and the Lower Mainland, from laneway homes to townhouse complexes.',
   url: import.meta.env.SITE ?? 'https://surreyframing.ca',
 
   phone: {
-    display: '{{PHONE}}', // e.g. "(604) 555-0123"
-    href: 'tel:{{PHONE_E164}}', // e.g. "tel:+16045550123"
+    display: '(604) 652-3965',
+    href: 'tel:+16046523965',
   },
-  email: '{{EMAIL}}',
+  whatsapp: '16046523965',
+  email: 'surreyframing@gmail.com',
 
+  // Service-area business: no street address or opening hours are published (owner, 2026-11-05).
   address: {
-    street: '{{STREET_ADDRESS}}',
     city: 'Surrey',
     region: 'BC',
-    postalCode: '{{POSTAL_CODE}}',
     country: 'CA',
     showStreet: false,
   },
   serviceAreaLabel: 'Serving Metro Vancouver & Fraser Valley',
-  geo: { lat: '{{GEO_LAT}}', lng: '{{GEO_LNG}}' },
 
-  hours: {
-    display: ['{{HOURS_WEEKDAYS}}', '{{HOURS_WEEKEND}}'], // e.g. "Mon–Fri: 7 am – 5 pm"
-    schema: ['{{OPENING_HOURS}}'], // e.g. "Mo-Fr 07:00-17:00"
-  },
-
-  // SRS 2.1 — owner to confirm the final list.
   serviceAreas: [
     { name: 'Surrey', slug: 'surrey' },
     { name: 'Langley', slug: 'langley' },
@@ -113,31 +101,23 @@ export const site: SiteConfig = {
     { name: 'Richmond', slug: 'richmond' },
   ],
 
-  socials: {
-    facebook: '{{FACEBOOK_URL}}',
-    instagram: '{{INSTAGRAM_URL}}',
-  },
-
-  licences: {
-    worksafebc: { covered: true, accountNumber: '{{WORKSAFEBC_NUMBER}}' },
-    insurance: { liabilityAmount: '{{INSURANCE_AMOUNT}}' },
-  },
+  licences: { worksafebc: true, insured: true },
 
   facts: {
-    yearsInBusiness: '{{YEARS}}',
-    projectCount: '{{PROJECT_COUNT}}',
-    crewSize: '{{CREW_SIZE}}',
-    ownerName: '{{OWNER_NAME}}',
+    yearsInBusiness: 20,
+    projectCount: 200,
+    crewSize: '8–10',
+    ownerName: 'Kimatpal Shergill',
+    ownerExperienceYears: 15,
   },
 
-  googleReviewUrl: '{{GOOGLE_REVIEW_URL}}',
   formAccessKey: import.meta.env.PUBLIC_FORM_ACCESS_KEY ?? '',
-  credit: { name: '{{SITE_BY}}', url: '{{SITE_BY_URL}}' },
+  // Temporary link until Ceebub has its own site (owner, 2026-11-05).
+  credit: { name: 'Ceebub', url: 'https://github.com/Gurmander' },
 };
 
-/** Social links that have a real URL, in display order. */
-export function activeSocials(): { network: keyof SiteConfig['socials']; url: string }[] {
-  return (Object.entries(site.socials) as [keyof SiteConfig['socials'], string][])
-    .filter(([, url]) => url.startsWith('https://'))
-    .map(([network, url]) => ({ network, url }));
+/** WhatsApp click-to-chat link that opens a chat with an optional pre-filled message. */
+export function whatsappHref(message?: string): string {
+  const base = `https://wa.me/${site.whatsapp}`;
+  return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }

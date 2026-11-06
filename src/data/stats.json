@@ -1,0 +1,30 @@
+[
+  {
+    "id": "years",
+    "order": 1,
+    "value": 20,
+    "suffix": "",
+    "label": "Years in business"
+  },
+  {
+    "id": "projects",
+    "order": 2,
+    "value": 200,
+    "suffix": "+",
+    "label": "Projects framed"
+  },
+  {
+    "id": "crew",
+    "order": 3,
+    "value": "8–10",
+    "suffix": "",
+    "label": "Crew members"
+  },
+  {
+    "id": "cities",
+    "order": 4,
+    "value": 10,
+    "suffix": "",
+    "label": "Cities served"
+  }
+]

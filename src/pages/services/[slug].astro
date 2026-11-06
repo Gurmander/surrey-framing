@@ -1,29 +1,132 @@
 ---
 /**
- * Service detail stub. Milestone 2 switches getStaticPaths to the `services`
- * content collection; Milestone 4 builds the full FR-21 layout.
+ * Service detail, SRS FR-21: photo hero + H1, overview, what's included, ideal
+ * for, photo strip, mini process, 3 FAQs, related projects and a CTA that
+ * pre-selects the service in the quote form (?service=slug).
  */
 import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/sections/PageHero.astro';
-import PageStub from '@/components/sections/PageStub.astro';
-import { serviceLinks } from '@/config/navigation';
+import ProcessSteps from '@/components/sections/ProcessSteps.astro';
+import FAQ from '@/components/sections/FAQ.astro';
+import ProjectGrid from '@/components/sections/ProjectGrid.astro';
+import CTABanner from '@/components/sections/CTABanner.astro';
+import Section from '@/components/ui/Section.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import CheckList from '@/components/ui/CheckList.astro';
+import Button from '@/components/ui/Button.astro';
+import Img from '@/components/ui/Img.astro';
+import { routes } from '@/config/navigation';
+import { getProjects, getServices, type Service } from '@/lib/content';
+import { breadcrumbSchema, serviceSchema } from '@/lib/schema';
 import { fmt, useTranslations } from '@/i18n';
 
-export const getStaticPaths = (() =>
-  serviceLinks.map((service) => ({
-    params: { slug: service.slug },
-    props: { title: service.title },
+export const getStaticPaths = (async () =>
+  (await getServices()).map((service) => ({
+    params: { slug: service.id },
+    props: { service },
   }))) satisfies GetStaticPaths;
 
-const { title } = Astro.props;
-const page = useTranslations().pages.service;
+const { service } = Astro.props as { service: Service };
+const { data } = service;
+const { Content } = await render(service);
+const t = useTranslations();
+const copy = t.serviceDetail;
+
+const allProjects = await getProjects();
+const related = allProjects.filter((p) => p.data.serviceSlug.id === service.id);
+const relatedOrRecent = related.length ? related.slice(0, 3) : allProjects.slice(0, 3);
+
+// Photo strip: images from related projects first, then other recent projects.
+const strip = [
+  ...new Set(
+    [...related, ...allProjects]
+      .flatMap((p) => [p.data.cover.id, ...p.data.gallery.map((g) => g.id)])
+      .filter((id) => id !== data.image.id),
+  ),
+].slice(0, 4);
+
+const quoteLabel = fmt(t.cta.quoteFor, { service: data.title.toLowerCase() });
+const crumbs = [
+  { label: t.nav.home, href: routes.home },
+  { label: t.nav.services, href: routes.services },
+  { label: data.title, href: routes.service(service.id) },
+];
 ---
 
 <BaseLayout
-  title={fmt(page.metaTitle, { service: title })}
-  description={fmt(page.metaDescription, { service: title })}
+  title={data.seoTitle}
+  description={data.seoDescription}
+  ctaBanner={false}
+  schema={[
+    serviceSchema(data.title, data.seoDescription, routes.service(service.id)),
+    breadcrumbSchema(crumbs),
+  ]}
 >
-  <PageHero eyebrow={page.eyebrow} title={title} />
-  <PageStub milestone={4} />
+  <PageHero
+    eyebrow={t.pages.service.eyebrow}
+    title={data.title}
+    intro={data.summary}
+    image={data.image.id}
+    breadcrumbs={crumbs}
+  >
+    <Button href={routes.quote(service.id)} class="mt-2">
+      {quoteLabel}
+    </Button>
+  </PageHero>
+
+  <Section tone="white" labelledby="overview-title">
+    <div class="grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
+      <div class="flex flex-col gap-6">
+        <SectionHeading id="overview-title" eyebrow={copy.overviewEyebrow} title={data.title} />
+        <div class="prose-content">
+          <Content />
+        </div>
+      </div>
+      <aside class="flex flex-col gap-6 self-start lg:sticky lg:top-28">
+        <div class="rounded-card bg-paper p-6 lg:p-8">
+          <h2 class="mb-5 heading-3">{copy.includes}</h2>
+          <CheckList items={data.includes} />
+        </div>
+        <div class="rounded-card border border-line p-6 lg:p-8">
+          <h2 class="mb-5 heading-3">{copy.idealFor}</h2>
+          <CheckList items={data.idealFor} />
+        </div>
+        <Button href={routes.quote(service.id)} full>
+          {quoteLabel}
+        </Button>
+      </aside>
+    </div>
+  </Section>
+
+  <Section tone="paper" labelledby="gallery-title">
+    <SectionHeading id="gallery-title" eyebrow={copy.galleryEyebrow} title={copy.galleryTitle} />
+    <ul class="mt-10 grid grid-cols-2 gap-3 lg:mt-14 lg:grid-cols-4 lg:gap-4" data-reveal>
+      {strip.map((id) => (
+        <li class="aspect-[4/3] overflow-hidden rounded-card bg-steel">
+          <Img
+            id={id}
+            sizes="(min-width: 1280px) 300px, (min-width: 1024px) 25vw, 50vw"
+            widths={[320, 480, 640]}
+            class="size-full object-cover"
+          />
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <ProcessSteps eyebrow={t.home.process.eyebrow} title={copy.processTitle} />
+
+  <FAQ items={data.faqs} eyebrow={copy.faqEyebrow} title={copy.faqTitle} id="service-faq" />
+
+  <ProjectGrid
+    projects={relatedOrRecent}
+    tone="white"
+    eyebrow={copy.relatedEyebrow}
+    title={copy.relatedTitle}
+    cta={{ label: t.cta.allProjects, href: routes.projects }}
+  />
+
+  <CTABanner serviceSlug={service.id} quoteLabel={quoteLabel} />
 </BaseLayout>

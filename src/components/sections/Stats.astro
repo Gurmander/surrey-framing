@@ -1,0 +1,112 @@
+---
+/**
+ * Stats band, SRS 4.4 / 5.2 §5 / FR-60: ink with an optional background photo at
+ * 15% opacity, 2 → 4 columns. Final values are in the HTML (correct without JS and
+ * for SEO); numeric values count up once when 50% visible, unless reduced motion
+ * is on. Unconfirmed {{PLACEHOLDER}} values render as-is, at a smaller size.
+ */
+import Img from '@/components/ui/Img.astro';
+import { isPlaceholder } from '@/config/site';
+import { getStats } from '@/lib/content';
+import { useTranslations } from '@/i18n';
+
+interface Props {
+  background?: string;
+}
+
+const { background = 'stats-bg' } = Astro.props;
+const stats = await getStats();
+const t = useTranslations();
+---
+
+<section
+  class="surface-ink section-y relative isolate overflow-hidden"
+  aria-labelledby="stats-title"
+>
+  {background && (
+    <Img
+      id={background}
+      sizes="100vw"
+      widths={[640, 1280, 1920]}
+      decorative
+      pictureClass="absolute inset-0 -z-10"
+      class="size-full object-cover opacity-15"
+    />
+  )}
+  <div class="container-site">
+    <h2 id="stats-title" class="sr-only">
+      {t.home.stats.title}
+    </h2>
+    <dl class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4" data-reveal>
+      {stats.map(({ data }) => {
+        const placeholder = isPlaceholder(data.value);
+        const numeric = typeof data.value === 'number';
+        return (
+          <div class="flex flex-col-reverse gap-2 border-l-2 border-amber pl-4 lg:pl-6">
+            <dt class="text-small text-muted lg:text-body">{data.label}</dt>
+            <dd
+              class:list={[
+                'font-display font-bold text-amber tabular-nums',
+                placeholder ? 'text-h3 break-all' : 'text-stat',
+              ]}
+            >
+              {!numeric ? (
+                `${data.value}${data.suffix}`
+              ) : (
+                <>
+                  <span data-count-to={data.value} aria-hidden="true">
+                    {data.value}
+                  </span>
+                  <span aria-hidden="true">{data.suffix}</span>
+                  <span class="sr-only">
+                    {data.value}
+                    {data.suffix}
+                  </span>
+                </>
+              )}
+            </dd>
+          </div>
+        );
+      })}
+    </dl>
+  </div>
+</section>
+
+<script>
+  const counters = document.querySelectorAll<HTMLElement>('[data-count-to]');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (counters.length && !reduced && 'IntersectionObserver' in window) {
+    const run = (el: HTMLElement) => {
+      const target = Number(el.dataset.countTo);
+      const start = performance.now();
+      const duration = 1200;
+      const tick = (now: number) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = String(Math.round(target * eased));
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          observer.unobserve(entry.target);
+          run(entry.target as HTMLElement);
+        }
+      },
+      { threshold: 0.5 },
+    );
+
+    counters.forEach((el) => {
+      // Only animate counters that start off-screen, so no visible number jumps to 0.
+      if (el.getBoundingClientRect().top > window.innerHeight) {
+        el.textContent = '0';
+        observer.observe(el);
+      }
+    });
+  }
+</script>

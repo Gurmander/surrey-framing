@@ -1,0 +1,132 @@
+---
+/**
+ * Project photo gallery, SRS FR-26 / FR-46. Each thumbnail links to the large
+ * image (works without JS). With JS, PhotoSwipe opens a lightbox: next/previous,
+ * swipe, Esc to close, captions, and focus returns to the clicked thumbnail.
+ * The lightbox script and styles are bundled into project pages only.
+ * Images tagged before/during/after in images.json are grouped (FR-26).
+ */
+import { getImage } from 'astro:assets';
+import Img from '@/components/ui/Img.astro';
+import { resolveImage, type ImageRef } from '@/lib/images';
+import { fmt, useTranslations } from '@/i18n';
+
+interface Props {
+  images: ImageRef[];
+}
+
+const { images } = Astro.props;
+const t = useTranslations();
+
+const resolved = await Promise.all(
+  images.map(async (ref) => {
+    const image = await resolveImage(ref);
+    const large = await getImage({
+      src: image.src,
+      width: Math.min(1920, image.src.width),
+      format: 'webp',
+      quality: 70,
+    });
+    return { image, large };
+  }),
+);
+
+const stages = ['before', 'during', 'after'] as const;
+const tagged = resolved.some(({ image }) => image.stage);
+const groups = tagged
+  ? stages
+      .map((stage) => ({
+        stage,
+        items: resolved.filter(({ image }) => (image.stage ?? 'during') === stage),
+      }))
+      .filter((group) => group.items.length > 0)
+  : [{ stage: null, items: resolved }];
+
+const total = resolved.length;
+let index = 0;
+---
+
+<div data-gallery class="flex flex-col gap-10">
+  {groups.map((group) => (
+    <div>
+      {group.stage && <h3 class="mb-4 heading-3">{t.projectDetail.stages[group.stage]}</h3>}
+      <ul class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:gap-4">
+        {group.items.map(({ image, large }) => {
+          index += 1;
+          return (
+            <li>
+              <a
+                href={large.src}
+                data-pswp-width={large.attributes.width}
+                data-pswp-height={large.attributes.height}
+                data-caption={image.alt}
+                aria-label={`${fmt(t.projectDetail.openImage, { n: index, total })}: ${image.alt}`}
+                class="group block aspect-[4/3] overflow-hidden rounded-card bg-steel"
+              >
+                <Img
+                  id={image.id}
+                  sizes="(min-width: 1280px) 400px, (min-width: 768px) 33vw, 50vw"
+                  widths={[320, 480, 640, 800]}
+                  class="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  ))}
+</div>
+
+<style is:global>
+  /* PhotoSwipe renders outside this component; theme it with the site tokens. */
+  .pswp {
+    --pswp-bg: var(--color-ink);
+    --pswp-icon-color: var(--color-white);
+  }
+
+  .pswp-caption {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    padding: 1.5rem 1.25rem calc(1rem + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, rgb(22 24 28 / 0.9), transparent);
+    color: var(--color-white);
+    font-size: var(--text-small);
+    text-align: center;
+  }
+</style>
+
+<script>
+  import PhotoSwipeLightbox from 'photoswipe/lightbox';
+  import 'photoswipe/style.css';
+
+  if (document.querySelector('[data-gallery]')) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const lightbox = new PhotoSwipeLightbox({
+      gallery: '[data-gallery]',
+      children: 'a[data-pswp-width]',
+      pswpModule: () => import('photoswipe'),
+      showHideAnimationType: reduced ? 'none' : 'zoom',
+    });
+
+    lightbox.on('uiRegister', () => {
+      lightbox.pswp?.ui?.registerElement({
+        name: 'caption',
+        order: 9,
+        isButton: false,
+        appendTo: 'root',
+        onInit: (el, pswp) => {
+          el.className = 'pswp-caption';
+          el.setAttribute('aria-live', 'polite');
+          pswp.on('change', () => {
+            const anchor = pswp.currSlide?.data.element as HTMLElement | undefined;
+            el.textContent = anchor?.dataset.caption ?? '';
+          });
+        },
+      });
+    });
+
+    lightbox.init();
+  }
+</script>

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "send-plans",
+    "step": 1,
+    "title": "Send your plans",
+    "text": "Share your drawings, or photos and rough sizes if you don't have plans yet. We review them and come back with questions.",
+    "icon": "file-up"
+  },
+  {
+    "id": "site-visit",
+    "step": 2,
+    "title": "Site visit and estimate",
+    "text": "We check the site, access and staging, then send a clear written estimate and a realistic schedule.",
+    "icon": "clipboard-check"
+  },
+  {
+    "id": "schedule-frame",
+    "step": 3,
+    "title": "Schedule and frame",
+    "text": "We book your start date, coordinate deliveries with you or your GC, and frame to the drawings.",
+    "icon": "calendar-check"
+  },
+  {
+    "id": "handover",
+    "step": 4,
+    "title": "Inspection-ready handover",
+    "text": "We walk the frame, fix anything that's off and hand it over ready for inspection and the next trades.",
+    "icon": "badge-check"
+  }
+]

@@ -1,0 +1,35 @@
+---
+/** Grid of project cards, 1 → 2 → 3 columns (DS-09). Used on Home and /projects/. */
+import Section from '@/components/ui/Section.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import ProjectCard from '@/components/ui/ProjectCard.astro';
+import Button from '@/components/ui/Button.astro';
+import type { Project } from '@/lib/content';
+
+interface Props {
+  projects: Project[];
+  tone?: 'paper' | 'white';
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+  cta?: { label: string; href: string };
+}
+
+const { projects, tone = 'paper', eyebrow, title, intro, cta } = Astro.props;
+---
+
+<Section tone={tone} labelledby="projects-title">
+  <SectionHeading id="projects-title" eyebrow={eyebrow} title={title} intro={intro} />
+  <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:gap-8" data-reveal>
+    {projects.map((project) => (
+      <ProjectCard project={project} />
+    ))}
+  </ul>
+  {cta && (
+    <div class="mt-10 lg:mt-14">
+      <Button href={cta.href} variant="secondary">
+        {cta.label}
+      </Button>
+    </div>
+  )}
+</Section>

@@ -1,0 +1,52 @@
+---
+/**
+ * Home "who we are" teaser, SRS 5.2 §3: two stacked, offset photos on the left;
+ * eyebrow, H2, two short paragraphs, a 4-point checklist and an About link.
+ */
+import Section from '@/components/ui/Section.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import CheckList from '@/components/ui/CheckList.astro';
+import TextLink from '@/components/ui/TextLink.astro';
+import Img from '@/components/ui/Img.astro';
+import { routes } from '@/config/navigation';
+import { useTranslations } from '@/i18n';
+
+const t = useTranslations();
+const copy = t.home.intro;
+---
+
+<Section tone="paper" labelledby="intro-title">
+  <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20" data-reveal>
+    <div class="relative pr-10 pb-16 sm:pr-24 lg:pr-16">
+      <div class="aspect-[4/5] overflow-hidden rounded-card shadow-card">
+        <Img
+          id="about-1"
+          sizes="(min-width: 1024px) 520px, 85vw"
+          widths={[400, 640, 800, 1040]}
+          class="size-full object-cover"
+        />
+      </div>
+      <div class="absolute right-0 bottom-0 aspect-[4/5] w-1/2 overflow-hidden rounded-card border-6 border-paper shadow-card">
+        <Img
+          id="about-2"
+          sizes="(min-width: 1024px) 280px, 45vw"
+          widths={[320, 480, 640]}
+          class="size-full object-cover"
+        />
+      </div>
+    </div>
+
+    <div class="flex flex-col items-start gap-6">
+      <SectionHeading
+        id="intro-title"
+        eyebrow={copy.eyebrow}
+        title={copy.title}
+        highlight={copy.highlight}
+      />
+      <p class="max-w-prose">{copy.p1}</p>
+      <p class="max-w-prose">{copy.p2}</p>
+      <CheckList items={copy.points} />
+      <TextLink href={routes.about}>{t.cta.aboutUs}</TextLink>
+    </div>
+  </div>
+</Section>
