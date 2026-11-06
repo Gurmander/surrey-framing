@@ -31,7 +31,7 @@ We keep quote and project information for as long as we need it for the project,
 
 ## Your choices
 
-You can ask to see the personal information we hold about you, ask us to correct it, or ask us to delete it. Email us at [surreyframing@gmail.com](mailto:surreyframing@gmail.com) or call [(604) 652-3965](tel:+16046523965). We will respond within 30 days, as PIPA requires.
+You can ask to see the personal information we hold about you, ask us to correct it, or ask us to delete it. Email us at [surreyframingltd@gmail.com](mailto:surreyframingltd@gmail.com) or call [(604) 652-3965](tel:+16046523965). We will respond within 30 days, as PIPA requires.
 
 ## Changes to this policy
 

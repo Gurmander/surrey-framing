@@ -79,7 +79,7 @@ export const site: SiteConfig = {
     href: 'tel:+16046523965',
   },
   whatsapp: '16046523965',
-  email: 'surreyframing@gmail.com',
+  email: 'surreyframingltd@gmail.com',
 
   // Service-area business: no street address or opening hours are published (owner, 2026-11-05).
   address: {
