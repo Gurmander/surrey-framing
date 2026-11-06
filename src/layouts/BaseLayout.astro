@@ -1,0 +1,77 @@
+---
+/**
+ * Page shell for every route: head/SEO, skip link, header, main, CTA banner,
+ * footer and mobile call bar (SRS 5.1).
+ */
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '@fontsource-variable/inter/wght.css';
+import '@/styles/global.css';
+
+// NFR-08: preload the two fonts used above the fold (max 2 files).
+import barlowWoff2 from '@fontsource/barlow-condensed/files/barlow-condensed-latin-700-normal.woff2?url';
+import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+
+import SEO, { type Props as SEOProps } from '@/components/layout/SEO.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import MobileCallBar from '@/components/layout/MobileCallBar.astro';
+import CTABanner from '@/components/sections/CTABanner.astro';
+import { getLangFromUrl, htmlLang, useTranslations } from '@/i18n';
+
+interface Props extends SEOProps {
+  /** Header starts transparent over a dark hero (default) or solid ink. */
+  transparentHeader?: boolean;
+  /** Mobile call bar; off on Contact and Thank-you (FR-12). */
+  callBar?: boolean;
+  /** CTA banner above the footer; off on Contact (FR-13). */
+  ctaBanner?: boolean;
+}
+
+const { transparentHeader = true, callBar = true, ctaBanner = true, ...seo } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<!doctype html>
+<html lang={htmlLang[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="preload" href={barlowWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interWoff2} as="font" type="font/woff2" crossorigin />
+    <SEO {...seo} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <!-- --color-ink -->
+    <meta name="theme-color" content="#16181c" />
+  </head>
+  <body
+    class:list={['relative', callBar && 'pb-[calc(3.5rem+env(safe-area-inset-bottom))] md:pb-0']}
+  >
+    <!-- Watched by the header script: scrolled past 40 px = solid header. -->
+    <div
+      data-scroll-sentinel
+      aria-hidden="true"
+      class="pointer-events-none absolute top-10 left-0 size-px"
+    ></div>
+
+    <a
+      href="#main"
+      class="sr-only z-50 rounded-btn bg-amber px-5 py-3 font-semibold text-ink focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+    >
+      {t.a11y.skipToContent}
+    </a>
+
+    <Header transparent={transparentHeader} />
+
+    <main id="main" tabindex="-1" class:list={[!transparentHeader && 'pt-header lg:pt-header-lg']}>
+      <slot />
+      {ctaBanner && <CTABanner />}
+    </main>
+
+    <Footer />
+    {callBar && <MobileCallBar />}
+  </body>
+</html>

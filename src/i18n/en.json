@@ -1,0 +1,136 @@
+{
+  "a11y": {
+    "skipToContent": "Skip to content",
+    "mainNav": "Main",
+    "mobileNav": "Site menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "homeLink": "Surrey Framing home",
+    "footerNav": "Footer",
+    "social": "{network} (opens in a new tab)"
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "projects": "Projects",
+    "about": "About",
+    "builders": "For Builders",
+    "careers": "Careers",
+    "contact": "Contact",
+    "serviceAreas": "Service Areas",
+    "privacy": "Privacy"
+  },
+  "cta": {
+    "getQuote": "Get a Quote",
+    "getFreeQuote": "Get a Free Quote",
+    "freeQuote": "Free Quote",
+    "call": "Call",
+    "callNumber": "Call {phone}",
+    "learnMore": "Learn more"
+  },
+  "trust": {
+    "worksafe": "WorkSafeBC covered",
+    "insured": "Fully insured",
+    "years": "{years}+ years",
+    "estimates": "Free estimates"
+  },
+  "ctaBanner": {
+    "title": "Ready to build?",
+    "text": "Send us your plans or tell us about your project. We reply within one business day with next steps and a free estimate."
+  },
+  "footer": {
+    "services": "Services",
+    "company": "Company",
+    "contact": "Contact",
+    "hours": "Hours",
+    "copyright": "© {year} {name}. All rights reserved.",
+    "siteBy": "Site by"
+  },
+  "stub": {
+    "text": "This page is a placeholder. Its full content is built in milestone {milestone} of the SRS."
+  },
+  "pages": {
+    "home": {
+      "metaTitle": "Framing Contractor in Surrey, BC | Surrey Framing",
+      "metaDescription": "Surrey Framing builds wood-frame homes, townhouses, laneway houses and additions across Surrey and the Lower Mainland. WorkSafeBC covered. Free estimates.",
+      "eyebrow": "Surrey, BC framing contractor",
+      "heading": "Built square. Built on schedule.",
+      "intro": "Residential and multi-family framing across Surrey and the Lower Mainland, from laneway homes to townhouse complexes."
+    },
+    "services": {
+      "metaTitle": "Framing Services in Surrey, BC | Surrey Framing",
+      "metaDescription": "Framing services in Surrey, BC: new homes, multi-family and townhouses, laneway homes, additions, basements, roofs, decks and repairs. Get a free quote.",
+      "eyebrow": "What we frame",
+      "heading": "Framing services",
+      "intro": "From a single garden suite to a townhouse complex, we frame to your drawings and your schedule."
+    },
+    "service": {
+      "metaTitle": "{service} in Surrey, BC | Surrey Framing",
+      "metaDescription": "{service} by Surrey Framing in Surrey and the Lower Mainland. We work from engineered drawings and frame to your schedule. Free quotes.",
+      "eyebrow": "Framing services"
+    },
+    "projects": {
+      "metaTitle": "Framing Projects in Surrey, BC | Surrey Framing",
+      "metaDescription": "See recent framing projects by Surrey Framing: new homes, townhouses, laneway houses and additions across Surrey, Langley, Delta and the Lower Mainland.",
+      "eyebrow": "Projects",
+      "heading": "Our work",
+      "intro": "New homes, multi-family buildings, laneway houses and additions framed by our crew."
+    },
+    "about": {
+      "metaTitle": "About Our Framing Crew in Surrey, BC | Surrey Framing",
+      "metaDescription": "Meet the Surrey Framing crew. We frame homes and multi-family buildings across the Lower Mainland with a focus on safety, precision and on-time handovers.",
+      "eyebrow": "About us",
+      "heading": "Surrey's framing crew",
+      "intro": "Safety, precision, on-time handovers and clean sites. That is how we work on every job."
+    },
+    "builders": {
+      "metaTitle": "Framing Subcontractor in Surrey, BC | Surrey Framing",
+      "metaDescription": "A reliable framing subcontractor for general contractors and developers in Surrey and the Lower Mainland. We bid from drawings and frame to your schedule.",
+      "eyebrow": "For builders and developers",
+      "heading": "Your framing sub, on schedule.",
+      "intro": "We bid from your drawings, coordinate with your site team and hand over inspection-ready frames."
+    },
+    "serviceAreas": {
+      "metaTitle": "Framing Service Areas in Surrey, BC | Surrey Framing",
+      "metaDescription": "Surrey Framing works across Surrey, Langley, Delta, White Rock, Abbotsford, Coquitlam, Burnaby, New Westminster, Maple Ridge and Richmond. Free estimates.",
+      "eyebrow": "Service areas",
+      "heading": "Framing contractor serving Surrey and the Lower Mainland",
+      "intro": "Based in Surrey, framing across Metro Vancouver and the Fraser Valley."
+    },
+    "careers": {
+      "metaTitle": "Framing Jobs in Surrey, BC | Surrey Framing",
+      "metaDescription": "Framing jobs in Surrey, BC. Surrey Framing hires framers, labourers and apprentices for steady work on residential and multi-family projects. Apply online.",
+      "eyebrow": "Careers",
+      "heading": "Build with our crew",
+      "intro": "Steady work, a safe site and real training for framers, labourers and apprentices."
+    },
+    "contact": {
+      "metaTitle": "Get a Framing Quote in Surrey, BC | Surrey Framing",
+      "metaDescription": "Request a free framing quote in Surrey, BC. Send your plans or photos and we will reply within one business day, or call us to talk through your project.",
+      "eyebrow": "Contact",
+      "heading": "Get a free framing quote",
+      "intro": "Tell us about your project. Plans and photos help us give you an accurate estimate."
+    },
+    "thankYou": {
+      "metaTitle": "Thank You | Surrey Framing",
+      "metaDescription": "Thanks for contacting Surrey Framing. We have your request and will reply within one business day. For urgent jobs, please call us directly by phone.",
+      "eyebrow": "Request received",
+      "heading": "Thanks. We've got your request.",
+      "intro": "We reply within 1 business day. For urgent jobs, call us."
+    },
+    "privacy": {
+      "metaTitle": "Privacy Policy | Surrey Framing",
+      "metaDescription": "How Surrey Framing collects, uses and protects the information you send through our quote, builder and job application forms, and how to request deletion.",
+      "eyebrow": "Legal",
+      "heading": "Privacy policy",
+      "intro": "What we collect through this website, why we collect it and how to ask us to delete it."
+    },
+    "notFound": {
+      "metaTitle": "Page Not Found | Surrey Framing",
+      "metaDescription": "The page you were looking for could not be found. Head back to the Surrey Framing home page, browse our framing services or get in touch for a free quote.",
+      "eyebrow": "404",
+      "heading": "This wall isn't framed yet",
+      "intro": "The page you were looking for doesn't exist or has moved. Try one of these instead:"
+    }
+  }
+}

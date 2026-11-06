@@ -1,0 +1,31 @@
+---
+/**
+ * Fixed bottom bar below `md` (768 px), SRS 4.4 / FR-12: "Call" and "Free Quote".
+ * BaseLayout omits it on Contact and Thank-you and pads the page so it never
+ * covers the footer.
+ */
+import { Icon } from 'astro-icon/components';
+import { routes } from '@/config/navigation';
+import { site } from '@/config/site';
+import { getLangFromUrl, useTranslations } from '@/i18n';
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<div class="fixed inset-x-0 bottom-0 z-30 grid grid-cols-2 bg-ink pb-[env(safe-area-inset-bottom)] shadow-bar md:hidden">
+  <a
+    href={site.phone.href}
+    class="on-dark flex h-14 items-center justify-center gap-2 text-btn font-semibold transition-colors hover:bg-steel"
+  >
+    <Icon name="lucide:phone" class="size-5 text-amber" aria-hidden="true" />
+    {t.cta.call}
+    <span class="sr-only">{site.phone.display}</span>
+  </a>
+  <a
+    href={routes.quote()}
+    class="surface-amber flex h-14 items-center justify-center gap-2 text-btn font-semibold transition-colors hover:bg-amber-dark"
+  >
+    {t.cta.freeQuote}
+    <Icon name="lucide:arrow-right" class="size-4.5" aria-hidden="true" />
+  </a>
+</div>

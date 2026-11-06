@@ -1,0 +1,20 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# environment (NFR-31: never commit secrets)
+.env
+.env.*
+!.env.example
+
+# hosting CLIs
+.netlify/
+.vercel/
+
+# OS / editor
+.DS_Store
+.vscode/*
+!.vscode/extensions.json

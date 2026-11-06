@@ -1,0 +1,21 @@
+---
+/**
+ * Project detail stub. No projects exist until Milestone 2 seeds the `projects`
+ * content collection (FR-27), so no pages are generated yet. Milestone 4 builds
+ * the FR-26 layout (cover, facts panel, gallery + lightbox).
+ */
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import PageStub from '@/components/sections/PageStub.astro';
+
+export const getStaticPaths = (() =>
+  [] as { params: { slug: string }; props: { title: string } }[]) satisfies GetStaticPaths;
+
+const { title } = Astro.props;
+---
+
+<BaseLayout title={title} description="">
+  <PageHero title={title} />
+  <PageStub milestone={4} />
+</BaseLayout>

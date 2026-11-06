@@ -1,0 +1,55 @@
+---
+/**
+ * Eyebrow + heading + optional intro, SRS 4.4. Left aligned by default; centred
+ * only in the CTA banner. `highlight` marks at most one word in the accent colour
+ * (DS-02).
+ */
+interface Props {
+  title: string;
+  eyebrow?: string;
+  intro?: string;
+  /** A word or phrase inside `title` to show in the accent colour. */
+  highlight?: string;
+  align?: 'left' | 'center';
+  /** 1 for page heroes (display size), 2 for section titles. */
+  level?: 1 | 2;
+  /** id for the heading, e.g. for a section's aria-labelledby. */
+  id?: string;
+  class?: string;
+}
+
+const {
+  title,
+  eyebrow,
+  intro,
+  highlight,
+  align = 'left',
+  level = 2,
+  id,
+  class: className,
+} = Astro.props;
+
+const Tag = level === 1 ? 'h1' : 'h2';
+const at = highlight ? title.indexOf(highlight) : -1;
+const parts =
+  highlight && at >= 0
+    ? [title.slice(0, at), highlight, title.slice(at + highlight.length)]
+    : [title, '', ''];
+---
+
+<div
+  class:list={[
+    'flex flex-col gap-4',
+    align === 'center' ? 'mx-auto items-center text-center' : 'items-start',
+    className,
+  ]}
+>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <Tag id={id} class={level === 1 ? 'heading-display' : 'heading-2'}>
+    {parts[0]}
+    {parts[1] && <span class="text-accent">{parts[1]}</span>}
+    {parts[2]}
+  </Tag>
+  {intro && <p class="max-w-prose text-muted">{intro}</p>}
+  <slot />
+</div>

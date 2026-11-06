@@ -1,0 +1,72 @@
+---
+/**
+ * Per-page head tags (SRS FR-14, NFR-11 to NFR-13): title, description, canonical,
+ * Open Graph, Twitter and JSON-LD. The site-wide GeneralContractor schema is always
+ * included; pages add their own via `schema`.
+ */
+import { site } from '@/config/site';
+import { generalContractorSchema, serializeJsonLd, type JsonLd } from '@/lib/schema';
+
+export interface Props {
+  /** Full <title>, pattern "{Page topic} in Surrey, BC | Surrey Framing" (≤ 60 chars). */
+  title: string;
+  /** 140–160 characters, unique per page. */
+  description: string;
+  /** Social image path or URL, 1200×630. Defaults to /og-default.jpg. */
+  image?: string;
+  imageAlt?: string;
+  noindex?: boolean;
+  schema?: JsonLd | JsonLd[];
+}
+
+const {
+  title,
+  description,
+  image = '/og-default.jpg',
+  imageAlt = `${site.name}: wood-frame construction in Surrey, BC`,
+  noindex = false,
+  schema = [],
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
+const imageUrl = new URL(image, Astro.site ?? site.url).href;
+const jsonLd = [generalContractorSchema(), ...(Array.isArray(schema) ? schema : [schema])];
+
+// Flag SEO rule breaks at build time instead of finding them in an audit (NFR-11).
+if (!noindex) {
+  if (title.length > 60) {
+    console.warn(`[SEO] ${Astro.url.pathname}: title is ${title.length} chars (max 60)`);
+  }
+  if (description.length < 140 || description.length > 160) {
+    console.warn(
+      `[SEO] ${Astro.url.pathname}: description is ${description.length} chars (want 140–160)`,
+    );
+  }
+}
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+{noindex ? (
+  <meta name="robots" content="noindex, follow" />
+) : (
+  <link rel="canonical" href={canonical} />
+)}
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content="en_CA" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+<script type="application/ld+json" set:html={serializeJsonLd(jsonLd)} />

@@ -1,0 +1,44 @@
+---
+/**
+ * CTA band above the footer on every page except Contact (SRS 4.4, FR-13).
+ * Amber, not ink: the footer is ink and DS-03 forbids two ink sections in a row.
+ * Defaults come from the UI strings; pages may override the copy.
+ */
+import Button from '@/components/ui/Button.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { routes } from '@/config/navigation';
+import { site } from '@/config/site';
+import { fmt, getLangFromUrl, useTranslations } from '@/i18n';
+
+interface Props {
+  title?: string;
+  text?: string;
+  /** Pre-select a service in the quote form (FR-21). */
+  serviceSlug?: string;
+  quoteLabel?: string;
+}
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+const {
+  title = t.ctaBanner.title,
+  text = t.ctaBanner.text,
+  serviceSlug,
+  quoteLabel = t.cta.getFreeQuote,
+} = Astro.props;
+---
+
+<section class="surface-amber section-y" aria-labelledby="cta-banner-title">
+  <div class="container-site">
+    <SectionHeading id="cta-banner-title" title={title} align="center" class="max-w-3xl">
+      <p class="max-w-prose">{text}</p>
+      <div class="mt-4 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
+        <Button href={routes.quote(serviceSlug)} variant="dark">
+          {quoteLabel}
+        </Button>
+        <Button href={site.phone.href} variant="secondary" icon="lucide:phone">
+          {fmt(t.cta.callNumber, { phone: site.phone.display })}
+        </Button>
+      </div>
+    </SectionHeading>
+  </div>
+</section>

@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# Security headers (NFR-30) are added in Milestone 6, once the form,
+# captcha and analytics domains are final.

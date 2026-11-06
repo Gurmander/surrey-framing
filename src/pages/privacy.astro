@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import PageStub from '@/components/sections/PageStub.astro';
+import { useTranslations } from '@/i18n';
+
+const page = useTranslations().pages.privacy;
+---
+
+<BaseLayout title={page.metaTitle} description={page.metaDescription}>
+  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} />
+  <PageStub milestone={4} />
+</BaseLayout>

@@ -1,0 +1,25 @@
+---
+/**
+ * Card shell, SRS 4.4 (10 px radius, white on light surfaces). With `interactive`
+ * the card lifts 4 px on hover/focus; put one `link-stretched` link inside to make
+ * the whole card clickable, and use `group-hover:` for the image zoom.
+ */
+interface Props {
+  as?: 'article' | 'div' | 'li';
+  interactive?: boolean;
+  class?: string;
+}
+
+const { as: Tag = 'article', interactive = false, class: className } = Astro.props;
+---
+
+<Tag
+  class:list={[
+    'group relative flex flex-col overflow-hidden rounded-card bg-white text-ink shadow-card',
+    interactive &&
+      'transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-card-hover focus-within:-translate-y-1 focus-within:shadow-card-hover',
+    className,
+  ]}
+>
+  <slot />
+</Tag>

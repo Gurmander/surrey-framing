@@ -1,0 +1,31 @@
+---
+/**
+ * Text wordmark, SRS DS-12: "SURREY" in Barlow Condensed 700 + "FRAMING" in amber,
+ * with a roof-truss mark (triangle + centre post). Used on dark surfaces only.
+ * Pass `href={null}` to render without a link (e.g. inside the open mobile menu).
+ */
+import { Icon } from 'astro-icon/components';
+import { site } from '@/config/site';
+import { getLangFromUrl, useTranslations } from '@/i18n';
+
+interface Props {
+  href?: string | null;
+  class?: string;
+}
+
+const { href = '/', class: className } = Astro.props;
+const t = useTranslations(getLangFromUrl(Astro.url));
+const [first, ...rest] = site.name.split(' ');
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag
+  href={href ?? undefined}
+  aria-label={href ? t.a11y.homeLink : undefined}
+  class:list={['inline-flex items-center gap-2.5 text-white', className]}
+>
+  <Icon name="truss" class="h-7 w-8 flex-none text-amber" aria-hidden="true" />
+  <span class="font-display text-h3 leading-none font-bold tracking-wide whitespace-nowrap uppercase">
+    {first} <span class="text-amber">{rest.join(' ')}</span>
+  </span>
+</Tag>

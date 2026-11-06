@@ -1,0 +1,32 @@
+---
+/**
+ * Short page hero for inner pages (SRS FR-20: ~40vh, H1). Sits under the
+ * transparent header, so it reserves the header height at the top.
+ * Milestone 4 adds the background photo + DS-13 overlay via an `image` prop.
+ */
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+
+interface Props {
+  title: string;
+  eyebrow?: string;
+  intro?: string;
+  highlight?: string;
+}
+
+const { title, eyebrow, intro, highlight } = Astro.props;
+---
+
+<section class="surface-ink relative isolate flex min-h-[40vh] items-end pt-header lg:pt-header-lg">
+  <div class="container-site pt-12 pb-12 lg:pt-20 lg:pb-16">
+    <SectionHeading
+      level={1}
+      title={title}
+      eyebrow={eyebrow}
+      intro={intro}
+      highlight={highlight}
+      class="max-w-4xl"
+    >
+      <slot />
+    </SectionHeading>
+  </div>
+</section>

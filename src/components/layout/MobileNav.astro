@@ -1,0 +1,154 @@
+---
+/**
+ * Full-screen mobile menu, SRS 4.4: ink overlay, large links, phone + quote buttons
+ * at the bottom, focus-trapped, Esc closes.
+ *
+ * Built on the native `popover` attribute, so opening, closing and Esc work
+ * without JavaScript (NFR-42). The script adds the focus trap and aria-expanded.
+ */
+import { Icon } from 'astro-icon/components';
+import Logo from '@/components/ui/Logo.astro';
+import Button from '@/components/ui/Button.astro';
+import { linkState, mainNav, routes, type NavLink } from '@/config/navigation';
+import { site } from '@/config/site';
+import { fmt, getLangFromUrl, useTranslations } from '@/i18n';
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+const path = Astro.url.pathname;
+const links: NavLink[] = [{ key: 'home', href: routes.home }, ...mainNav];
+---
+
+<div
+  id="mobile-nav"
+  popover
+  data-mobile-nav
+  role="dialog"
+  aria-modal="true"
+  aria-label={t.a11y.mobileNav}
+  class="mobile-nav surface-ink"
+>
+  <div class="flex h-full flex-col">
+    <div class="container-site flex h-header flex-none items-center justify-between">
+      <Logo href={null} />
+      <button
+        type="button"
+        popovertarget="mobile-nav"
+        popovertargetaction="hide"
+        class="-mr-2 inline-flex size-11 items-center justify-center rounded-btn"
+      >
+        <Icon name="lucide:x" class="size-7" aria-hidden="true" />
+        <span class="sr-only">{t.a11y.closeMenu}</span>
+      </button>
+    </div>
+
+    <nav aria-label={t.a11y.mainNav} class="container-site flex-1 overflow-y-auto py-4">
+      <ul>
+        {links.map((link) => (
+          <li class="border-b border-steel">
+            <a
+              href={link.href}
+              aria-current={linkState(link.href, path) === 'page' ? 'page' : undefined}
+              class="flex min-h-14 items-center justify-between gap-4 py-3 font-display text-h2 leading-none font-bold uppercase aria-[current=page]:text-amber"
+            >
+              {t.nav[link.key]}
+              <Icon
+                name="lucide:arrow-right"
+                class="size-6 flex-none text-amber"
+                aria-hidden="true"
+              />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="container-site grid flex-none gap-3 pt-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] sm:grid-cols-2">
+      <Button href={site.phone.href} variant="secondary" icon="lucide:phone" full>
+        {fmt(t.cta.callNumber, { phone: site.phone.display })}
+      </Button>
+      <Button href={routes.quote()} full>
+        {t.cta.getFreeQuote}
+      </Button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Reset the UA popover box to a full-screen overlay. */
+  .mobile-nav {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+  }
+
+  .mobile-nav:popover-open {
+    display: block;
+    opacity: 1;
+    transition: opacity 200ms ease-out;
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
+  .mobile-nav::backdrop {
+    background: transparent;
+  }
+
+  /* Desktop has the inline nav; never show the overlay there. */
+  @media (width >= 80rem) {
+    .mobile-nav:popover-open {
+      display: none;
+    }
+  }
+
+  /* Lock page scroll while the menu is open. */
+  :global(html:has(#mobile-nav:popover-open)) {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  const menu = document.querySelector<HTMLElement>('[data-mobile-nav]');
+
+  if (menu) {
+    const toggles = document.querySelectorAll<HTMLElement>('[data-menu-toggle]');
+    const focusables = () =>
+      Array.from(menu.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'));
+
+    toggles.forEach((button) => button.setAttribute('aria-expanded', 'false'));
+
+    menu.addEventListener('toggle', (event) => {
+      const open = (event as ToggleEvent).newState === 'open';
+      toggles.forEach((button) => button.setAttribute('aria-expanded', String(open)));
+      if (open) focusables()[0]?.focus();
+    });
+
+    // Keep Tab / Shift+Tab inside the open menu.
+    menu.addEventListener('keydown', (event) => {
+      if (event.key !== 'Tab') return;
+      const items = focusables();
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    });
+
+    // Close if the viewport grows to desktop while the menu is open.
+    window.matchMedia('(min-width: 80rem)').addEventListener('change', (event) => {
+      if (event.matches && menu.matches(':popover-open')) menu.hidePopover();
+    });
+  }
+</script>

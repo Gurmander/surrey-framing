@@ -1,0 +1,19 @@
+---
+/** Small uppercase label, SRS 4.4: steel background on light, amber outline on dark. */
+interface Props {
+  tone?: 'light' | 'dark';
+  class?: string;
+}
+
+const { tone = 'light', class: className } = Astro.props;
+---
+
+<span
+  class:list={[
+    'inline-flex items-center rounded-btn px-2.5 py-1 text-badge font-semibold tracking-wider uppercase',
+    tone === 'light' ? 'bg-steel text-white' : 'border border-amber text-white',
+    className,
+  ]}
+>
+  <slot />
+</span>

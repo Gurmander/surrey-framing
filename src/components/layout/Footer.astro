@@ -1,0 +1,153 @@
+---
+/**
+ * Site footer, SRS FR-11: ink background, 4 columns (brand, services, company,
+ * contact) and a bottom row with © year, Privacy and the "Site by" credit.
+ */
+import { Icon } from 'astro-icon/components';
+import Logo from '@/components/ui/Logo.astro';
+import Badge from '@/components/ui/Badge.astro';
+import { companyNav, routes, serviceLinks } from '@/config/navigation';
+import { activeSocials, isPlaceholder, site } from '@/config/site';
+import { fmt, getLangFromUrl, useTranslations } from '@/i18n';
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+const year = new Date().getFullYear();
+const { address } = site;
+const socials = activeSocials();
+const socialLabel = (network: string) =>
+  fmt(t.a11y.social, { network: network.charAt(0).toUpperCase() + network.slice(1) });
+
+const linkClass = 'inline-flex min-h-11 items-center py-1 transition-colors hover:text-amber';
+const headingClass = 'font-display text-h3 font-semibold uppercase text-white';
+---
+
+<footer class="surface-ink" id="site-footer">
+  <div class="container-site grid gap-10 py-16 md:grid-cols-2 lg:gap-12 lg:py-20 xl:grid-cols-[1.4fr_1.2fr_0.8fr_1fr]">
+    <div class="flex flex-col items-start gap-5">
+      <Logo />
+      <p class="max-w-xs text-small text-muted">{site.pitch}</p>
+      <ul class="flex flex-wrap gap-2">
+        <li>
+          <Badge tone="dark">{t.trust.worksafe}</Badge>
+        </li>
+        <li>
+          <Badge tone="dark">{t.trust.insured}</Badge>
+        </li>
+        <li>
+          <Badge tone="dark">{t.trust.estimates}</Badge>
+        </li>
+      </ul>
+      {socials.length > 0 && (
+        <ul class="flex gap-1">
+          {socials.map(({ network, url }) => (
+            <li>
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener"
+                class="inline-flex size-11 items-center justify-center rounded-btn transition-colors hover:text-amber"
+              >
+                <Icon name={`lucide:${network}`} class="size-5" aria-hidden="true" />
+                <span class="sr-only">{socialLabel(network)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <nav aria-labelledby="footer-services">
+      <h2 id="footer-services" class={headingClass}>
+        {t.footer.services}
+      </h2>
+      <ul class="mt-4 text-small text-muted">
+        {serviceLinks.map((service) => (
+          <li>
+            <a href={routes.service(service.slug)} class={linkClass}>
+              {service.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <nav aria-labelledby="footer-company">
+      <h2 id="footer-company" class={headingClass}>
+        {t.footer.company}
+      </h2>
+      <ul class="mt-4 text-small text-muted">
+        {companyNav.map((link) => (
+          <li>
+            <a href={link.href} class={linkClass}>
+              {t.nav[link.key]}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class={headingClass}>{t.footer.contact}</h2>
+      <ul class="mt-4 flex flex-col gap-1 text-small text-muted">
+        <li>
+          <a href={site.phone.href} class:list={[linkClass, 'gap-3 font-semibold text-white']}>
+            <Icon name="lucide:phone" class="size-5 flex-none text-amber" aria-hidden="true" />
+            {site.phone.display}
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${site.email}`} class:list={[linkClass, 'gap-3 break-all']}>
+            <Icon name="lucide:mail" class="size-5 flex-none text-amber" aria-hidden="true" />
+            {site.email}
+          </a>
+        </li>
+        <li class="flex gap-3 py-2">
+          <Icon
+            name="lucide:map-pin"
+            class="mt-0.5 size-5 flex-none text-amber"
+            aria-hidden="true"
+          />
+          {address.showStreet ? (
+            <address class="not-italic">
+              {address.street}
+              <br />
+              {address.city}, {address.region} {address.postalCode}
+            </address>
+          ) : (
+            <span>{site.serviceAreaLabel}</span>
+          )}
+        </li>
+        <li class="flex gap-3 py-2">
+          <Icon name="lucide:clock" class="mt-0.5 size-5 flex-none text-amber" aria-hidden="true" />
+          <span>
+            <span class="sr-only">{t.footer.hours}: </span>
+            {site.hours.display.map((line, i) => (i > 0 ? [<br />, line] : line))}
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-steel">
+    <div class="container-site flex flex-col gap-2 py-6 text-small text-muted sm:flex-row sm:items-center sm:justify-between">
+      <p>{fmt(t.footer.copyright, { year, name: site.name })}</p>
+      <ul class="flex flex-wrap items-center gap-x-6">
+        <li>
+          <a href={routes.privacy} class={linkClass}>
+            {t.nav.privacy}
+          </a>
+        </li>
+        <li>
+          {t.footer.siteBy}{' '}
+          {isPlaceholder(site.credit.url) ? (
+            site.credit.name
+          ) : (
+            <a href={site.credit.url} class={linkClass} rel="noopener">
+              {site.credit.name}
+            </a>
+          )}
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>

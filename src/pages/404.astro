@@ -1,0 +1,33 @@
+---
+/** FR-17: friendly 404 with links to Home, Services and Contact. */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import Button from '@/components/ui/Button.astro';
+import { routes } from '@/config/navigation';
+import { useTranslations } from '@/i18n';
+
+const t = useTranslations();
+const page = t.pages.notFound;
+---
+
+<BaseLayout title={page.metaTitle} description={page.metaDescription} noindex>
+  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro}>
+    <ul class="mt-4 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+      <li>
+        <Button href={routes.home} full>
+          {t.nav.home}
+        </Button>
+      </li>
+      <li>
+        <Button href={routes.services} variant="secondary" full>
+          {t.nav.services}
+        </Button>
+      </li>
+      <li>
+        <Button href={routes.contact} variant="secondary" full>
+          {t.nav.contact}
+        </Button>
+      </li>
+    </ul>
+  </PageHero>
+</BaseLayout>

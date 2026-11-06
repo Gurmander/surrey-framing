@@ -1,0 +1,64 @@
+---
+/**
+ * Buttons, SRS 4.4. Renders <a> when `href` is set, otherwise <button>.
+ *   primary   – amber bg, ink text (DS-01), arrow that shifts 4 px on hover
+ *   secondary – 2 px outline in the current text colour; hover fills (adapts to light/dark surfaces)
+ *   dark      – solid ink; for use on the amber CTA banner where an amber button would vanish
+ */
+import { Icon } from 'astro-icon/components';
+
+type Variant = 'primary' | 'secondary' | 'dark';
+
+interface Props {
+  variant?: Variant;
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  /** Leading icon, e.g. "lucide:phone". */
+  icon?: string;
+  /** Trailing arrow. Defaults to on for primary and dark. */
+  arrow?: boolean;
+  /** Stretch to the container width. */
+  full?: boolean;
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const {
+  variant = 'primary',
+  href,
+  type = 'button',
+  icon,
+  arrow = variant !== 'secondary',
+  full = false,
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const variants: Record<Variant, string> = {
+  primary: 'bg-amber text-ink hover:bg-amber-dark',
+  secondary:
+    'border-2 border-current hover:border-(--fill-strong) hover:bg-(--fill-strong) hover:text-(--fill-strong-text)',
+  dark: 'bg-ink text-white hover:bg-steel',
+};
+
+const classes = [
+  'group inline-flex h-12 items-center justify-center gap-2 rounded-btn px-6 text-btn font-semibold whitespace-nowrap transition-colors duration-200',
+  variants[variant],
+  full && 'w-full',
+  className,
+];
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag class:list={classes} href={href} type={href ? undefined : type} {...attrs}>
+  {icon && <Icon name={icon} class="size-5 flex-none" aria-hidden="true" />}
+  <slot />
+  {arrow && (
+    <Icon
+      name="lucide:arrow-right"
+      class="size-4.5 flex-none transition-transform duration-200 group-hover:translate-x-1"
+      aria-hidden="true"
+    />
+  )}
+</Tag>

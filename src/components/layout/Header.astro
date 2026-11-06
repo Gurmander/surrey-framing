@@ -1,0 +1,98 @@
+---
+/**
+ * Site header, SRS 4.4 / FR-10 / FR-40.
+ * - Transparent with white text over the page hero; solid ink + shadow once the page
+ *   scrolls past 40 px (needs JS; without JS it simply scrolls away with the hero).
+ * - 64 px tall on mobile, 80 px from `lg`.
+ * - Phone from `lg` (FR-40); inline nav from `xl`, hamburger below it (six links,
+ *   logo, phone and quote button do not fit at 1024 px); "Get a Quote" from `md`.
+ */
+import { Icon } from 'astro-icon/components';
+import Logo from '@/components/ui/Logo.astro';
+import Button from '@/components/ui/Button.astro';
+import MobileNav from './MobileNav.astro';
+import { linkState, mainNav, routes } from '@/config/navigation';
+import { site } from '@/config/site';
+import { getLangFromUrl, useTranslations } from '@/i18n';
+
+interface Props {
+  /** false = solid ink from the start (pages without a dark hero). */
+  transparent?: boolean;
+}
+
+const { transparent = true } = Astro.props;
+const t = useTranslations(getLangFromUrl(Astro.url));
+const path = Astro.url.pathname;
+---
+
+<header
+  data-site-header
+  class:list={[
+    'on-dark absolute inset-x-0 top-0 z-40 transition-[background-color,box-shadow] duration-200 data-enhanced:fixed data-scrolled:bg-ink data-scrolled:shadow-header',
+    !transparent && 'bg-ink',
+  ]}
+>
+  <div class="container-site flex h-header items-center gap-4 lg:h-header-lg lg:gap-6">
+    <Logo class="mr-auto" />
+
+    <nav aria-label={t.a11y.mainNav} class="hidden xl:block">
+      <ul class="flex items-center">
+        {mainNav.map((link) => {
+          const state = linkState(link.href, path);
+          return (
+            <li>
+              <a
+                href={link.href}
+                aria-current={state === 'page' ? 'page' : undefined}
+                data-state={state ?? undefined}
+                class="relative inline-flex h-11 items-center px-3 text-btn font-medium whitespace-nowrap transition-colors after:absolute after:inset-x-3 after:bottom-1.5 after:h-0.5 after:origin-left after:scale-x-0 after:bg-amber after:transition-transform after:duration-200 hover:after:scale-x-100 data-state:after:scale-x-100"
+              >
+                {t.nav[link.key]}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2 lg:gap-3">
+      <a
+        href={site.phone.href}
+        class="hidden h-11 items-center gap-2 rounded-btn px-2 text-btn font-semibold whitespace-nowrap transition-colors hover:text-amber lg:inline-flex"
+      >
+        <Icon name="lucide:phone" class="size-5 flex-none text-amber" aria-hidden="true" />
+        <span class="sr-only">{t.cta.call}</span>
+        {site.phone.display}
+      </a>
+      <!-- Wrapper owns visibility: Button's own inline-flex would override `hidden`. -->
+      <div class="hidden md:block">
+        <Button href={routes.quote()}>{t.cta.getQuote}</Button>
+      </div>
+      <button
+        type="button"
+        popovertarget="mobile-nav"
+        data-menu-toggle
+        class="-mr-2 inline-flex size-11 items-center justify-center rounded-btn xl:hidden"
+      >
+        <Icon name="lucide:menu" class="size-7" aria-hidden="true" />
+        <span class="sr-only">{t.a11y.openMenu}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<MobileNav />
+
+<script>
+  // Fixed header that turns solid after 40 px of scroll. BaseLayout renders a 1 px
+  // sentinel at top: 40px, watched with IntersectionObserver: no scroll listeners (INP).
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  const sentinel = document.querySelector<HTMLElement>('[data-scroll-sentinel]');
+  if (header && sentinel) {
+    new IntersectionObserver(([entry]) => {
+      header.toggleAttribute('data-scrolled', !entry.isIntersecting);
+    }).observe(sentinel);
+
+    header.toggleAttribute('data-enhanced', true);
+  }
+</script>

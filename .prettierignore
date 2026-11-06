@@ -1,0 +1,6 @@
+dist/
+.astro/
+node_modules/
+package-lock.json
+# The spec is exported from the source doc; never reformat it.
+SRS.md

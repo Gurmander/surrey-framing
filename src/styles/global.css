@@ -1,0 +1,273 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens, SRS Section 4. These are the ONLY colours, fonts, radii and type
+ * sizes the site may use. Tailwind's default palette, radii and type scale are
+ * removed, so `bg-blue-500`, `rounded-lg` or `text-sm` generate nothing.
+ */
+@theme {
+  /* 4.1 Colour */
+  --color-*: initial;
+  --color-ink: #16181c;
+  --color-steel: #2b3038;
+  --color-slate: #5b6270;
+  --color-line: #e4e1da;
+  --color-paper: #f7f5f0;
+  --color-white: #ffffff;
+  --color-amber: #d98e04;
+  --color-amber-dark: #b37400;
+  --color-timber: #c9a27a;
+  --color-success: #2e7d4f;
+  --color-error: #c0392b;
+
+  /* 4.2 Typography (DS-04: fluid sizes, 360 px → 1280 px viewport) */
+  --font-*: initial;
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-sans:
+    'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+
+  --text-*: initial;
+  --text-display: clamp(2.75rem, 1.87rem + 3.913vw, 5rem); /* 44 → 80 px */
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: 0.5px;
+  --text-h2: clamp(2rem, 1.511rem + 2.174vw, 3.25rem); /* 32 → 52 px */
+  --text-h2--line-height: 1.05;
+  --text-h3: clamp(1.375rem, 1.228rem + 0.652vw, 1.75rem); /* 22 → 28 px */
+  --text-h3--line-height: 1.15;
+  --text-stat: 3.5rem; /* 56 px */
+  --text-stat--line-height: 1;
+  --text-body: clamp(1rem, 0.951rem + 0.217vw, 1.125rem); /* 16 → 18 px */
+  --text-body--line-height: 1.65;
+  --text-btn: clamp(0.9375rem, 0.913rem + 0.109vw, 1rem); /* 15 → 16 px */
+  --text-btn--line-height: 1.25;
+  --text-small: 0.875rem; /* 14 px */
+  --text-small--line-height: 1.5;
+  --text-eyebrow: 0.8125rem; /* 13 px */
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 2px;
+  --text-badge: 0.75rem; /* 12 px */
+  --text-badge--line-height: 1.2;
+
+  /* DS-05: body copy max 68 characters */
+  --max-width-prose: 68ch;
+
+  /* DS-06: container */
+  --container-site: 80rem; /* 1280 px */
+
+  /* DS-10: crisp corners */
+  --radius-*: initial;
+  --radius-btn: 6px;
+  --radius-card: 10px;
+  --radius-full: 9999px;
+
+  /* Shadows tinted with ink instead of pure black */
+  --shadow-*: initial;
+  --shadow-header: 0 2px 18px rgb(22 24 28 / 0.35);
+  --shadow-card: 0 1px 2px rgb(22 24 28 / 0.06), 0 6px 20px rgb(22 24 28 / 0.08);
+  --shadow-card-hover: 0 2px 4px rgb(22 24 28 / 0.08), 0 14px 32px rgb(22 24 28 / 0.14);
+  --shadow-bar: 0 -2px 12px rgb(22 24 28 / 0.25);
+
+  /* Header heights, SRS 4.4 */
+  --spacing-header: 4rem; /* 64 px mobile */
+  --spacing-header-lg: 5rem; /* 80 px desktop */
+}
+
+/*
+ * Surface-aware colours. Contrast rules (NFR-20) mean amber can only be used as
+ * text on dark surfaces; on light surfaces accent text uses amber-dark and small
+ * accent text (eyebrows) uses ink. See DECISIONS.md D-04.
+ */
+:root {
+  --accent-text: var(--color-amber-dark);
+  --eyebrow-text: var(--color-ink);
+  --muted-text: var(--color-slate);
+  --focus-color: var(--color-amber-dark);
+  /* Solid fill used by hover states, e.g. secondary button "hover fills" */
+  --fill-strong: var(--color-ink);
+  --fill-strong-text: var(--color-white);
+}
+
+@layer base {
+  html {
+    scroll-padding-top: calc(var(--spacing-header) + 1rem);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  @media (width >= 64rem) {
+    html {
+      scroll-padding-top: calc(var(--spacing-header-lg) + 1rem);
+    }
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* NFR-21: visible focus ring, 2 px + 2 px offset */
+  :focus-visible {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 2px;
+  }
+
+  /* Skip-link target: focus moves here, no ring around the whole page */
+  main:focus {
+    outline: none;
+  }
+
+  ::selection {
+    background-color: var(--color-amber);
+    color: var(--color-ink);
+  }
+
+  /* DS-16 / NFR-25 */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ---------- Layout (DS-06, DS-07) ---------- */
+
+@utility container-site {
+  width: 100%;
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding-inline: 1.25rem; /* 20 px */
+
+  @media (width >= 48rem) {
+    padding-inline: 2rem; /* 32 px */
+  }
+  @media (width >= 64rem) {
+    padding-inline: 3rem; /* 48 px */
+  }
+}
+
+@utility section-y {
+  padding-block: 4rem; /* 64 px */
+
+  @media (width >= 64rem) {
+    padding-block: 7rem; /* 112 px */
+  }
+}
+
+/* ---------- Surfaces (DS-03: paper → white → ink rhythm) ---------- */
+
+@utility surface-paper {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+
+@utility surface-white {
+  background-color: var(--color-white);
+  color: var(--color-ink);
+}
+
+@utility surface-ink {
+  background-color: var(--color-ink);
+  @apply on-dark;
+}
+
+/* Dark-surface text colours without a background (e.g. header over a hero photo). */
+@utility on-dark {
+  color: var(--color-white);
+  --accent-text: var(--color-amber);
+  --eyebrow-text: var(--color-amber);
+  --muted-text: var(--color-line);
+  --focus-color: var(--color-amber);
+  --fill-strong: var(--color-white);
+  --fill-strong-text: var(--color-ink);
+}
+
+/* Only the CTA banner may use a large amber background (DS-02). */
+@utility surface-amber {
+  background-color: var(--color-amber);
+  color: var(--color-ink);
+  --accent-text: var(--color-ink);
+  --eyebrow-text: var(--color-ink);
+  --muted-text: var(--color-ink);
+  --focus-color: var(--color-ink);
+  --fill-strong: var(--color-ink);
+  --fill-strong-text: var(--color-white);
+}
+
+@utility text-accent {
+  color: var(--accent-text);
+}
+
+@utility text-muted {
+  color: var(--muted-text);
+}
+
+/* ---------- Typography (SRS 4.2) ---------- */
+
+@utility heading-display {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  line-height: var(--text-display--line-height);
+  letter-spacing: var(--text-display--letter-spacing);
+  font-weight: 700;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+@utility heading-2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line-height);
+  font-weight: 700;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+@utility heading-3 {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+/* Eyebrow: small caps label with the thin amber rule from SRS 4.7. */
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--eyebrow-text);
+
+  &::before {
+    content: '';
+    width: 1.5rem;
+    height: 2px;
+    flex: none;
+    background-color: var(--color-amber);
+  }
+}
+
+/* Makes a whole card clickable from one real link (accessible "stretched link"). */
+@utility link-stretched {
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+}

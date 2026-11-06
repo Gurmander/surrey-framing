@@ -1,0 +1,27 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import PageStub from '@/components/sections/PageStub.astro';
+import Button from '@/components/ui/Button.astro';
+import { routes } from '@/config/navigation';
+import { site } from '@/config/site';
+import { fmt, useTranslations } from '@/i18n';
+
+const t = useTranslations();
+const page = t.pages.home;
+---
+
+<BaseLayout title={page.metaTitle} description={page.metaDescription}>
+  <PageHero eyebrow={page.eyebrow} title={page.heading} intro={page.intro} highlight="on schedule">
+    <div class="mt-4 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+      <Button href={routes.quote()}>{t.cta.getFreeQuote}</Button>
+      <Button href={site.phone.href} variant="secondary" icon="lucide:phone">
+        {fmt(t.cta.callNumber, { phone: site.phone.display })}
+      </Button>
+    </div>
+    <p class="text-small text-muted">
+      {t.trust.worksafe} · {t.trust.insured} · {t.trust.estimates}
+    </p>
+  </PageHero>
+  <PageStub milestone={3} />
+</BaseLayout>
