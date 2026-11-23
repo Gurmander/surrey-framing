@@ -1,9 +1,9 @@
 # Surrey Framing website
-`https://surreyframing.netlify.app/`
 
 Static marketing site for Surrey Framing, built with Astro, Tailwind CSS and TypeScript.
 The project specification, agent instructions and decision log are kept locally in
 `doc/` and are not part of this repository.
+https://surreyframing.netlify.app/
 
 ## Editing the site
 
